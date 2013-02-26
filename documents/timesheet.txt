@@ -1,4 +1,10 @@
-Who       |     When       |   Time   |                 Task
+          |                |          |
+   Who    |    End Time    |   Time   |                 Task
+          |                |          |
 -------------------------------------------------------------------------------
 Alex      | 02/26 2:40 PM  |  2 hours | Set up git repo, write readme, set up
           |                |          | basic Java classes for API
+-------------------------------------------------------------------------------
+Alex      | 02/26 5:49 PM  |  3 hours | Finish classes with JavaDoc support,
+          |                |          | use UML plugin to create class diagram
+-------------------------------------------------------------------------------

@@ -2,8 +2,14 @@ package ca.mcgill.dpm.winter2013.group6.odometer;
 
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
 
+/**
+ * An odometer thread implementation, taken from the provided lab 3 code.
+ *
+ * @author Alex Selesse
+ *
+ */
 public class Odometer implements Runnable {
-  public static final int DEFAULT_PERIOD = 25;
+  private final static int DEFAULT_PERIOD = 25;
   private Object lock;
   private double x, y, theta;
   private double[] oldDH, dDH;
@@ -37,6 +43,7 @@ public class Odometer implements Runnable {
     this(robot, period, false);
   }
 
+  @Override
   public void run() {
     robot.getDisplacementAndHeading(dDH);
     dDH[0] -= oldDH[0];
@@ -55,7 +62,13 @@ public class Odometer implements Runnable {
     oldDH[1] += dDH[1];
   }
 
-  // accessors
+  /**
+   * Get the position by setting the (x, y, theta) values (respectively) into
+   * the pos array. Warning: modifies parameter.
+   *
+   * @param pos
+   *          Array of length 3.
+   */
   public void getPosition(double[] pos) {
     synchronized (lock) {
       pos[0] = x;
@@ -64,29 +77,58 @@ public class Odometer implements Runnable {
     }
   }
 
+  /**
+   * Returns the x value of the odometer.
+   *
+   * @return X value of odometer
+   */
   public double getX() {
     synchronized (lock) {
       return x;
     }
   }
 
+  /**
+   * Returns the y value of the odometer.
+   *
+   * @return Y value of odometer
+   */
   public double getY() {
     synchronized (lock) {
       return y;
     }
   }
 
+  /**
+   * Gets the theta value of the odometer.
+   *
+   * @return Theta
+   */
   public double getTheta() {
     synchronized (lock) {
       return theta;
     }
   }
 
+  /**
+   * Returns an instance of the robot.
+   *
+   * @return The {@link Robot} we all know and love.
+   */
   public Robot getTwoWheeledRobot() {
     return robot;
   }
 
-  // mutators
+  /**
+   * Set the value of the position. For example, pos = [x, y, theta],
+   * update[true, false, false] will only modify the odometer's x value.
+   *
+   * @param pos
+   *          Length 3 array corresponding to desired position (if boolean at
+   *          that index is set)
+   * @param update
+   *          Length 3 array corresponding to desired modification of position
+   */
   public void setPosition(double[] pos, boolean[] update) {
     synchronized (lock) {
       if (update[0]) {
@@ -101,23 +143,11 @@ public class Odometer implements Runnable {
     }
   }
 
-  // static 'helper' methods
-  public static double fixDegAngle(double angle) {
+  private double fixDegAngle(double angle) {
     if (angle < 0.0) {
       angle = 360.0 + (angle % 360.0);
     }
 
     return angle % 360.0;
-  }
-
-  public static double minimumAngleFromTo(double a, double b) {
-    double d = fixDegAngle(b - a);
-
-    if (d < 180.0) {
-      return d;
-    }
-    else {
-      return d - 360.0;
-    }
   }
 }

@@ -2,7 +2,14 @@ package ca.mcgill.dpm.winter2013.group6.launcher;
 
 import lejos.nxt.NXTRegulatedMotor;
 
-public class BallLauncher extends Thread {
+/**
+ * {@link Runnable} class that, when started, will launch the ball into the
+ * goal.
+ *
+ * @author Alex Selesse
+ *
+ */
+public class BallLauncher implements Runnable {
 
   /**
    * Distance from the target that we'll be shooting from.
@@ -15,7 +22,7 @@ public class BallLauncher extends Thread {
 
   /**
    * Start a ball launcher given one motor and the distance from the target.
-   * 
+   *
    * @param motor
    *          The motor that will be propelling the ball.
    * @param distanceFromTarget
