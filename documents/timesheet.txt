@@ -2,3 +2,7 @@ Who       |     When       |   Time   |                 Task
 -------------------------------------------------------------------------------
 Alex      | 02/26 2:40 PM  |  2 hours | Set up git repo, write readme, set up
           |                |          | basic Java classes for API
+-------------------------------------------------------------------------------
+Arthur    | 02/26 5:11 PM  | 1.5 hours| Created a basic layout for the testing
+          |                |          | document with introduction. Also edited
+          |                |          | BallLauncher.java for testing
