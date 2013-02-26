@@ -1,0 +1,4 @@
+Who       |     When       |   Time   |                 Task
+-------------------------------------------------------------------------------
+Alex      | 02/26 2:40 PM  |  2 hours | Set up git repo, write readme, set up
+          |                |          | basic Java classes for API
