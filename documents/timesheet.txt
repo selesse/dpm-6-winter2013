@@ -5,9 +5,13 @@
 Alex      | 02/26 2:40 PM  |  2 hours | Set up git repo, write readme, set up
           |                |          | basic Java classes for API
 -------------------------------------------------------------------------------
-Alex      | 02/26 5:49 PM  |  3 hours | Finish classes with JavaDoc support,
-          |                |          | use UML plugin to create class diagram
--------------------------------------------------------------------------------
 Arthur    | 02/26 5:11 PM  | 1.5 hours| Created a basic layout for the testing
           |                |          | document with introduction. Also edited
           |                |          | BallLauncher.java for testing
+-------------------------------------------------------------------------------
+Alex      | 02/26 5:49 PM  |  3 hours | Finish classes with JavaDoc support,
+          |                |          | use UML plugin to create class diagram
+-------------------------------------------------------------------------------
+Alex      | 02/26 7:55 PM  |  1 hours | Make and test creation of ant build.xml
+          |                |          | file for generating JavaDoc
+-------------------------------------------------------------------------------
