@@ -10,13 +10,31 @@ package ca.mcgill.dpm.winter2013.group6.util;
  */
 public class Robot {
 
+  private double leftWheelRadius, rightWheelRadius, width;
+
+  /**
+   * Base constructor of robot specifying its wheel and width values.
+   *
+   * @param leftWheelRadius
+   *          The radius of the left wheel.
+   * @param rightWheelRadius
+   *          The radius of the right wheel.
+   * @param width
+   *          The distance between the left and right wheels.
+   */
+  public Robot(double leftWheelRadius, double rightWheelRadius, double width) {
+    this.leftWheelRadius = leftWheelRadius;
+    this.rightWheelRadius = rightWheelRadius;
+    this.width = width;
+  }
+
   /**
    * Return the radius (in cm) of the left wheel of the robot.
    *
    * @return The radius of the left wheel (in cm).
    */
   public double getLeftWheelRadius() {
-    return 0;
+    return leftWheelRadius;
   }
 
   /**
@@ -25,7 +43,7 @@ public class Robot {
    * @return The radius of the right wheel (in cm).
    */
   public double getRightWheelRadius() {
-    return 0;
+    return rightWheelRadius;
   }
 
   /**
@@ -35,7 +53,7 @@ public class Robot {
    * @return The distance from the left wheel to the right wheel.
    */
   public double getWidth() {
-    return 0;
+    return width;
   }
 
   /**
