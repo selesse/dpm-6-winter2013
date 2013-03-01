@@ -9,7 +9,7 @@ import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
  * @author Alex Selesse
  *
  */
-public interface Defender extends Navigator {
+public interface RobotDefender extends Navigator {
   /**
    * The method responsible for doing the defending. This will probably call for
    * the robot to lift its arm up to defend the goal.
