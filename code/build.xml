@@ -2,7 +2,7 @@
 <project default="javadoc">
     <target name="javadoc">
         <javadoc access="package" author="true" classpath="." destdir="doc" doctitle="DPM Group 6" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="ca.mcgill.dpm.winter2013.group6.attacker,ca.mcgill.dpm.winter2013.group6,ca.mcgill.dpm.winter2013.group6.navigator,ca.mcgill.dpm.winter2013.group6.avoidance,ca.mcgill.dpm.winter2013.group6.util,ca.mcgill.dpm.winter2013.group6.launcher,ca.mcgill.dpm.winter2013.group6.odometer,ca.mcgill.dpm.winter2013.group6.bluetooth,ca.mcgill.dpm.winter2013.group6.defender" source="1.7" sourcepath="src" splitindex="true" use="true" version="true">
-            <link href="file:/Users/alex/git/dpm-6-winter2013/code/doc/"/>
+            <link href="doc/"/>
         </javadoc>
     </target>
 </project>
