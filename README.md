@@ -1,7 +1,5 @@
-dpm-6-winter2013
-================
-
-DPM repository for group 6 of W2013 semester
+DPM - Group 6 Repository
+========================
 
 ### Software Guidelines
 
@@ -59,3 +57,21 @@ If the package *does* have an abstract class:
 
 Ideally, you'll want to use an abstract class if you have any common logic
 between implementations. For an example, look at BallLauncherTest.
+
+### How to Test Your Tests
+
+`Main.java`:
+
+    public class Main {
+      public static void main(String[] args) {
+        // code asking to select left or right arrow
+
+        if (buttonChoice == Button.ID.LEFT) {
+          // initialize the attacker, taking advantage of polymorphism
+          RobotAttacker attacker = new RobotAttackerTest( /*constructor*/ );
+
+          // start the thread
+          attacker.run();
+        }
+      }
+    }
