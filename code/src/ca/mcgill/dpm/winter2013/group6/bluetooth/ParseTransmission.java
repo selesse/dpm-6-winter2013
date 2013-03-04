@@ -10,12 +10,11 @@ import java.io.IOException;
 
 import lejos.nxt.LCD;
 
-/*
+/**
  * Static parsers for parsing data off the communication channel
  *
  * The order of data is defined in the Server's Transmission class
  */
-
 public class ParseTransmission {
 
   public static Transmission parse(DataInputStream dis) {

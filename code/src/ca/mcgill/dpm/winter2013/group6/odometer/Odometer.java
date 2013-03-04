@@ -115,7 +115,7 @@ public class Odometer implements Runnable {
    *
    * @return The {@link Robot} we all know and love.
    */
-  public Robot getTwoWheeledRobot() {
+  public Robot getRobot() {
     return robot;
   }
 

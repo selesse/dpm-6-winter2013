@@ -66,4 +66,14 @@ public class Robot {
   public void getDisplacementAndHeading(double[] dDH) {
     // FIXME
   }
+
+  /**
+   * Return the speed the wheels of the {@link Robot} should rotate at.
+   *
+   * @return The speed the wheels of the robot should rotate at.
+   */
+  public int getRotateSpeed() {
+    // FIXME
+    return 0;
+  }
 }

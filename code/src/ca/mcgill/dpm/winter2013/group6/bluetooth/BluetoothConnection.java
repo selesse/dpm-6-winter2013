@@ -12,12 +12,12 @@ import lejos.nxt.LCD;
 import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.NXTConnection;
 
-/*
- * This class inits a bluetooth connection, waits for the data
- * and then allows access to the data after closing the BT channel.
+/**
+ * This class inits a bluetooth connection, waits for the data and then allows
+ * access to the data after closing the BT channel.
  *
- * It should be used by calling the constructor which will automatically wait for
- * data without any further user command
+ * It should be used by calling the constructor which will automatically wait
+ * for data without any further user command
  *
  * Then, once completed, it will allow access to an instance of the Transmission
  * class which has access to all of the data needed

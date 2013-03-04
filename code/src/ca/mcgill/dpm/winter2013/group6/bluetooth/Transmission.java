@@ -5,19 +5,21 @@
  */
 package ca.mcgill.dpm.winter2013.group6.bluetooth;
 
-/*
+/**
  * Skeleton class to hold datatypes needed for final project
  *
  * Simply all public variables so can be accessed with
+ *
+ * <pre>
  * Transmission t = new Transmission();
  * int d1 = t.d1;
+ * </pre>
  *
  * and so on...
  *
- * Also the role is an enum, converted from the char transmitted. (It should never be
- * Role.NULL)
+ * Also the role is an enum, converted from the char transmitted. (It should
+ * never be Role.NULL)
  */
-
 public class Transmission {
 
   public int goalX;
