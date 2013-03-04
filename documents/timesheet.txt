@@ -20,4 +20,7 @@ Alex      | 02/28 8:55 PM  |  2 hours | Change the interface for BallLauncher
           |                |          | notion of "tests", implement part of
           |                |          | Main
 -------------------------------------------------------------------------------
-
+Alex      | 04/01 12:32    |  1 hour  | Teach git
+          |                | (not     |
+          |                | counted) |
+-------------------------------------------------------------------------------
