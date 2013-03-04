@@ -8,3 +8,5 @@ bin/
 
 # UML diagrams
 *.ucls
+
+.DS_Store
