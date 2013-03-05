@@ -18,25 +18,34 @@ public class BallLauncherTest extends AbstractBallLauncher {
 
   @Override
   public void throwBall(double distanceFromTarget) {
-    int angle;
-    int acc = 4500;
-    int speed = 1000000000;
+    int angleOne = 135;
+    int angleTwo = -75;
+    int acc = 750;
+    int speed = 100000;
+    motor.getTachoCount();
     motor.setAcceleration(400);
     motor.setSpeed(speed);
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i == 0;) {
 
       // set the different cases here
-      angle = 180 + i * 3;
+
       acc = 4500;
 
-      motor.rotateTo(-angle, true);
+      motor.rotateTo(angleOne, true);
+      try {
+        Thread.sleep(1500);
+      }
+      catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      motor.stop();
       int buttonChoice;
       // wait for the button press and also displays the launching info
       do {
         LCD.clear();
         LCD.drawString("start:", 0, 0);
-        LCD.drawInt(angle, 0, 1);
+        LCD.drawInt(angleOne, 0, 1);
         LCD.drawString("acc:", 0, 2);
         LCD.drawInt(acc, 0, 3);
 
@@ -47,6 +56,7 @@ public class BallLauncherTest extends AbstractBallLauncher {
       if (buttonChoice == Button.ID_ESCAPE) {
         System.exit(0);
       }
+      motor.setSpeed(speed);
       motor.setAcceleration(acc);
 
       try {
@@ -55,7 +65,8 @@ public class BallLauncherTest extends AbstractBallLauncher {
       catch (InterruptedException e) {
         e.printStackTrace();
       }
-      motor.rotate(angle);
+      motor.rotate(angleTwo);
+      motor.setAcceleration(400);
     }
   }
 

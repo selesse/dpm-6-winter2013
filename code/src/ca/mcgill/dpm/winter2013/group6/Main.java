@@ -19,7 +19,7 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
 public class Main {
   public static void main(String[] args) {
     int buttonChoice;
-    NXTRegulatedMotor ballThrowingMotor = new NXTRegulatedMotor(MotorPort.A);
+    NXTRegulatedMotor ballThrowingMotor = new NXTRegulatedMotor(MotorPort.C);
 
     do {
       // clear the display
