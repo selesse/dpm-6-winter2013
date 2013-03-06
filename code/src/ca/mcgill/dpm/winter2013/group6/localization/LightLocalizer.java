@@ -1,6 +1,5 @@
 package ca.mcgill.dpm.winter2013.group6.localization;
 
-import lejos.nxt.LCD;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Sound;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
@@ -46,10 +45,6 @@ public class LightLocalizer implements Localizer {
 
     // Detect the four lines
     while (lineCounter < 4) {
-      // displays the infos whille it is looping
-      LCD.drawInt((int) lineCounter, 0, 5);
-      LCD.drawInt((int) sensorAverage, 0, 6);
-      LCD.drawInt((int) ls.readNormalizedValue(), 0, 7);
 
       if (blackLineDetected()) {
         Sound.beep();
@@ -76,10 +71,6 @@ public class LightLocalizer implements Localizer {
     newTheta = Odometer.fixDegAngle(newTheta);
 
     odo.setPosition(new double[] { newX, newY, newTheta }, new boolean[] { true, true, true });
-
-    // Travel to (0,0) and turn to 0 degrees when finished
-    // travel to may not be as accurate as the method we are using, so we did
-    // it this way:
 
   }
 
