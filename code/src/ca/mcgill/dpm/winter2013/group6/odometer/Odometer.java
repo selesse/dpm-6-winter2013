@@ -1,19 +1,22 @@
 package ca.mcgill.dpm.winter2013.group6.odometer;
 
+import lejos.util.Timer;
+import lejos.util.TimerListener;
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
 
 /**
  * An odometer thread implementation, taken from the provided lab 3 code.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
-public class Odometer implements Runnable {
+public class Odometer implements TimerListener {
   private final static int DEFAULT_PERIOD = 25;
   private Object lock;
   private double x, y, theta;
   private double[] oldDH, dDH;
   private Robot robot;
+  Timer odometerTimer;
 
   public Odometer(Robot robot, int period, boolean start) {
     // initialise variables
@@ -24,10 +27,11 @@ public class Odometer implements Runnable {
     oldDH = new double[2];
     dDH = new double[2];
     lock = new Object();
+    this.odometerTimer = new Timer(period, this);
 
     // start the odometer immediately, if necessary
     if (start) {
-      run();
+      odometerTimer.start();
     }
   }
 
@@ -43,8 +47,12 @@ public class Odometer implements Runnable {
     this(robot, period, false);
   }
 
-  @Override
   public void run() {
+    odometerTimer.start();
+  }
+
+  @Override
+  public void timedOut() {
     robot.getDisplacementAndHeading(dDH);
     dDH[0] -= oldDH[0];
     dDH[1] -= oldDH[1];
@@ -65,7 +73,7 @@ public class Odometer implements Runnable {
   /**
    * Get the position by setting the (x, y, theta) values (respectively) into
    * the pos array. Warning: modifies parameter.
-   *
+   * 
    * @param pos
    *          Array of length 3.
    */
@@ -79,7 +87,7 @@ public class Odometer implements Runnable {
 
   /**
    * Returns the x value of the odometer.
-   *
+   * 
    * @return X value of odometer
    */
   public double getX() {
@@ -90,7 +98,7 @@ public class Odometer implements Runnable {
 
   /**
    * Returns the y value of the odometer.
-   *
+   * 
    * @return Y value of odometer
    */
   public double getY() {
@@ -101,7 +109,7 @@ public class Odometer implements Runnable {
 
   /**
    * Gets the theta value of the odometer.
-   *
+   * 
    * @return Theta
    */
   public double getTheta() {
@@ -112,7 +120,7 @@ public class Odometer implements Runnable {
 
   /**
    * Returns an instance of the robot.
-   *
+   * 
    * @return The {@link Robot} we all know and love.
    */
   public Robot getRobot() {
@@ -122,7 +130,7 @@ public class Odometer implements Runnable {
   /**
    * Set the value of the position. For example, pos = [x, y, theta],
    * update[true, false, false] will only modify the odometer's x value.
-   *
+   * 
    * @param pos
    *          Length 3 array corresponding to desired position (if boolean at
    *          that index is set)
@@ -143,11 +151,12 @@ public class Odometer implements Runnable {
     }
   }
 
-  private double fixDegAngle(double angle) {
+  public static double fixDegAngle(double angle) {
     if (angle < 0.0) {
       angle = 360.0 + (angle % 360.0);
     }
 
     return angle % 360.0;
   }
+
 }
