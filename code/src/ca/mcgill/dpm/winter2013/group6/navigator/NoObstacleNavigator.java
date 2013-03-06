@@ -12,7 +12,7 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
  * 
  */
 public class NoObstacleNavigator extends AbstractNavigator {
-  int FORWARD_SPEED = 500;
+  int FORWARD_SPEED = 200;
 
   public NoObstacleNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,
       NXTRegulatedMotor rightMotor) {
@@ -22,16 +22,26 @@ public class NoObstacleNavigator extends AbstractNavigator {
   @Override
   public void travelTo(double x, double y) {
 
-    double xToll = 1, yToll = 1;
+    double xTol = 1, yTol = 1;
     // runs till it is within the tolerance
-    while (Math.abs(x - odometer.getX()) > xToll && Math.abs(y - odometer.getY()) > yToll) {
+    while (Math.abs(x - odometer.getX()) > xTol || Math.abs(y - odometer.getY()) > yTol) {
 
       // Calculate the new destinaton theta to turn
       double desTheta = Math.atan2(x - odometer.getX(), y - odometer.getY());
       desTheta = Math.toDegrees(desTheta);
-      // not sure about the correctness of this part
-      turnTo(desTheta);
+
+      if (Math.abs(desTheta - odometer.getTheta()) > 2) {
+        turnTo(desTheta);
+      }
+
       setSpeed(FORWARD_SPEED, FORWARD_SPEED);
+
+      try {
+        Thread.sleep(25);
+      }
+      catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
     Sound.beep();
     stop();

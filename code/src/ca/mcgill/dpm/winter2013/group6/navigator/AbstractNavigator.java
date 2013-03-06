@@ -69,10 +69,30 @@ public abstract class AbstractNavigator implements Navigator {
 
   @Override
   public void turnTo(double theta) {
+
+    double dTheta = theta - odometer.getTheta();
     leftMotor.setSpeed(robot.getRotateSpeed());
     rightMotor.setSpeed(robot.getRotateSpeed());
-    leftMotor.rotate(convertAngle(robot.getLeftWheelRadius(), robot.getWidth(), theta), true);
-    rightMotor.rotate(-convertAngle(robot.getRightWheelRadius(), robot.getWidth(), theta), false);
+    // uses the optimDegree() to optimize the turning degree
+    dTheta = optimDegree(dTheta);
+
+    leftMotor.rotate(convertAngle(robot.getLeftWheelRadius(), robot.getWidth(), dTheta), true);
+    rightMotor.rotate(-convertAngle(robot.getRightWheelRadius(), robot.getWidth(), dTheta), false);
+
+  }
+
+  public void turn(double speed) {
+    this.setSpeed(speed, -speed);
+  }
+
+  public void walk(double distance) {
+
+    leftMotor.setSpeed(robot.getForwardSpeed());
+    rightMotor.setSpeed(robot.getForwardSpeed());
+
+    leftMotor.rotate(convertDistance(robot.getLeftWheelRadius(), distance));
+    rightMotor.rotate(convertDistance(robot.getRightWheelRadius(), distance));
+
   }
 
   public int convertDistance(double radius, double distance) {
@@ -88,10 +108,10 @@ public abstract class AbstractNavigator implements Navigator {
     rightMotor.stop(false);
   }
 
-  public void setSpeed(int leftSpeed, int rightSpeed) {
+  public void setSpeed(double leftSpeed, double rightSpeed) {
 
-    leftMotor.setSpeed(leftSpeed);
-    rightMotor.setSpeed(rightSpeed);
+    leftMotor.setSpeed((int) leftSpeed);
+    rightMotor.setSpeed((int) rightSpeed);
     if (leftSpeed > 0) {
       leftMotor.forward();
     }
@@ -107,7 +127,22 @@ public abstract class AbstractNavigator implements Navigator {
   }
 
   @Override
+  public void rotate(double speed) {
+    setSpeed(speed, -speed);
+  }
+
+  @Override
   public boolean isNavigating() {
     return isNavigating;
+  }
+
+  public double optimDegree(double degree) {
+    if (degree > 180) {
+      return optimDegree(degree - 360);
+    }
+    else if (degree < -180) {
+      return optimDegree(degree + 360);
+    }
+    return degree;
   }
 }

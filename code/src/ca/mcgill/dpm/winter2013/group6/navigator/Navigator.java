@@ -47,4 +47,11 @@ public interface Navigator extends Runnable {
    * @return True if the robot is traveling or rotating, false otherwise.
    */
   boolean isNavigating();
+
+  void stop();
+
+  void rotate(double speed);
+
+  void walk(double distance);
+
 }
