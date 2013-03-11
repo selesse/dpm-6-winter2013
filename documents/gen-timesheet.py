@@ -125,7 +125,7 @@ if __name__ == "__main__":
 
     with open(output_file, "w") as html:
         html.write(timesheetCreator.get_html_header())
-        html.write('<h2 class="center">Budget</h2>')
+        html.write('<h2 class="center">Weekly Hours Budget</h2>')
         html.write(timesheet_table)
         html.write('<h2 class="center">Tasks</h2>')
         html.write(task_table)
