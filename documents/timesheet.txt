@@ -2,14 +2,14 @@ Name      | Time Completed | Week | Hours spent | Task done
 ================================================================================
 # Alex
 # Name    | Time Completed | Week | Hours spent | Task done
-Alex      | 02/18 12:12 PM |   1  |      4      | Work on the documents
+Alex      | 02/18 12:12 PM |   1  |      4      | Work on the software documents and proof-read others
 
 Alex      | 02/26 5:49 PM  |   2  |      3      | Finish classes with JavaDoc support, use UML plugin to create class diagram
 Alex      | 02/26 7:55 PM  |   2  |      1      | Make and test creation of ant build.xml file for generating JavaDoc
 Alex      | 02/28 8:55 PM  |   2  |      2      | Change the interface for BallLauncher to allow easy test creation, introduce notion of "tests", implement part of Main
 Alex      | 04/01 12:32 PM |   2  |      1      | Teach git
 
-Alex      | 04/11 11:24 AM |   3  |      2      | Fix code to navigate
+Alex      | 04/11 2:30 PM  |   3  |      4      | Fix navigation code, organization, work on some tests
 
 # Arthur
 # Name    | Time Completed | Week | Hours spent | Task done
@@ -35,6 +35,9 @@ Hassan    | 02/25 9:28 PM  |   2  |     4       | Wrote and tested odometer and 
 
 # Hong Yi
 # Name    | Time Completed | Week | Hours spent | Task done
+Hong Yi   | 02/18 12:00 PM |   1  |     4       | Work on mechanical document
+
+Hong Yi   | 02/26 15:00 PM |   2  |     1.5     | Complete test document
 Hong Yi   | 03/07 1:00 AM  |   2  |     4       | Testing and adjusting the localization methods
 
 
