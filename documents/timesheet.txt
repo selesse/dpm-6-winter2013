@@ -27,19 +27,19 @@ Francois  | 02/26 8:30 PM  |   2  |     4.5     | Rebuilt robot, tweak the launc
 Francois  | 04/11 12:28 PM |   3  |     3.5     | Change the basket, build ball dispenser
 
 
+# Hassan
+# Name    | Time Completed | Week | Hours spent | Task done
+Hassan    | 02/18  2:28 PM |   1  |     6.5     | Worked on the software documents
+
+Hassan    | 02/25 9:28 PM  |   2  |     4       | Wrote and tested odometer and navigator
+
+
 # Hong Yi
 # Name    | Time Completed | Week | Hours spent | Task done
 Hong Yi   | 02/18 12:00 PM |   1  |     4       | Work on mechanical document
 
 Hong Yi   | 02/26 15:00 PM |   2  |     1.5     | Complete test document
 Hong Yi   | 03/07 1:00 AM  |   2  |     4       | Testing and adjusting the localization methods
-
-
-# Hassan
-# Name    | Time Completed | Week | Hours spent | Task done
-Hassan    | 02/18  2:28 PM |   1  |     6.5     | Worked on the software documents
-
-Hassan    | 02/25 9:28 PM  |   2  |     4       | Wrote and tested odometer and navigator
 
 
 # Kaichen
