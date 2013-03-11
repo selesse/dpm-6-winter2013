@@ -9,7 +9,7 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
 public class InfoDisplay implements TimerListener {
   public static final int LCD_REFRESH = 100;
-  private Odometer odo;
+  private Odometer odometer;
   private Timer lcdTimer;
   private UltrasonicSensor us;
   private TouchSensor leftSensor;
@@ -17,8 +17,8 @@ public class InfoDisplay implements TimerListener {
   // arrays for displaying data
   private double[] pos;
 
-  public InfoDisplay(Odometer odo) {
-    this.odo = odo;
+  public InfoDisplay(Odometer odometer) {
+    this.odometer = odometer;
     this.lcdTimer = new Timer(LCD_REFRESH, this);
 
     // initialise the arrays for displaying data
@@ -38,14 +38,13 @@ public class InfoDisplay implements TimerListener {
   }
 
   public void timedOut() {
-    odo.getPosition(pos);
     LCD.clear();
     LCD.drawString("X: ", 0, 0);
     LCD.drawString("Y: ", 0, 1);
     LCD.drawString("H: ", 0, 2);
-    LCD.drawInt((int) (pos[0]), 3, 0);
-    LCD.drawInt((int) (pos[1]), 3, 1);
-    LCD.drawInt((int) pos[2], 3, 2);
+    LCD.drawInt((int) odometer.getX(), 3, 0);
+    LCD.drawInt((int) odometer.getY(), 3, 1);
+    LCD.drawInt((int) odometer.getTheta(), 3, 2);
     LCD.drawString("US: ", 0, 4);
     LCD.drawString("TL: ", 0, 5);
     LCD.drawString("TR: ", 0, 6);

@@ -14,6 +14,7 @@ Every component that we want to implement is in its own separate package:
 * `defender` : The defender package is responsible for the defense part of the
   competition.
 * `launcher` : The package responsible for doing the launching of the ball.
+* `localization` : The package responsible for doing the localization.
 * `navigator` : The package responsible for robot navigation.
 * `odometer` : The package responsible for the robot odometry.
 * `tests` : The package responsible for running all the tests. Every test in
@@ -30,6 +31,7 @@ Every package has an interface:
 * `avoidance` : ObstacleAvoider
 * `defender` : RobotDefender
 * `launcher` : BallLauncher
+* `localization` : Localizer
 * `navigator` : Navigator
 * `odometer` : Odometer
 

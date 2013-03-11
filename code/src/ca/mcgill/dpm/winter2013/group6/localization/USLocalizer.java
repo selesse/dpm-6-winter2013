@@ -3,19 +3,13 @@ package ca.mcgill.dpm.winter2013.group6.localization;
 import lejos.nxt.UltrasonicSensor;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
-import ca.mcgill.dpm.winter2013.group6.util.Robot;
 
 public class USLocalizer extends AbstractLocalizer {
-  private Odometer odometer;
-  private Robot robot;
   private UltrasonicSensor us;
-  private Navigator nav;
 
-  public USLocalizer(Odometer odo, UltrasonicSensor usSensor, Navigator nav) {
-    this.odometer = odo;
-    this.robot = odo.getRobot();
+  public USLocalizer(Odometer odometer, UltrasonicSensor usSensor, Navigator navigator) {
+    super(odometer, navigator);
     this.us = usSensor;
-    this.nav = nav;
     us.off();
   }
 
@@ -23,11 +17,11 @@ public class USLocalizer extends AbstractLocalizer {
   public void doLocalize() {
 
     // rotate the robot until it sees a wall
-    nav.rotate(robot.getRotateSpeed());
+    navigator.setRotateSpeed(robot.getRotateSpeed());
     // rotate the robot until it sees a wall
     while (24 < getFilteredData()) {
     }
-    nav.stop();
+    navigator.stop();
 
     try {
       Thread.sleep(500);
@@ -35,12 +29,12 @@ public class USLocalizer extends AbstractLocalizer {
     catch (InterruptedException e) {
     }
 
-    nav.rotate(robot.getRotateSpeed());
+    // navigator.rotate(robot.getRotateSpeed());
     // rotate till it doesnt see a wall;
 
     while (26 > getFilteredData()) {
     }
-    nav.stop();
+    navigator.stop();
     // collect angle A from the odomter
     double angleA = odometer.getTheta();
 
@@ -50,18 +44,18 @@ public class USLocalizer extends AbstractLocalizer {
     catch (InterruptedException e) {
     }
 
-    nav.rotate(-robot.getRotateSpeed());
+    // navigator.rotate(-robot.getRotateSpeed());
 
     while (24 < getFilteredData()) {
     }
-    nav.stop();
+    navigator.stop();
 
-    nav.rotate(-robot.getRotateSpeed());
+    // navigator.rotate(-robot.getRotateSpeed());
     // rotate till it doesnt see a wall;
 
     while (26 > getFilteredData()) {
     }
-    nav.stop();
+    navigator.stop();
     // collect angleB
     double angleB = odometer.getTheta();
 
@@ -75,7 +69,7 @@ public class USLocalizer extends AbstractLocalizer {
     else {
       angleMid = 45 - (angleA + angleB) / 2;
     }
-    nav.turnTo(angleMid + 180);
+    navigator.turnTo(angleMid + 180);
 
     odometer.setPosition(new double[] { 0.0, 0.0, 0.0 }, new boolean[] { true, true, true });
 
@@ -117,5 +111,11 @@ public class USLocalizer extends AbstractLocalizer {
         }
       }
     }
+  }
+
+  @Override
+  public void run() {
+    // TODO Auto-generated method stub
+
   }
 }

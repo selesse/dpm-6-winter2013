@@ -10,3 +10,5 @@ bin/
 *.ucls
 
 .DS_Store
+*.nxd
+*.nxj

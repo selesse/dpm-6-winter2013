@@ -1,7 +1,6 @@
 package ca.mcgill.dpm.winter2013.group6.odometer;
 
-import lejos.util.Timer;
-import lejos.util.TimerListener;
+import lejos.nxt.Motor;
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
 
 /**
@@ -10,153 +9,140 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
  * @author Alex Selesse
  * 
  */
-public class Odometer implements TimerListener {
-  private final static int DEFAULT_PERIOD = 25;
-  private Object lock;
+public class Odometer extends Thread {
   private double x, y, theta;
-  private double[] oldDH, dDH;
+  private static final long ODOMETER_PERIOD = 25;
+  private Object lock;
   private Robot robot;
-  Timer odometerTimer;
 
-  public Odometer(Robot robot, int period, boolean start) {
-    // initialise variables
-    this.robot = robot;
+  // default constructor
+  public Odometer(Robot robot) {
     x = 0.0;
     y = 0.0;
     theta = 0.0;
-    oldDH = new double[2];
-    dDH = new double[2];
+    this.robot = robot;
     lock = new Object();
-    this.odometerTimer = new Timer(period, this);
-
-    // start the odometer immediately, if necessary
-    if (start) {
-      odometerTimer.start();
-    }
-  }
-
-  public Odometer(Robot robot) {
-    this(robot, DEFAULT_PERIOD, false);
-  }
-
-  public Odometer(Robot robot, boolean start) {
-    this(robot, DEFAULT_PERIOD, start);
-  }
-
-  public Odometer(Robot robot, int period) {
-    this(robot, period, false);
-  }
-
-  public void run() {
-    odometerTimer.start();
   }
 
   @Override
-  public void timedOut() {
-    robot.getDisplacementAndHeading(dDH);
-    dDH[0] -= oldDH[0];
-    dDH[1] -= oldDH[1];
+  public void run() {
+    long updateStart, updateEnd;
+    double tachoLeft = 0, tachoRight = 0, centerArcLength = 0, deltaTheta = 0;
+    double oldTachoLeft = 0, oldTachoRight = 0;
 
-    // update the position in a critical region
-    synchronized (lock) {
-      theta += dDH[1];
-      theta = fixDegAngle(theta);
+    while (true) {
+      updateStart = System.currentTimeMillis();
 
-      x += dDH[0] * Math.sin(Math.toRadians(theta));
-      y += dDH[0] * Math.cos(Math.toRadians(theta));
+      tachoLeft = ((Motor.A.getTachoCount() * Math.PI) / 180.0) - oldTachoLeft;
+      tachoRight = ((Motor.B.getTachoCount() * Math.PI) / 180.0) - oldTachoRight;
+
+      oldTachoLeft = ((Motor.A.getTachoCount() * Math.PI) / 180.0);
+      oldTachoRight = ((Motor.B.getTachoCount() * Math.PI) / 180.0);
+
+      // The arc length traveled by the center of the robot.
+      centerArcLength = ((tachoRight * robot.getRightWheelRadius()) + (tachoLeft * robot
+          .getLeftWheelRadius())) / 2.0;
+
+      deltaTheta = ((tachoLeft * robot.getLeftWheelRadius()) - (tachoRight * robot
+          .getRightWheelRadius())) / robot.getWidth();
+
+      synchronized (lock) {
+        this.x = this.x + (centerArcLength * Math.cos(this.theta + (deltaTheta / 2.0)));
+        this.y = this.y + (centerArcLength * Math.sin(this.theta + (deltaTheta / 2.0)));
+        this.theta = theta + deltaTheta;
+      }
+
+      // this ensures that the odometer only runs once every period
+      updateEnd = System.currentTimeMillis();
+      if (updateEnd - updateStart < ODOMETER_PERIOD) {
+        try {
+          Thread.sleep(ODOMETER_PERIOD - (updateEnd - updateStart));
+        }
+        catch (InterruptedException e) {
+        }
+      }
     }
-
-    oldDH[0] += dDH[0];
-    oldDH[1] += dDH[1];
   }
 
-  /**
-   * Get the position by setting the (x, y, theta) values (respectively) into
-   * the pos array. Warning: modifies parameter.
-   * 
-   * @param pos
-   *          Array of length 3.
-   */
-  public void getPosition(double[] pos) {
+  public void getPosition(double[] position, boolean[] update) {
+    // ensure that the values don't change while the odometer is running
     synchronized (lock) {
-      pos[0] = x;
-      pos[1] = y;
-      pos[2] = theta;
+      if (update[0]) {
+        position[0] = x;
+      }
+      if (update[1]) {
+        position[1] = y;
+      }
+      if (update[2]) {
+        position[2] = theta;
+      }
     }
   }
 
-  /**
-   * Returns the x value of the odometer.
-   * 
-   * @return X value of odometer
-   */
   public double getX() {
+    double result;
+
     synchronized (lock) {
-      return x;
+      result = x;
     }
+
+    return result;
   }
 
-  /**
-   * Returns the y value of the odometer.
-   * 
-   * @return Y value of odometer
-   */
   public double getY() {
+    double result;
+
     synchronized (lock) {
-      return y;
+      result = y;
     }
+
+    return result;
   }
 
-  /**
-   * Gets the theta value of the odometer.
-   * 
-   * @return Theta
-   */
   public double getTheta() {
+    double result;
+
     synchronized (lock) {
-      return theta;
+      result = theta;
+    }
+
+    return result;
+  }
+
+  public void setPosition(double[] position, boolean[] update) {
+    // ensure that the values don't change while the odometer is running
+    synchronized (lock) {
+      if (update[0]) {
+        x = position[0];
+      }
+      if (update[1]) {
+        y = position[1];
+      }
+      if (update[2]) {
+        theta = position[2];
+      }
     }
   }
 
-  /**
-   * Returns an instance of the robot.
-   * 
-   * @return The {@link Robot} we all know and love.
-   */
+  public void setX(double x) {
+    synchronized (lock) {
+      this.x = x;
+    }
+  }
+
+  public void setY(double y) {
+    synchronized (lock) {
+      this.y = y;
+    }
+  }
+
+  public void setTheta(double theta) {
+    synchronized (lock) {
+      this.theta = theta;
+    }
+  }
+
   public Robot getRobot() {
     return robot;
   }
-
-  /**
-   * Set the value of the position. For example, pos = [x, y, theta],
-   * update[true, false, false] will only modify the odometer's x value.
-   * 
-   * @param pos
-   *          Length 3 array corresponding to desired position (if boolean at
-   *          that index is set)
-   * @param update
-   *          Length 3 array corresponding to desired modification of position
-   */
-  public void setPosition(double[] pos, boolean[] update) {
-    synchronized (lock) {
-      if (update[0]) {
-        x = pos[0];
-      }
-      if (update[1]) {
-        y = pos[1];
-      }
-      if (update[2]) {
-        theta = pos[2];
-      }
-    }
-  }
-
-  public static double fixDegAngle(double angle) {
-    if (angle < 0.0) {
-      angle = 360.0 + (angle % 360.0);
-    }
-
-    return angle % 360.0;
-  }
-
 }

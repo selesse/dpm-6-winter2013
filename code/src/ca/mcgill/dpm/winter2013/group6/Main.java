@@ -8,9 +8,11 @@ import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
+import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
+import ca.mcgill.dpm.winter2013.group6.navigator.NoObstacleNavigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 import ca.mcgill.dpm.winter2013.group6.tests.BallLauncherTest;
-import ca.mcgill.dpm.winter2013.group6.tests.NavigatorTest;
+import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
 import ca.mcgill.dpm.winter2013.group6.util.InfoDisplay;
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
 
@@ -45,7 +47,7 @@ public class Main {
 
     // start the odometer
     Odometer odometer = new Odometer(patBot);
-    odometer.run();
+    odometer.start();
 
     // if we press the left button, launch the test application
     if (buttonChoice == Button.ID_LEFT) {
@@ -53,12 +55,14 @@ public class Main {
       launcher.run();
     }
     else {
-
       InfoDisplay display = new InfoDisplay(odometer, new UltrasonicSensor(SensorPort.S1),
           new TouchSensor(SensorPort.S3), new TouchSensor(SensorPort.S4));
-      NavigatorTest tester = new NavigatorTest(odometer, leftMotor, rightMotor);
-      tester.run();
-
+      Navigator navigator = new NoObstacleNavigator(odometer, leftMotor, rightMotor);
+      navigator.setCoordinates(new Coordinate[] {
+          new Coordinate(0, 30),
+          new Coordinate(30, 30),
+          new Coordinate(90, 15) });
+      navigator.run();
     }
 
     while (Button.waitForPress() != Button.ID_ESCAPE) {

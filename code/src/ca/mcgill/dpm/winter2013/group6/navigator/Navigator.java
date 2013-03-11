@@ -1,5 +1,7 @@
 package ca.mcgill.dpm.winter2013.group6.navigator;
 
+import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
+
 /**
  * Navigator interface which defines a set of methods that any robot that can
  * navigate should adhere to. Specifically, going to a set of coordinates and
@@ -9,6 +11,7 @@ package ca.mcgill.dpm.winter2013.group6.navigator;
  * 
  */
 public interface Navigator extends Runnable {
+
   /**
    * Moves to the robot to (x, y) coordinates.
    * 
@@ -18,19 +21,6 @@ public interface Navigator extends Runnable {
    *          The y-coordinate we're going to.
    */
   void travelTo(double x, double y);
-
-  /**
-   * Moves to the robot to (x, y, omega) coordinates.
-   * 
-   * @param x
-   *          The x-coordinate we're going to.
-   * @param y
-   *          The y-coordinate we're going to.
-   * 
-   * @param theta
-   *          The angle the robot will travelling to.
-   */
-  void travelTo(double x, double y, double theta);
 
   /**
    * Turn the robot by "theta" degrees.
@@ -48,10 +38,25 @@ public interface Navigator extends Runnable {
    */
   boolean isNavigating();
 
+  /**
+   * Stop the robot from moving.
+   */
   void stop();
 
-  void rotate(double speed);
+  /**
+   * Change the rotation speed of the robot.
+   * 
+   * @param rotateSpeed
+   *          The speed you want the robot rotate at.
+   */
+  void setRotateSpeed(int rotateSpeed);
 
-  void walk(double distance);
+  /**
+   * Set the coordinates that we want to travel to.
+   * 
+   * @param coordinates
+   *          An array of coordinates where we're traveling to.
+   */
+  void setCoordinates(Coordinate[] coordinates);
 
 }

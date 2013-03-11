@@ -2,6 +2,7 @@ package ca.mcgill.dpm.winter2013.group6.navigator;
 
 import lejos.nxt.NXTRegulatedMotor;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
+import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
 
 /**
@@ -17,6 +18,8 @@ public abstract class AbstractNavigator implements Navigator {
   protected Robot robot;
   protected NXTRegulatedMotor leftMotor;
   protected NXTRegulatedMotor rightMotor;
+  protected Coordinate[] waypoints;
+  private final int THRESHOLD = 2;
 
   public AbstractNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,
       NXTRegulatedMotor rightMotor) {
@@ -25,6 +28,34 @@ public abstract class AbstractNavigator implements Navigator {
     this.rightMotor = rightMotor;
     this.isNavigating = false;
     this.robot = odometer.getRobot();
+  }
+
+  @Override
+  public void run() {
+    isNavigating = true;
+    for (Coordinate coordinate : waypoints) {
+      travelTo(coordinate.getX(), coordinate.getY());
+    }
+    stop();
+    isNavigating = false;
+  }
+
+  @Override
+  public void travelTo(double x, double y) {
+    double turningAngle = getTurningAngle(x, y);
+    turnTo(turningAngle);
+
+    // Travel straight.
+    leftMotor.setSpeed(robot.getForwardSpeed());
+    rightMotor.setSpeed(robot.getForwardSpeed());
+    leftMotor.forward();
+    rightMotor.forward();
+
+    // Keep running until we're within an acceptable threshold.
+    while (((x - odometer.getX() > THRESHOLD || x - odometer.getX() < -THRESHOLD))
+        || ((y - odometer.getY() > THRESHOLD || y - odometer.getY() < -THRESHOLD))) {
+      ;
+    }
   }
 
   /**
@@ -69,34 +100,18 @@ public abstract class AbstractNavigator implements Navigator {
 
   @Override
   public void turnTo(double theta) {
-
-    double dTheta = theta - odometer.getTheta();
     leftMotor.setSpeed(robot.getRotateSpeed());
     rightMotor.setSpeed(robot.getRotateSpeed());
-    // uses the optimDegree() to optimize the turning degree
-    dTheta = optimDegree(dTheta);
-
-    leftMotor.rotate(convertAngle(robot.getLeftWheelRadius(), robot.getWidth(), dTheta), true);
-    rightMotor.rotate(-convertAngle(robot.getRightWheelRadius(), robot.getWidth(), dTheta), false);
-
-  }
-
-  public void turn(double speed) {
-    this.setSpeed(speed, -speed);
-  }
-
-  public void walk(double distance) {
-
-    leftMotor.setSpeed(robot.getForwardSpeed());
-    rightMotor.setSpeed(robot.getForwardSpeed());
-
-    leftMotor.rotate(convertDistance(robot.getLeftWheelRadius(), distance));
-    rightMotor.rotate(convertDistance(robot.getRightWheelRadius(), distance));
-
+    leftMotor.rotate(convertAngle(robot, theta), true);
+    rightMotor.rotate(-convertAngle(robot, theta), false);
   }
 
   public int convertDistance(double radius, double distance) {
     return (int) ((180.0 * distance) / (Math.PI * radius));
+  }
+
+  public int convertAngle(Robot robot, double angle) {
+    return convertAngle(robot.getLeftWheelRadius(), robot.getWidth(), angle);
   }
 
   public int convertAngle(double radius, double width, double angle) {
@@ -109,7 +124,6 @@ public abstract class AbstractNavigator implements Navigator {
   }
 
   public void setSpeed(double leftSpeed, double rightSpeed) {
-
     leftMotor.setSpeed((int) leftSpeed);
     rightMotor.setSpeed((int) rightSpeed);
     if (leftSpeed > 0) {
@@ -126,9 +140,9 @@ public abstract class AbstractNavigator implements Navigator {
     }
   }
 
-  @Override
-  public void rotate(double speed) {
-    setSpeed(speed, -speed);
+  public void setRotateSpeed(int rotateSpeed) {
+    leftMotor.setSpeed(rotateSpeed);
+    rightMotor.setSpeed(-rotateSpeed);
   }
 
   @Override
@@ -144,5 +158,10 @@ public abstract class AbstractNavigator implements Navigator {
       return optimDegree(degree + 360);
     }
     return degree;
+  }
+
+  @Override
+  public void setCoordinates(Coordinate[] waypoint) {
+    this.waypoints = waypoint;
   }
 }
