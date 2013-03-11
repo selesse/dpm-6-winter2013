@@ -1,6 +1,40 @@
-Alex      | 02/26 2:40 PM  |  2 hours | Set up git repo, write readme, set up basic Java classes for API
-Arthur    | 02/26 5:11 PM  | 1.5 hours| Created a basic layout for the testing document with introduction. Also edited BallLauncher.java for testing
-Alex      | 02/26 5:49 PM  |  3 hours | Finish classes with JavaDoc support, use UML plugin to create class diagram
-Alex      | 02/26 7:55 PM  |  1 hours | Make and test creation of ant build.xml file for generating JavaDoc
-Alex      | 02/28 8:55 PM  |  2 hours | Change the interface for BallLauncher to allow easy test creation, introduce notion of "tests", implement part of Main
-Alex      | 04/01 12:32 PM |  1 hour  | Teach git
+Name      | Time Completed | Week | Hours spent | Task done
+================================================================================
+# Alex
+Alex      | 02/18 12:12 PM |   1  |      4      | Work on the documents
+
+Alex      | 02/26 2:40 PM  |   2  |      2      | Set up git repo, write readme, set up basic Java classes for API
+Alex      | 02/26 5:49 PM  |   2  |      3      | Finish classes with JavaDoc support, use UML plugin to create class diagram
+Alex      | 02/26 7:55 PM  |   2  |      1      | Make and test creation of ant build.xml file for generating JavaDoc
+Alex      | 02/28 8:55 PM  |   2  |      2      | Change the interface for BallLauncher to allow easy test creation, introduce notion of "tests", implement part of Main
+Alex      | 04/01 12:32 PM |   2  |      1      | Teach git
+
+Alex      | 04/11 11:24 AM |   3  |      2      | Fix code to navigate
+
+# Arthur
+Arthur    | 02/18 8:01 PM  |   1  |      6      | Work on the software document
+
+Arthur    | 02/18 2:40 PM  |   2  |     4.5     | Wrote most of the testing specs
+Arthur    | 02/26 5:11 PM  |   2  |     1.5     | Created a basic layout for the testing document with introduction. Also edited BallLauncher.java for testing
+
+# Francois
+Francois  | 02/18 5:11 PM  |   1  |     3.5     | Worked on mechanical design and completed mechanical document
+
+Francois  | 02/26 8:30 PM  |   2  |     4.5     | Rebuilt robot, tweak the launching mechanism
+
+Francois  | 04/11 12:28 PM |   3  |     3.5     | Change the basket, build ball dispenser
+
+# Hassan
+Hassan    | 02/18  2:28 PM |   1  |     6.5     | Worked on the software documents
+
+Hassan    | 02/25 9:28 PM  |   2  |     4       | Wrote and tested odometer and navigator
+
+
+# Hong Yi
+
+
+# Kaichen
+
+
+# Reading Week entries: REMEMBER IT'S WEEK 7
+Alex      | 04/11 11:24 AM |   7  |      2      | Group meeting, git tutorial, software architecture discussion
