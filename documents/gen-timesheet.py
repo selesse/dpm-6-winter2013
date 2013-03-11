@@ -45,8 +45,7 @@ class TimesheetToHtml:
         table += "<th> Reading Week </th>"
         table += "<th> Total </th>"
 
-        members = ["Alex", "Arthur", "Francois", "Hong Yi", "Hassan",
-                   "Kaichen"]
+        members = ["Alex", "Arthur", "Francois", "Hassan", "Hong Yi" "Kaichen"]
 
         for member in members:
             table += "<tr>"
