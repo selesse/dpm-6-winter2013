@@ -8,8 +8,8 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 public class USLocalizer extends AbstractLocalizer {
   private UltrasonicSensor us;
 
-  public USLocalizer(Odometer odometer, UltrasonicSensor usSensor, Navigator navigator) {
-    super(odometer, navigator);
+  public USLocalizer(Odometer odometer, UltrasonicSensor usSensor, int corner, Navigator navigator) {
+    super(odometer, navigator, corner);
     this.us = usSensor;
     us.off();
   }
@@ -79,13 +79,18 @@ public class USLocalizer extends AbstractLocalizer {
     else {
       angleMid = 225 - (angleA + angleB) / 2;
     }
-    navigator.turnTo(angleMid - odometer.getTheta() + 45);
     // useful for testing
     /*
      * odometer.setPosition(new double[] { angleA, angleB, angleMid }, new
      * boolean[] { true, true, true });
      */
+
+    navigator.turnTo(angleMid - odometer.getTheta() + 45);
+
     odometer.setPosition(new double[] { 0, 0, 45 }, new boolean[] { true, true, true });
+    // walk to somewhere so it can perform the lightLocalization
+    navigator.travelTo(15, 15);
+
   }
 
   private int getFilteredData() {

@@ -8,11 +8,13 @@ public abstract class AbstractLocalizer implements Localizer {
   protected Odometer odometer;
   protected Navigator navigator;
   protected Robot robot;
+  protected int corner;
 
-  public AbstractLocalizer(Odometer odometer, Navigator navigator) {
+  public AbstractLocalizer(Odometer odometer, Navigator navigator, int corner) {
     this.odometer = odometer;
     this.navigator = navigator;
     this.robot = odometer.getRobot();
+    this.corner = corner;
   }
 
 }
