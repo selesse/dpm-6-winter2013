@@ -61,8 +61,23 @@ public class LightLocalizer extends AbstractLocalizer {
     double newY = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaX));
     double newTheta = 180 + thetaX - raw[3];
     newTheta += odometer.getTheta();
-    // newTheta = Odometer.fixDegAngle(newTheta);
 
+    if (corner == 1) {
+      // nothing needs to be done
+    }
+    else if (corner == 2) {
+      newTheta += 90;
+      newX += 10 * 30.48;
+    }
+    else if (corner == 3) {
+      newTheta += 180;
+      newX += 10 * 30.48;
+      newY += 10 * 30.48;
+    }
+    else {
+      newTheta -= 90;
+      newY += 10 * 30.48;
+    }
     odometer.setPosition(new double[] { newX, newY, newTheta }, new boolean[] { true, true, true });
   }
 
