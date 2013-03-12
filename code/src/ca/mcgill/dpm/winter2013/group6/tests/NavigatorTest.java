@@ -47,6 +47,7 @@ public class NavigatorTest extends AbstractNavigator {
   // testcase id: #1.1.2
   public void walkTest() {
     travelTo(0, 30);
+
     try {
       Thread.sleep(1000);
     }
@@ -55,6 +56,7 @@ public class NavigatorTest extends AbstractNavigator {
       e.printStackTrace();
     }
     travelTo(0, 60);
+
   }
 
   // testcase id: #1.2.1
@@ -64,4 +66,5 @@ public class NavigatorTest extends AbstractNavigator {
     travelTo(30, 30);
     travelTo(0, 15);
   }
+
 }

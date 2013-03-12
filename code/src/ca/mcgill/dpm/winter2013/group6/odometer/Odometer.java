@@ -14,6 +14,7 @@ public class Odometer extends Thread {
   private static final long ODOMETER_PERIOD = 25;
   private Object lock;
   private Robot robot;
+  private double[] oldDH, dDH;
 
   // default constructor
   public Odometer(Robot robot) {
@@ -22,6 +23,8 @@ public class Odometer extends Thread {
     theta = 0.0;
     this.robot = robot;
     lock = new Object();
+    this.oldDH = new double[2];
+    this.dDH = new double[2];
   }
 
   @Override
@@ -31,37 +34,33 @@ public class Odometer extends Thread {
     double oldTachoLeft = 0, oldTachoRight = 0;
 
     while (true) {
-      updateStart = System.currentTimeMillis();
+      this.getDisplacementAndHeading(dDH);
+      dDH[0] -= oldDH[0];
+      dDH[1] -= oldDH[1];
 
-      tachoLeft = ((Motor.A.getTachoCount() * Math.PI) / 180.0) - oldTachoLeft;
-      tachoRight = ((Motor.B.getTachoCount() * Math.PI) / 180.0) - oldTachoRight;
+      // update the position in a critical region
+      synchronized (this) {
+        theta += dDH[1];
+        theta = fixDegAngle(theta);
 
-      oldTachoLeft = ((Motor.A.getTachoCount() * Math.PI) / 180.0);
-      oldTachoRight = ((Motor.B.getTachoCount() * Math.PI) / 180.0);
-
-      // The arc length traveled by the center of the robot.
-      centerArcLength = ((tachoRight * robot.getRightWheelRadius()) + (tachoLeft * robot
-          .getLeftWheelRadius())) / 2.0;
-
-      deltaTheta = ((tachoLeft * robot.getLeftWheelRadius()) - (tachoRight * robot
-          .getRightWheelRadius())) / robot.getWidth();
-
-      synchronized (lock) {
-        this.x = this.x + (centerArcLength * Math.cos(this.theta + (deltaTheta / 2.0)));
-        this.y = this.y + (centerArcLength * Math.sin(this.theta + (deltaTheta / 2.0)));
-        this.theta = theta + deltaTheta;
+        x += dDH[0] * Math.sin(Math.toRadians(theta));
+        y += dDH[0] * Math.cos(Math.toRadians(theta));
       }
 
-      // this ensures that the odometer only runs once every period
-      updateEnd = System.currentTimeMillis();
-      if (updateEnd - updateStart < ODOMETER_PERIOD) {
-        try {
-          Thread.sleep(ODOMETER_PERIOD - (updateEnd - updateStart));
-        }
-        catch (InterruptedException e) {
-        }
-      }
+      oldDH[0] += dDH[0];
+      oldDH[1] += dDH[1];
     }
+  }
+
+  private void getDisplacementAndHeading(double[] data) {
+    int leftTacho, rightTacho;
+    leftTacho = Motor.B.getTachoCount();
+    rightTacho = Motor.A.getTachoCount();
+
+    data[0] = (leftTacho * robot.getLeftWheelRadius() + rightTacho * robot.getRightWheelRadius())
+        * Math.PI / 360.0;
+    data[1] = (rightTacho * robot.getRightWheelRadius() - leftTacho * robot.getLeftWheelRadius())
+        / robot.getWidth();
   }
 
   public void getPosition(double[] position, boolean[] update) {
@@ -140,6 +139,13 @@ public class Odometer extends Thread {
     synchronized (lock) {
       this.theta = theta;
     }
+  }
+
+  public static double fixDegAngle(double angle) {
+    if (angle < 0.0)
+      angle = 360.0 + (angle % 360.0);
+
+    return angle % 360.0;
   }
 
   public Robot getRobot() {

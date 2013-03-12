@@ -1,6 +1,7 @@
 package ca.mcgill.dpm.winter2013.group6.navigator;
 
 import lejos.nxt.NXTRegulatedMotor;
+import lejos.nxt.Sound;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
@@ -54,8 +55,10 @@ public abstract class AbstractNavigator implements Navigator {
     // Keep running until we're within an acceptable threshold.
     while (((x - odometer.getX() > THRESHOLD || x - odometer.getX() < -THRESHOLD))
         || ((y - odometer.getY() > THRESHOLD || y - odometer.getY() < -THRESHOLD))) {
+
       ;
     }
+    stop();
   }
 
   /**
@@ -69,21 +72,14 @@ public abstract class AbstractNavigator implements Navigator {
    * @return The angle, in degrees, that you need to turn to if you want to go
    *         to (x, y).
    */
+
   public double getTurningAngle(double desiredX, double desiredY) {
     double x = desiredX - odometer.getX();
     double y = desiredY - odometer.getY();
-    double odometerTheta = odometer.getTheta() * 180 / Math.PI;
+    double odometerTheta = odometer.getTheta();
     double turningAngle = 0.0;
-
-    if (x > 0) {
-      turningAngle = 180 / Math.PI * Math.atan(y / x);
-    }
-    else if (x < 0 && y > 0) {
-      turningAngle = 180 / Math.PI * (Math.atan(y / x) + Math.PI);
-    }
-    else if (x < 0 && y < 0) {
-      turningAngle = 180 / Math.PI * (Math.atan(y / x) - Math.PI);
-    }
+    turningAngle = Math.atan2(x, y);
+    turningAngle = Math.toDegrees(turningAngle);
 
     if ((turningAngle - odometerTheta) < -180) {
       turningAngle = (turningAngle - odometerTheta) + 360;
@@ -100,6 +96,7 @@ public abstract class AbstractNavigator implements Navigator {
 
   @Override
   public void turnTo(double theta) {
+    Sound.beep();
     leftMotor.setSpeed(robot.getRotateSpeed());
     rightMotor.setSpeed(robot.getRotateSpeed());
     leftMotor.rotate(convertAngle(robot, theta), true);
@@ -141,8 +138,7 @@ public abstract class AbstractNavigator implements Navigator {
   }
 
   public void setRotateSpeed(int rotateSpeed) {
-    leftMotor.setSpeed(rotateSpeed);
-    rightMotor.setSpeed(-rotateSpeed);
+    setSpeed(rotateSpeed, -rotateSpeed);
   }
 
   @Override
