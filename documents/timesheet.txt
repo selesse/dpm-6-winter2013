@@ -17,6 +17,8 @@ Arthur    | 02/18 8:01 PM  |   1  |      6      | Work on the software document
 
 Arthur    | 02/18 2:40 PM  |   2  |     4.5     | Wrote most of the testing specs
 Arthur    | 02/26 5:11 PM  |   2  |     1.5     | Created a basic layout for the testing document with introduction. Also edited BallLauncher.java for testing
+Arthur    | 03/11 11:20 PM |   4  |      7      | Fixed several things in the odometer, navigation and USlocalization code.
+
 
 # Francois
 # Name    | Time Completed | Week | Hours spent | Task done
