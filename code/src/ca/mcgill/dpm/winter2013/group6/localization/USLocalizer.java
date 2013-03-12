@@ -1,5 +1,6 @@
 package ca.mcgill.dpm.winter2013.group6.localization;
 
+import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
@@ -16,28 +17,22 @@ public class USLocalizer extends AbstractLocalizer {
   @Override
   public void doLocalize() {
     int min = 20;
-    int max = 22;
-    // rotate the robot until it sees a wall
-    navigator.setRotateSpeed(robot.getRotateSpeed());
-
-    // rotate the robot until it sees a wall
-    while (min < getFilteredData()) {
-    }
-    navigator.stop();
-
-    try {
-      Thread.sleep(500);
-    }
-    catch (InterruptedException e) {
-    }
-
+    int max = 24;
     navigator.setRotateSpeed(robot.getRotateSpeed());
     // rotate till it doesnt see a wall;
 
     while (max > getFilteredData()) {
     }
     navigator.stop();
+    // rotate the robot until it sees a wall
+    navigator.setRotateSpeed(robot.getRotateSpeed());
+    while (min < getFilteredData()) {
+    }
+    navigator.stop();
+    odometer.setPosition(new double[] { 0, 0, 0 }, new boolean[] { true, true, true });
+
     // collect angle A from the odomter
+    Sound.beep();
     double angleA = odometer.getTheta();
 
     try {
@@ -46,12 +41,26 @@ public class USLocalizer extends AbstractLocalizer {
     catch (InterruptedException e) {
     }
 
+    navigator.setRotateSpeed(robot.getRotateSpeed());
+    // rotate till it doesnt see a wall;
+
+    while (max > getFilteredData()) {
+    }
+    navigator.stop();
+
+    try {
+      Thread.sleep(500);
+    }
+    catch (InterruptedException e) {
+    }
+
     navigator.setRotateSpeed(-robot.getRotateSpeed());
 
     while (min < getFilteredData()) {
     }
     navigator.stop();
-
+    double angleB = odometer.getTheta();
+    Sound.beep();
     navigator.setRotateSpeed(-robot.getRotateSpeed());
     // rotate till it doesnt see a wall;
 
@@ -59,22 +68,24 @@ public class USLocalizer extends AbstractLocalizer {
     }
     navigator.stop();
     // collect angleB
-    double angleB = odometer.getTheta();
 
     // the cases here are switched since we want it to be 180 degrees from the
     // mid angle calculated
     double angleMid;
     if (angleB < angleA) {
-      angleMid = 225 - (angleA + angleB) / 2;
+      angleMid = 45 - (angleA + angleB) / 2;
 
     }
     else {
-      angleMid = 45 - (angleA + angleB) / 2;
+      angleMid = 225 - (angleA + angleB) / 2;
     }
-    navigator.turnTo(odometer.getTheta() - angleMid + 180);
-
-    odometer.setPosition(new double[] { 0.0, 0.0, 0.0 }, new boolean[] { true, true, true });
-
+    navigator.turnTo(angleMid - odometer.getTheta() + 45);
+    // useful for testing
+    /*
+     * odometer.setPosition(new double[] { angleA, angleB, angleMid }, new
+     * boolean[] { true, true, true });
+     */
+    odometer.setPosition(new double[] { 0, 0, 45 }, new boolean[] { true, true, true });
   }
 
   private int getFilteredData() {
