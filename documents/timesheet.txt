@@ -19,6 +19,8 @@ Arthur    | 02/18 2:40 PM  |   2  |     4.5     | Wrote most of the testing spec
 Arthur    | 02/26 5:11 PM  |   2  |     1.5     | Created a basic layout for the testing document with introduction. Also edited BallLauncher.java for testing
 Arthur    | 03/11 11:20 PM |   3  |      7      | Fixed several things in the odometer, navigation and USlocalization code.
 Arthur    | 03/12 02:36 PM |   3  |     0.5     | Added in the code to support starting corner numbers for localization. Haven't tested them yet.
+Arthur    | 03/12 10:00 PM |   3  |     2.5     | Tested Navigation and made sure localization works for further testing.
+
 
 # Francois
 # Name    | Time Completed | Week | Hours spent | Task done
