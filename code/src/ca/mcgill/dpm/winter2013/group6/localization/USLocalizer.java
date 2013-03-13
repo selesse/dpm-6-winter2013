@@ -89,8 +89,8 @@ public class USLocalizer extends AbstractLocalizer {
 
     odometer.setPosition(new double[] { 0, 0, 45 }, new boolean[] { true, true, true });
     // walk to somewhere so it can perform the lightLocalization
-    navigator.travelTo(15, 15);
 
+    navigator.travelTo(15, 15);
   }
 
   private int getFilteredData() {

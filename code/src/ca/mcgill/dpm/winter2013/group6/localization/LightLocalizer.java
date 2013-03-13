@@ -34,7 +34,7 @@ public class LightLocalizer extends AbstractLocalizer {
     // Rotate and clock the 4 grid lines
     calibrateSensorAverage();
 
-    // navigator.rotate(robot.getRotateSpeed());
+    navigator.setRotateSpeed(robot.getRotateSpeed());
 
     // Detect the four lines
     while (lineCounter < 4) {

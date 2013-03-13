@@ -41,7 +41,7 @@ public class LocalizerTest extends AbstractLocalizer {
     lightLocalizerTest();
     int destX = (corner == 2 || corner == 3) ? (int) 30.5 * 10 : 0;
     int destY = (corner == 3 || corner == 4) ? (int) 30.5 * 10 : 0;
-    navigator.travelTo(destX, destY);
+    navigator.turnTo((corner - 1) * 90);
 
   }
 }
