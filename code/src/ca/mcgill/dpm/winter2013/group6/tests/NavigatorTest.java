@@ -62,9 +62,17 @@ public class NavigatorTest extends AbstractNavigator {
   // testcase id: #1.2.1
   public void travelToTest() {
     travelTo(0, 30);
+
+    face(180);
     travelTo(30, 15);
+    face(45);
     travelTo(30, 30);
+    face(100);
     travelTo(0, 15);
+    face(250);
+    travelTo(0, 0);
+    face(0);
+
   }
 
 }
