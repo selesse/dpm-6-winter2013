@@ -20,7 +20,7 @@ public abstract class AbstractNavigator implements Navigator {
   protected NXTRegulatedMotor leftMotor;
   protected NXTRegulatedMotor rightMotor;
   protected Coordinate[] waypoints;
-  private final int THRESHOLD = 2;
+  private final double THRESHOLD = 2;
 
   public AbstractNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,
       NXTRegulatedMotor rightMotor) {
@@ -97,10 +97,15 @@ public abstract class AbstractNavigator implements Navigator {
   @Override
   public void turnTo(double theta) {
     Sound.beep();
+    theta = optimDegree(theta);
     leftMotor.setSpeed(robot.getRotateSpeed());
     rightMotor.setSpeed(robot.getRotateSpeed());
     leftMotor.rotate(convertAngle(robot, theta), true);
     rightMotor.rotate(-convertAngle(robot, theta), false);
+  }
+
+  public void face(double theta) {
+    turnTo(theta - odometer.getTheta());
   }
 
   public int convertDistance(double radius, double distance) {
