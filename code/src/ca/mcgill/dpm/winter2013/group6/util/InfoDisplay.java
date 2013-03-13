@@ -42,8 +42,8 @@ public class InfoDisplay implements TimerListener {
     LCD.drawString("X: ", 0, 0);
     LCD.drawString("Y: ", 0, 1);
     LCD.drawString("H: ", 0, 2);
-    LCD.drawInt((int) odometer.getX(), 3, 0);
-    LCD.drawInt((int) odometer.getY(), 3, 1);
+    LCD.drawString(Double.toString(odometer.getX()), 3, 0);
+    LCD.drawString(Double.toString(odometer.getY()), 3, 1);
     LCD.drawInt((int) odometer.getTheta(), 3, 2);
     LCD.drawString("US: ", 0, 4);
     LCD.drawString("TL: ", 0, 5);
