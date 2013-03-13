@@ -35,6 +35,10 @@ Hassan    | 02/18  2:28 PM |   1  |     6.5     | Worked on the software documen
 
 Hassan    | 02/25 9:28 PM  |   2  |     4       | Wrote and tested odometer and navigator
 
+Hassan    | 03/11 9:30 PM  |   3  |     6.0     | Fixed several things in the odometer, navigation code
+
+Hassan    | 03/12 9:39 PM  |   3  |     2.5     | Tested Navigation
+
 
 # Hong Yi
 # Name    | Time Completed | Week | Hours spent | Task done
