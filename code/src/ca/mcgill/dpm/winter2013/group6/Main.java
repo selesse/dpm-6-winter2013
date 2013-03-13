@@ -2,17 +2,14 @@ package ca.mcgill.dpm.winter2013.group6;
 
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
+import lejos.nxt.Motor;
 import lejos.nxt.MotorPort;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
-import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
-import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
-import ca.mcgill.dpm.winter2013.group6.navigator.NoObstacleNavigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
-import ca.mcgill.dpm.winter2013.group6.tests.BallLauncherTest;
-import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
+import ca.mcgill.dpm.winter2013.group6.tests.NavigatorTest;
 import ca.mcgill.dpm.winter2013.group6.util.InfoDisplay;
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
 
@@ -30,7 +27,7 @@ public class Main {
     NXTRegulatedMotor leftMotor = new NXTRegulatedMotor(MotorPort.A);
     NXTRegulatedMotor rightMotor = new NXTRegulatedMotor(MotorPort.B);
 
-    Robot patBot = new Robot(2.75, 2.75, 16.15, leftMotor, rightMotor);
+    Robot patBot = new Robot(2.71, 2.71, 16.2, leftMotor, rightMotor);
 
     do {
       // clear the display
@@ -47,22 +44,30 @@ public class Main {
 
     // start the odometer
     Odometer odometer = new Odometer(patBot);
-    odometer.start();
 
     // if we press the left button, launch the test application
     if (buttonChoice == Button.ID_LEFT) {
-      BallLauncher launcher = new BallLauncherTest(ballThrowingMotor, 0);
-      launcher.run();
-    }
-    else {
+      odometer.start();
       InfoDisplay display = new InfoDisplay(odometer, new UltrasonicSensor(SensorPort.S1),
           new TouchSensor(SensorPort.S3), new TouchSensor(SensorPort.S4));
-      Navigator navigator = new NoObstacleNavigator(odometer, leftMotor, rightMotor);
-      navigator.setCoordinates(new Coordinate[] {
-          new Coordinate(0, 30),
-          new Coordinate(30, 30),
-          new Coordinate(90, 15) });
-      navigator.run();
+      Motor.A.flt(true);
+      Motor.B.flt(false);
+    }
+    else {
+      odometer.start();
+      InfoDisplay display = new InfoDisplay(odometer, new UltrasonicSensor(SensorPort.S1),
+          new TouchSensor(SensorPort.S3), new TouchSensor(SensorPort.S4));
+      // Navigator navigator = new NoObstacleNavigator(odometer, leftMotor,
+      // rightMotor);
+      NavigatorTest tester = new NavigatorTest(odometer, leftMotor, rightMotor);
+      tester.travelToTest();
+
+      /*
+       * Localizer tester = new LocalizerTest(odometer, navigator, new
+       * UltrasonicSensor(SensorPort.S1), new LightSensor(SensorPort.S2),
+       * buttonChoice); // set here which routine to run tester.doLocalize();
+       */
+
     }
 
     while (Button.waitForPress() != Button.ID_ESCAPE) {

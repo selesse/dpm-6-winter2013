@@ -29,6 +29,8 @@ public class Odometer extends Thread {
 
   @Override
   public void run() {
+    Motor.A.resetTachoCount();
+    Motor.B.resetTachoCount();
     long updateStart, updateEnd;
     double tachoLeft = 0, tachoRight = 0, centerArcLength = 0, deltaTheta = 0;
     double oldTachoLeft = 0, oldTachoRight = 0;

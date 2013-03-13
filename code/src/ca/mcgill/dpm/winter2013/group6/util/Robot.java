@@ -90,6 +90,6 @@ public class Robot {
   }
 
   public int getForwardSpeed() {
-    return 200;
+    return 150;
   }
 }
