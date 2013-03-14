@@ -8,6 +8,9 @@ import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
+import lejos.util.Timer;
+import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
+import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 import ca.mcgill.dpm.winter2013.group6.tests.NavigatorTest;
 import ca.mcgill.dpm.winter2013.group6.util.InfoDisplay;
@@ -44,35 +47,29 @@ public class Main {
 
     // start the odometer
     Odometer odometer = new Odometer(patBot);
+    InfoDisplay display = new InfoDisplay(odometer, new UltrasonicSensor(SensorPort.S1),
+        new TouchSensor(SensorPort.S3), new TouchSensor(SensorPort.S4));
+    Timer displayTimer = new Timer(25, display);
 
-    // if we press the left button, launch the test application
+    Thread odometerThread = new Thread(odometer);
+    odometerThread.start();
+    displayTimer.start();
+
     if (buttonChoice == Button.ID_LEFT) {
-      odometer.start();
-      InfoDisplay display = new InfoDisplay(odometer, new UltrasonicSensor(SensorPort.S1),
-          new TouchSensor(SensorPort.S3), new TouchSensor(SensorPort.S4));
       Motor.A.flt(true);
       Motor.B.flt(false);
     }
-    else {
-      odometer.start();
-      InfoDisplay display = new InfoDisplay(odometer, new UltrasonicSensor(SensorPort.S1),
-          new TouchSensor(SensorPort.S3), new TouchSensor(SensorPort.S4));
-      // Navigator navigator = new NoObstacleNavigator(odometer, leftMotor,
-      // rightMotor);
+    else if (buttonChoice == Button.ID_RIGHT) {
       NavigatorTest tester = new NavigatorTest(odometer, leftMotor, rightMotor);
       tester.travelToTest();
-
-      /*
-       * Localizer tester = new LocalizerTest(odometer, navigator, new
-       * UltrasonicSensor(SensorPort.S1), new LightSensor(SensorPort.S2),
-       * buttonChoice); // set here which routine to run tester.doLocalize();
-       */
-
+    }
+    else if (buttonChoice != Button.ID_ESCAPE) {
+      BallLauncher launcher = new BallLauncherImpl(ballThrowingMotor, 10.0);
+      new Thread(launcher).start();
     }
 
     while (Button.waitForPress() != Button.ID_ESCAPE) {
       ;
     }
-    System.exit(0);
   }
 }

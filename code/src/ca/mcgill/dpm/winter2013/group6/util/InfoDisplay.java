@@ -3,38 +3,25 @@ package ca.mcgill.dpm.winter2013.group6.util;
 import lejos.nxt.LCD;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
-import lejos.util.Timer;
 import lejos.util.TimerListener;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
 public class InfoDisplay implements TimerListener {
-  public static final int LCD_REFRESH = 100;
   private Odometer odometer;
-  private Timer lcdTimer;
-  private UltrasonicSensor us;
-  private TouchSensor leftSensor;
-  private TouchSensor rightSensor;
-  // arrays for displaying data
-  private double[] pos;
+  private UltrasonicSensor ultrasonicSensor;
+  private TouchSensor leftTouchSensor;
+  private TouchSensor rightTouchSensor;
 
   public InfoDisplay(Odometer odometer) {
     this.odometer = odometer;
-    this.lcdTimer = new Timer(LCD_REFRESH, this);
-
-    // initialise the arrays for displaying data
-    pos = new double[3];
-
-    // start the timer
-    lcdTimer.start();
   }
 
-  public InfoDisplay(Odometer odo, UltrasonicSensor us, TouchSensor leftSensor,
-      TouchSensor rightSensor) {
-    this(odo);
-    this.leftSensor = leftSensor;
-    this.rightSensor = rightSensor;
-    this.us = us;
-
+  public InfoDisplay(Odometer odometer, UltrasonicSensor ultrasonicSensor,
+      TouchSensor leftTouchSensor, TouchSensor rightTouchSensor) {
+    this(odometer);
+    this.leftTouchSensor = leftTouchSensor;
+    this.rightTouchSensor = rightTouchSensor;
+    this.ultrasonicSensor = ultrasonicSensor;
   }
 
   public void timedOut() {
@@ -48,9 +35,9 @@ public class InfoDisplay implements TimerListener {
     LCD.drawString("US: ", 0, 4);
     LCD.drawString("TL: ", 0, 5);
     LCD.drawString("TR: ", 0, 6);
-    LCD.drawInt((int) us.getDistance(), 4, 4);
-    LCD.drawString(leftSensor.isPressed() ? "true" : "false", 4, 5);
-    LCD.drawString(rightSensor.isPressed() ? "true" : "false", 4, 6);
-
+    LCD.drawInt((int) ultrasonicSensor.getDistance(), 4, 4);
+    LCD.drawString(leftTouchSensor.isPressed() ? "true" : "false", 4, 5);
+    LCD.drawString(rightTouchSensor.isPressed() ? "true" : "false", 4, 6);
   }
+
 }

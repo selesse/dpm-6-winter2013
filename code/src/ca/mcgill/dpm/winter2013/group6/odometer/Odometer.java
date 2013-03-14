@@ -9,9 +9,8 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
  * @author Alex Selesse
  * 
  */
-public class Odometer extends Thread {
+public class Odometer implements Runnable {
   private double x, y, theta;
-  private static final long ODOMETER_PERIOD = 25;
   private Object lock;
   private Robot robot;
   private double[] oldDH, dDH;
@@ -31,9 +30,6 @@ public class Odometer extends Thread {
   public void run() {
     Motor.A.resetTachoCount();
     Motor.B.resetTachoCount();
-    long updateStart, updateEnd;
-    double tachoLeft = 0, tachoRight = 0, centerArcLength = 0, deltaTheta = 0;
-    double oldTachoLeft = 0, oldTachoRight = 0;
 
     while (true) {
       this.getDisplacementAndHeading(dDH);
