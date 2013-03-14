@@ -10,6 +10,7 @@ Alex      | 02/28 8:55 PM  |   2  |      2      | Change the interface for BallL
 Alex      | 04/01 12:32 PM |   2  |      1      | Teach git
 
 Alex      | 04/11 2:30 PM  |   3  |      4      | Fix navigation code, organization, work on some tests
+Alex      | 04/11 2:30 PM  |   3  |     0.5     | Work on code: Odometer now Runnable, explicit use of a Thread to run odometer and the helper display (InfoDisplay)
 
 # Arthur
 # Name    | Time Completed | Week | Hours spent | Task done
