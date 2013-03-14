@@ -54,7 +54,7 @@ Hong Yi   | 03/07 1:00 AM  |   2  |     4       | Testing and adjusting the loca
 
 # Kaichen
 # Name    | Time Completed | Week | Hours spent | Task done
-
+Kaichen   | 02/22 9:00 PM  |   1  |     6.5     | Split up documents for software and hardware teams. Put together and published documents. 
 
 # Reading Week entries: REMEMBER IT'S WEEK 7
 # Name    | Time Completed | Week | Hours spent | Task done
