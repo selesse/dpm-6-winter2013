@@ -19,9 +19,9 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
 /**
  * Entrypoint to the application. Will start the robot to be either attacker or
  * defender.
- * 
+ *
  * @author Alex Selesse
- * 
+ *
  */
 public class Main {
   public static void main(String[] args) {

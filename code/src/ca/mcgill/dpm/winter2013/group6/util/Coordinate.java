@@ -1,7 +1,8 @@
 package ca.mcgill.dpm.winter2013.group6.util;
 
 /**
- * Coordinate implementation for (x, y)
+ * Coordinate helper class for 2 dimensional coordinates, essentially a
+ * representation of (x, y).
  *
  * @author Alex Selesse
  *
@@ -10,6 +11,14 @@ public class Coordinate {
   private double x;
   private double y;
 
+  /**
+   * Create a new set of coordinates (x, y).
+   *
+   * @param x
+   *          X-coordinate
+   * @param y
+   *          Y-coordinate
+   */
   public Coordinate(int x, int y) {
     this.x = x;
     this.y = y;

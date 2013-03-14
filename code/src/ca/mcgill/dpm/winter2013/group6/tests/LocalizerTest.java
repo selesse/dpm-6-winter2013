@@ -6,7 +6,7 @@ import lejos.nxt.UltrasonicSensor;
 import ca.mcgill.dpm.winter2013.group6.localization.AbstractLocalizer;
 import ca.mcgill.dpm.winter2013.group6.localization.LightLocalizer;
 import ca.mcgill.dpm.winter2013.group6.localization.Localizer;
-import ca.mcgill.dpm.winter2013.group6.localization.USLocalizer;
+import ca.mcgill.dpm.winter2013.group6.localization.UltrasonicLocalizer;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
@@ -27,17 +27,17 @@ public class LocalizerTest extends AbstractLocalizer {
   }
 
   public void lightLocalizerTest() {
-    Localizer tester = new LightLocalizer(odometer, navigator, corner, ls);
-    tester.doLocalize();
+    Localizer tester = new LightLocalizer(odometer, navigator, ls, corner);
+    tester.localize();
   }
 
   public void USLocalizerTest() {
-    Localizer tester = new USLocalizer(odometer, us, corner, navigator);
-    tester.doLocalize();
+    Localizer tester = new UltrasonicLocalizer(odometer, navigator, us, corner);
+    tester.localize();
   }
 
   @Override
-  public void doLocalize() {
+  public void localize() {
     USLocalizerTest();
     lightLocalizerTest();
     double destX = (corner == 2 || corner == 3) ? 30.5 * 10 : 0;

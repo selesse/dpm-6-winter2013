@@ -4,10 +4,10 @@ import lejos.nxt.Motor;
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
 
 /**
- * An odometer thread implementation, taken from the provided lab 3 code.
- * 
+ * An odometer implementation.
+ *
  * @author Alex Selesse
- * 
+ *
  */
 public class Odometer implements Runnable {
   private double x, y, theta;
@@ -15,7 +15,12 @@ public class Odometer implements Runnable {
   private Robot robot;
   private double[] oldDH, dDH;
 
-  // default constructor
+  /**
+   * Initialize the Odometer with the {@link Robot} settings.
+   *
+   * @param robot
+   *          Your {@link Robot}.
+   */
   public Odometer(Robot robot) {
     x = 0.0;
     y = 0.0;
@@ -140,8 +145,9 @@ public class Odometer implements Runnable {
   }
 
   public static double fixDegAngle(double angle) {
-    if (angle < 0.0)
+    if (angle < 0.0) {
       angle = 360.0 + (angle % 360.0);
+    }
 
     return angle % 360.0;
   }

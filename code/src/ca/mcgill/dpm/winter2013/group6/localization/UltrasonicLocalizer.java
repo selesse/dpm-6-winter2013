@@ -5,22 +5,23 @@ import lejos.nxt.UltrasonicSensor;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
-public class USLocalizer extends AbstractLocalizer {
+public class UltrasonicLocalizer extends AbstractLocalizer {
   private UltrasonicSensor us;
 
-  public USLocalizer(Odometer odometer, UltrasonicSensor usSensor, int corner, Navigator navigator) {
+  public UltrasonicLocalizer(Odometer odometer, Navigator navigator, UltrasonicSensor usSensor,
+      int corner) {
     super(odometer, navigator, corner);
     this.us = usSensor;
     us.off();
   }
 
   @Override
-  public void doLocalize() {
+  public void localize() {
     int min = 20;
     int max = 24;
     navigator.setRotateSpeed(robot.getRotateSpeed());
-    // rotate till it doesnt see a wall;
 
+    // rotate until it doesn't see a wall
     while (max > getFilteredData()) {
     }
     navigator.stop();
@@ -112,8 +113,9 @@ public class USLocalizer extends AbstractLocalizer {
     }
     sort(distances);
     int distance = distances[3];
-    if (distance > 100)
+    if (distance > 100) {
       distance = 100;
+    }
 
     return distance;
   }

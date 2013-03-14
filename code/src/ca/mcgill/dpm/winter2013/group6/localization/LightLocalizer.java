@@ -13,13 +13,13 @@ public class LightLocalizer extends AbstractLocalizer {
   public static int ROTATION_SPEED = 60;
   public static int FORWARD_SPEED = 60;
 
-  public LightLocalizer(Odometer odometer, Navigator navigator, int corner, LightSensor lightSensor) {
+  public LightLocalizer(Odometer odometer, Navigator navigator, LightSensor lightSensor, int corner) {
     super(odometer, navigator, corner);
     this.ls = lightSensor;
   }
 
   @Override
-  public void doLocalize() {
+  public void localize() {
 
     int lineCounter = 0;
 

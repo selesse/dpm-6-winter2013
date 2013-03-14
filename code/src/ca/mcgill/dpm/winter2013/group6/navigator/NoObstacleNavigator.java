@@ -6,9 +6,9 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 /**
  * {@link Navigator} implementation which does not take into consideration
  * obstacles.
- * 
+ *
  * @author Alex Selesse
- * 
+ *
  */
 public class NoObstacleNavigator extends AbstractNavigator {
   public NoObstacleNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,

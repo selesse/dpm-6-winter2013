@@ -7,7 +7,7 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
 /**
  * The AbstractLocalizer provides a base contructor for other Localizer classes
  * to use
- * 
+ *
  * @author arthurkam
  */
 public abstract class AbstractLocalizer implements Localizer {
@@ -19,7 +19,7 @@ public abstract class AbstractLocalizer implements Localizer {
 
   /**
    * Initializes the Localizer using the given parameters
-   * 
+   *
    * @param odometer
    *          The odometer is used to get the angle and make adjustments to it
    * @param navigator

@@ -15,7 +15,9 @@ Every component that we want to implement is in its own separate package:
   competition.
 * `launcher` : The package responsible for doing the launching of the ball.
 * `localization` : The package responsible for doing the localization.
-* `navigator` : The package responsible for robot navigation.
+  Includes a LightLocalizer and an UltrasonicLocalizer.
+* `navigator` : The package responsible for robot navigation. Includes
+  navigators that can operate with obstacle or without obstacle support.
 * `odometer` : The package responsible for the robot odometry.
 * `tests` : The package responsible for running all the tests. Every test in
   here should either implement or extend a class from another package.
