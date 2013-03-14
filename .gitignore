@@ -9,6 +9,9 @@ bin/
 # UML diagrams
 *.ucls
 
+# UML diagram image
+*.png
+
 .DS_Store
 *.nxd
 *.nxj
