@@ -20,6 +20,7 @@ public class LightLocalizer extends AbstractLocalizer {
 
   @Override
   public void localize() {
+    ls.setFloodlight(true);
 
     int lineCounter = 0;
 
@@ -79,6 +80,8 @@ public class LightLocalizer extends AbstractLocalizer {
       newY += 10 * 30.48;
     }
     odometer.setPosition(new double[] { newX, newY, newTheta }, new boolean[] { true, true, true });
+    ls.setFloodlight(false);
+
   }
 
   // calibrates the sensor average using the current conditions
