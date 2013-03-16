@@ -12,7 +12,7 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
       int corner) {
     super(odometer, navigator, corner);
     this.us = usSensor;
-    us.off();
+    // us.off();
   }
 
   @Override

@@ -9,7 +9,7 @@ public class LightLocalizer extends AbstractLocalizer {
   private LightSensor ls;
   private static int threshold = 50;
   private int sensorAverage = 0;
-  private static final double LIGHT_SENSOR_DISTANCE = 12.5;
+  private static final double LIGHT_SENSOR_DISTANCE = 11.6;
   public static int ROTATION_SPEED = 60;
   public static int FORWARD_SPEED = 60;
 
@@ -20,6 +20,7 @@ public class LightLocalizer extends AbstractLocalizer {
 
   @Override
   public void localize() {
+    odometer.setPosition(new double[] { 0, 0, 0 }, new boolean[] { true, true, true });
     ls.setFloodlight(true);
 
     int lineCounter = 0;
@@ -35,7 +36,7 @@ public class LightLocalizer extends AbstractLocalizer {
     // Rotate and clock the 4 grid lines
     calibrateSensorAverage();
 
-    navigator.setRotateSpeed(robot.getRotateSpeed());
+    navigator.setRotateSpeed(-robot.getRotateSpeed());
 
     // Detect the four lines
     while (lineCounter < 4) {
@@ -67,16 +68,16 @@ public class LightLocalizer extends AbstractLocalizer {
       // nothing needs to be done
     }
     else if (corner == 2) {
-      newTheta += 90;
+      newTheta -= 90;
       newX += 10 * 30.48;
     }
     else if (corner == 3) {
-      newTheta += 180;
+      newTheta -= 180;
       newX += 10 * 30.48;
       newY += 10 * 30.48;
     }
     else {
-      newTheta -= 90;
+      newTheta += 90;
       newY += 10 * 30.48;
     }
     odometer.setPosition(new double[] { newX, newY, newTheta }, new boolean[] { true, true, true });

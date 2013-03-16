@@ -1,7 +1,6 @@
 package ca.mcgill.dpm.winter2013.group6.tests;
 
 import lejos.nxt.LightSensor;
-import lejos.nxt.Motor;
 import lejos.nxt.UltrasonicSensor;
 import ca.mcgill.dpm.winter2013.group6.localization.AbstractLocalizer;
 import ca.mcgill.dpm.winter2013.group6.localization.LightLocalizer;
@@ -29,6 +28,8 @@ public class LocalizerTest extends AbstractLocalizer {
   public void lightLocalizerTest() {
     Localizer tester = new LightLocalizer(odometer, navigator, ls, corner);
     tester.localize();
+    navigator.turnTo((corner - 1) * 90 - odometer.getTheta());
+
   }
 
   public void USLocalizerTest() {
@@ -42,20 +43,6 @@ public class LocalizerTest extends AbstractLocalizer {
     lightLocalizerTest();
     double destX = (corner == 2 || corner == 3) ? 30.5 * 10 : 0;
     double destY = (corner == 3 || corner == 4) ? 30.5 * 10 : 0;
-    // if they work hongyi disable them and just measure the displacement vs
-    // odometer value
-    navigator.turnTo(0 - odometer.getTheta());
-    Motor.A.rotate((int) ((180.0 * -destX) / (Math.PI * odometer.getRobot().getLeftWheelRadius())),
-        true);
-    Motor.B.rotate(
-        (int) ((180.0 * -destX) / (Math.PI * odometer.getRobot().getRightWheelRadius())), false);
 
-    navigator.turnTo(90 - odometer.getTheta());
-    Motor.A.rotate((int) ((180.0 * -destY) / (Math.PI * odometer.getRobot().getLeftWheelRadius())),
-        true);
-    Motor.B.rotate(
-        (int) ((180.0 * -destY) / (Math.PI * odometer.getRobot().getRightWheelRadius())), false);
-
-    navigator.turnTo((corner - 1) * 90);
   }
 }
