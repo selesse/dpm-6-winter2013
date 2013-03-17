@@ -25,7 +25,7 @@ Arthur    | 02/26 5:11 PM  |   2  |     1.5     | Created a basic layout for the
 Arthur    | 03/11 11:20 PM |   3  |      7      | Fixed several things in the odometer, navigation and USlocalization code.
 Arthur    | 03/12 02:36 PM |   3  |     0.5     | Added in the code to support starting corner numbers for localization. Haven't tested them yet.
 Arthur    | 03/12 10:00 PM |   3  |     2.5     | Tested Navigation and made sure localization works for further testing.
-
+Arthur    | 03/17 01:31 PM |   4  |     0.5     | Brainstorm ideas for odometry correction.
 
 # Francois
 # Name    | Time Completed | Week | Hours spent | Task done
@@ -49,7 +49,7 @@ Hassan    | 03/11 9:30 PM  |   3  |     6.0     | Fixed several things in the od
 
 Hassan    | 03/12 9:39 PM  |   3  |     2.5     | Tested Navigation
 
-Hassan    | 03/17 11:53 AM |   4  |     4.5       | Completed testing specifications document + combined all test results into 1 document in order
+Hassan    | 03/17 11:53 AM |   4  |     4.5     | Completed testing specifications document + combined all test results into 1 document in order
 
 
 # Hong Yi
