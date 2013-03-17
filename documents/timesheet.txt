@@ -7,14 +7,14 @@ Alex      | 02/18 12:12 PM |   1  |      4      | Work on the software documents
 Alex      | 02/26 5:49 PM  |   2  |      3      | Finish classes with JavaDoc support, use UML plugin to create class diagram
 Alex      | 02/26 7:55 PM  |   2  |      1      | Make and test creation of ant build.xml file for generating JavaDoc
 Alex      | 02/28 8:55 PM  |   2  |      2      | Change the interface for BallLauncher to allow easy test creation, introduce notion of "tests", implement part of Main
-Alex      | 04/01 12:32 PM |   2  |      1      | Teach git
+Alex      | 03/01 12:32 PM |   2  |      1      | Teach git
 
-Alex      | 04/10 5:40 PM  |   3  |      3      | Revise software architecture, fix some values for tests, revise comments for the odometer and fix up Localization package and its api
-Alex      | 04/11 2:30 PM  |   3  |      4      | Fix navigation code, organization, work on some tests
-Alex      | 04/12 9:30 AM  |   3  |     0.5     | Work on code: Odometer now Runnable, explicit use of a Thread to run odometer and the helper display (InfoDisplay).
-Alex      | 04/12 11:30 AM |   3  |     1.5     | Clean up documentation, add documentation for undocumented functions and classes.
+Alex      | 03/10 5:40 PM  |   3  |      3      | Revise software architecture, fix some values for tests, revise comments for the odometer and fix up Localization package and its api
+Alex      | 03/11 2:30 PM  |   3  |      4      | Fix navigation code, organization, work on some tests
+Alex      | 03/12 9:30 AM  |   3  |     0.5     | Work on code: Odometer now Runnable, explicit use of a Thread to run odometer and the helper display (InfoDisplay).
+Alex      | 03/12 11:30 AM |   3  |     1.5     | Clean up documentation, add documentation for undocumented functions and classes.
 
-Alex      | 04/16 7:00 PM  |   4  |    0.75     | Write up an initial draft of attack strategy
+Alex      | 03/16 7:00 PM  |   4  |    0.75     | Write up an initial draft of attack strategy
 
 # Arthur
 # Name    | Time Completed | Week | Hours spent | Task done
@@ -33,10 +33,10 @@ Francois  | 02/18 5:11 PM  |   1  |     3.5     | Worked on mechanical design an
 
 Francois  | 02/26 8:30 PM  |   2  |     4.5     | Rebuilt robot, tweak the launching mechanism
 
-Francois  | 04/11 12:28 PM |   3  |     3.5     | Change the basket, build ball dispenser
-Francois  | 04/12 15:30 PM |   3  |     3       | Built LDD sketch
-Francois  | 04/15 12:30 PM |   4  |     3.5     | Built the new ball dispenser and modified basket
-Francois  | 04/16  9:30 PM |   4  |     2       | Modified the mechanical design document
+Francois  | 03/11 12:28 PM |   3  |     3.5     | Change the basket, build ball dispenser
+Francois  | 03/12 15:30 PM |   3  |     3       | Built LDD sketch
+Francois  | 03/15 12:30 PM |   4  |     3.5     | Built the new ball dispenser and modified basket
+Francois  | 03/16  9:30 PM |   4  |     2       | Modified the mechanical design document
 
 
 # Hassan
@@ -81,4 +81,4 @@ Kaichen   | 03/17  1:00 PM |   4  |     1.0     | Gantt chart updated with tasks
 
 # Reading Week entries: REMEMBER IT'S WEEK 7
 # Name    | Time Completed | Week | Hours spent | Task done
-Alex      | 04/11 11:24 AM |   7  |      2      | Group meeting, git tutorial, software architecture discussion
+Alex      | 03/11 11:24 AM |   7  |      2      | Group meeting, git tutorial, software architecture discussion
