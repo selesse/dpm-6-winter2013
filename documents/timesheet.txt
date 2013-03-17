@@ -72,6 +72,8 @@ Kaichen   | 02/29 10:00 PM |   2  |     3.5     | Took pictures of robot. Wrote 
 Kaichen   | 03/09 11:00 PM |   3  |     1.0     | Prepared powerpoint and presentation material
 Kaichen   | 03/10 9:30 AM  |   3  |     0.5     | Group meeting
 Kaichen   | 03/14 9:00 PM  |   3  |     2.0     | Tested launcher mechanism in DPM lab. Noted results and observations
+Kaichen   | 03/15 11:00 PM |   3  |     3.0     | Organized documents, PowerPoint + tested launcher mechanism
+Kaichen   | 03/16  9:00 PM |   3  |     3.0     | Modified launch mechanism + Ran tests and obtained video footage for launcher
 
 
 # Reading Week entries: REMEMBER IT'S WEEK 7
