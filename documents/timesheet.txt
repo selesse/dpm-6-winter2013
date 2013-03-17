@@ -34,6 +34,9 @@ Francois  | 02/18 5:11 PM  |   1  |     3.5     | Worked on mechanical design an
 Francois  | 02/26 8:30 PM  |   2  |     4.5     | Rebuilt robot, tweak the launching mechanism
 
 Francois  | 04/11 12:28 PM |   3  |     3.5     | Change the basket, build ball dispenser
+Francois  | 04/12 15:30 PM |   3  |     3       | Built LDD sketch
+Francois  | 04/15 12:30 PM |   4  |     3.5     | Built the new ball dispenser and modified basket
+Francois  | 04/16  9:30 PM |   4  |     2       | Modified the mechanical design document
 
 
 # Hassan
