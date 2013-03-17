@@ -59,8 +59,8 @@ Hong Yi   | 02/18 12:00 PM |   1  |     4       | Work on mechanical document
 
 Hong Yi   | 02/26 15:00 PM |   2  |     1.5     | Complete test document
 Hong Yi   | 03/07 1:00 AM  |   2  |     4       | Testing and adjusting the localization methods
-Hong Yi   | 03/15 3:00 PM  |   2  |     8       | Test on Odometer and Localization.Resolve the problems in localization
-Hong Yi   | 03/16 5:00 PM  |   2  |     3.5     | Work on test doc of odometer and localiztaion
+Hong Yi   | 03/15 3:00 PM  |   3  |     8       | Test on Odometer and Localization.Resolve the problems in localization
+Hong Yi   | 03/16 5:00 PM  |   3  |     3.5     | Work on test doc of odometer and localiztaion
 
 
 # Kaichen
