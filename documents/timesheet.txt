@@ -76,6 +76,7 @@ Kaichen   | 03/10 9:30 AM  |   3  |     0.5     | Group meeting
 Kaichen   | 03/14 9:00 PM  |   3  |     2.0     | Tested launcher mechanism in DPM lab. Noted results and observations
 Kaichen   | 03/15 11:00 PM |   3  |     3.0     | Organized documents, PowerPoint + tested launcher mechanism
 Kaichen   | 03/16  9:00 PM |   3  |     3.0     | Modified launch mechanism + Ran tests and obtained video footage for launcher
+Kaichen   | 03/17  1:00 PM |   4  |     1.0     | Gantt chart updated with tasks completion. PowerPoint.
 
 
 # Reading Week entries: REMEMBER IT'S WEEK 7
