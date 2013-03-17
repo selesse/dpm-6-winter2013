@@ -49,6 +49,8 @@ Hassan    | 03/11 9:30 PM  |   3  |     6.0     | Fixed several things in the od
 
 Hassan    | 03/12 9:39 PM  |   3  |     2.5     | Tested Navigation
 
+Hassan    | 03/17 11:53 AM |   3  |     1       | Completed testing specifications document + combined all test results into 1 document in order
+
 
 # Hong Yi
 # Name    | Time Completed | Week | Hours spent | Task done
