@@ -17,6 +17,7 @@ import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.navigator.NoObstacleNavigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
+import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
 import ca.mcgill.dpm.winter2013.group6.util.InfoDisplay;
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
 
@@ -69,14 +70,20 @@ public class Main {
     }
     else if (buttonChoice == Button.ID_RIGHT) {
       Navigator navigator = new NoObstacleNavigator(odometer, leftMotor, rightMotor);
+      navigator.setCoordinates(new Coordinate[] { new Coordinate(30, 30), new Coordinate(0, 30) });
+
       ObstacleAvoider touchAvoidance = new TouchAvoidanceImpl(odometer, navigator, leftTouchSensor,
           rightTouchSensor);
       ObstacleAvoider ultrasonicAvoidance = new UltrasonicAvoidanceImpl(odometer, navigator,
           ultrasonicSensor);
 
-      Thread touchThread;
-      Thread ultrasonicSensorThread;
+      Thread touchThread = new Thread(touchAvoidance);
+      Thread ultrasonicSensorThread = new Thread(ultrasonicAvoidance);
+      Thread navigatorThread = new Thread(navigator);
 
+      touchThread.start();
+      ultrasonicSensorThread.start();
+      navigatorThread.start();
     }
     else if (buttonChoice != Button.ID_ESCAPE) {
       BallLauncher launcher = new BallLauncherImpl(ballThrowingMotor, 10.0);

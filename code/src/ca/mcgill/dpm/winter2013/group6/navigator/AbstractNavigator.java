@@ -9,9 +9,9 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
 /**
  * Abstract implementation of the Navigator class, providing functionality that
  * both {@link NoObstacleNavigator} and {@link ObstacleNavigator} will inherit.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public abstract class AbstractNavigator implements Navigator {
   protected Odometer odometer;
@@ -64,7 +64,7 @@ public abstract class AbstractNavigator implements Navigator {
   /**
    * Get the turning angle given an (x, y) coordinate. Takes care of finding the
    * shortest angle to turn to.
-   *
+   * 
    * @param desiredX
    *          The x-coordinate you want to go to.
    * @param desiredY
@@ -166,5 +166,15 @@ public abstract class AbstractNavigator implements Navigator {
   @Override
   public void setCoordinates(Coordinate[] waypoint) {
     this.waypoints = waypoint;
+  }
+
+  @Override
+  public NXTRegulatedMotor getLeftMotor() {
+    return leftMotor;
+  }
+
+  @Override
+  public NXTRegulatedMotor getRightMotor() {
+    return rightMotor;
   }
 }

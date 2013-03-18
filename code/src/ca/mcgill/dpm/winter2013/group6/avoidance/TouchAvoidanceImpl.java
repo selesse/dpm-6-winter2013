@@ -5,7 +5,6 @@ import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
 public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
-
   protected TouchSensor leftTouchSensor;
   protected TouchSensor rightTouchSensor;
 
@@ -20,6 +19,32 @@ public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
   public void avoidObstacles() {
     // TODO Auto-generated method stub
 
+    if (thereIsAnObstacle()) {
+      // do not give it control
+      navigator.stop();
+      moveBackAndTurnABit();
+      navigator.travelTo(0, 30);
+
+    }
+
   }
 
+  private void moveBackAndTurnABit() {
+    boolean isTurningLeft = leftTouchSensor.isPressed();
+    double turningAngle = 45;
+
+    if (!isTurningLeft) {
+      turningAngle = -45;
+    }
+
+    // back up
+    // move motors a brick
+
+    navigator.turnTo(turningAngle);
+
+  }
+
+  private boolean thereIsAnObstacle() {
+    return leftTouchSensor.isPressed() || rightTouchSensor.isPressed();
+  }
 }
