@@ -1,4 +1,4 @@
-package ca.mcgill.dpm.winter2013.group6.tests;
+package ca.mcgill.dpm.winter2013.group6.tests.launcher;
 
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
@@ -9,11 +9,6 @@ public class BallLauncherTest extends AbstractBallLauncher {
 
   public BallLauncherTest(NXTRegulatedMotor motor, double distanceFromTarget) {
     super(motor, distanceFromTarget);
-  }
-
-  @Override
-  public void run() {
-    throwBall(distanceFromTarget);
   }
 
   @Override

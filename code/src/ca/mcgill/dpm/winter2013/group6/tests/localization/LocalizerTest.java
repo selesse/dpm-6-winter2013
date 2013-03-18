@@ -1,4 +1,4 @@
-package ca.mcgill.dpm.winter2013.group6.tests;
+package ca.mcgill.dpm.winter2013.group6.tests.localization;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.UltrasonicSensor;

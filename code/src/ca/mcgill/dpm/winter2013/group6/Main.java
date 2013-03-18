@@ -11,17 +11,18 @@ import lejos.nxt.UltrasonicSensor;
 import lejos.util.Timer;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
+import ca.mcgill.dpm.winter2013.group6.navigator.NoObstacleNavigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
-import ca.mcgill.dpm.winter2013.group6.tests.NavigatorTest;
+import ca.mcgill.dpm.winter2013.group6.tests.navigator.NavigatorTest121;
 import ca.mcgill.dpm.winter2013.group6.util.InfoDisplay;
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
 
 /**
  * Entrypoint to the application. Will start the robot to be either attacker or
  * defender.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public class Main {
   public static void main(String[] args) {
@@ -60,8 +61,9 @@ public class Main {
       Motor.B.flt(false);
     }
     else if (buttonChoice == Button.ID_RIGHT) {
-      NavigatorTest tester = new NavigatorTest(odometer, leftMotor, rightMotor);
-      tester.travelToTest();
+      NoObstacleNavigator tester = new NavigatorTest121(odometer, leftMotor, rightMotor);
+      Thread obstacleThread = new Thread(tester);
+      obstacleThread.start();
     }
     else if (buttonChoice != Button.ID_ESCAPE) {
       BallLauncher launcher = new BallLauncherImpl(ballThrowingMotor, 10.0);
