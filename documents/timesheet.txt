@@ -16,6 +16,7 @@ Alex      | 03/12 11:30 AM |   3  |     1.5     | Clean up documentation, add do
 
 Alex      | 03/16 7:00 PM  |   4  |    0.75     | Write up an initial draft of attack strategy
 Alex      | 03/17 3:40 PM  |   4  |     1.5     | Revise and add to the attack strategy
+Alex      | 03/18 12:56 PM |   4  |      3      | Help Hassan with the ObstacleAvoidance (separate branch now), change tests to be 1 class per test
 
 # Arthur
 # Name    | Time Completed | Week | Hours spent | Task done
