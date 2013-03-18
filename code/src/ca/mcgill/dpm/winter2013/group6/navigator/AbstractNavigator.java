@@ -9,9 +9,9 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
 /**
  * Abstract implementation of the Navigator class, providing functionality that
  * both {@link NoObstacleNavigator} and {@link ObstacleNavigator} will inherit.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public abstract class AbstractNavigator implements Navigator {
   protected Odometer odometer;
@@ -21,6 +21,7 @@ public abstract class AbstractNavigator implements Navigator {
   protected NXTRegulatedMotor rightMotor;
   protected Coordinate[] waypoints;
   private final double THRESHOLD = 2;
+  private final int PERIOD = 2000;
 
   public AbstractNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,
       NXTRegulatedMotor rightMotor) {
@@ -52,11 +53,17 @@ public abstract class AbstractNavigator implements Navigator {
     leftMotor.forward();
     rightMotor.forward();
 
-    // Keep running until we're within an acceptable threshold.
-    while (((x - odometer.getX() > THRESHOLD || x - odometer.getX() < -THRESHOLD))
-        || ((y - odometer.getY() > THRESHOLD || y - odometer.getY() < -THRESHOLD))) {
+    // Keep running until we're within an acceptable threshold, with an adjust
+    // to the angle every period of time
+    double lastUpdate = System.currentTimeMillis();
 
-      ;
+    while (Math.abs(x - odometer.getX()) > THRESHOLD || Math.abs(y - odometer.getY()) > THRESHOLD) {
+
+      if (lastUpdate + PERIOD > System.currentTimeMillis()) {
+        turningAngle = getTurningAngle(x, y);
+        turnTo(turningAngle);
+        lastUpdate = System.currentTimeMillis();
+      }
     }
     stop();
   }
@@ -64,7 +71,7 @@ public abstract class AbstractNavigator implements Navigator {
   /**
    * Get the turning angle given an (x, y) coordinate. Takes care of finding the
    * shortest angle to turn to.
-   *
+   * 
    * @param desiredX
    *          The x-coordinate you want to go to.
    * @param desiredY
