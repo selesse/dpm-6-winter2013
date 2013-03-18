@@ -49,7 +49,7 @@ public class BallLauncherTest extends AbstractBallLauncher {
         LCD.drawString("acc:", 0, 2);
         LCD.drawInt(acc, 0, 3);
 
-        buttonChoice = Button.waitForPress();
+        buttonChoice = Button.waitForAnyPress();
       }
       while (buttonChoice != Button.ID_ENTER && buttonChoice != Button.ID_ESCAPE);
 
