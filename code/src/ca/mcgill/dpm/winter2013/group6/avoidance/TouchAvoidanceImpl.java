@@ -17,34 +17,28 @@ public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
 
   @Override
   public void avoidObstacles() {
-    // TODO Auto-generated method stub
-
-    if (thereIsAnObstacle()) {
-      // do not give it control
+    if (obstacleDetected() && !currentlyAvoiding) {
+      setAvoiding(true);
       navigator.stop();
-      moveBackAndTurnABit();
-      navigator.travelTo(0, 30);
-
+      moveBackAndTurnAway();
+      setAvoiding(false);
     }
-
   }
 
-  private void moveBackAndTurnABit() {
+  private void moveBackAndTurnAway() {
     boolean isTurningLeft = leftTouchSensor.isPressed();
     double turningAngle = 45;
 
     if (!isTurningLeft) {
-      turningAngle = -45;
+      turningAngle = -turningAngle;
     }
 
-    // back up
-    // move motors a brick
-
+    navigator.travelStraight(-10);
     navigator.turnTo(turningAngle);
-
+    navigator.travelStraight(10);
   }
 
-  private boolean thereIsAnObstacle() {
+  private boolean obstacleDetected() {
     return leftTouchSensor.isPressed() || rightTouchSensor.isPressed();
   }
 }

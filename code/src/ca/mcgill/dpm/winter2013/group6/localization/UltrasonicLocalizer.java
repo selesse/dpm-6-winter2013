@@ -19,14 +19,14 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
   public void localize() {
     int min = 20;
     int max = 24;
-    navigator.setRotateSpeed(robot.getRotateSpeed());
+    navigator.setMotorRotateSpeed(robot.getRotateSpeed());
 
     // rotate until it doesn't see a wall
     while (max > getFilteredData()) {
     }
     navigator.stop();
     // rotate the robot until it sees a wall
-    navigator.setRotateSpeed(robot.getRotateSpeed());
+    navigator.setMotorRotateSpeed(robot.getRotateSpeed());
     while (min < getFilteredData()) {
     }
     navigator.stop();
@@ -42,7 +42,7 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
     catch (InterruptedException e) {
     }
 
-    navigator.setRotateSpeed(robot.getRotateSpeed());
+    navigator.setMotorRotateSpeed(robot.getRotateSpeed());
     // rotate till it doesnt see a wall;
 
     while (max > getFilteredData()) {
@@ -55,14 +55,14 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
     catch (InterruptedException e) {
     }
 
-    navigator.setRotateSpeed(-robot.getRotateSpeed());
+    navigator.setMotorRotateSpeed(-robot.getRotateSpeed());
 
     while (min < getFilteredData()) {
     }
     navigator.stop();
     double angleB = odometer.getTheta();
     Sound.beep();
-    navigator.setRotateSpeed(-robot.getRotateSpeed());
+    navigator.setMotorRotateSpeed(-robot.getRotateSpeed());
     // rotate till it doesnt see a wall;
 
     while (max > getFilteredData()) {
