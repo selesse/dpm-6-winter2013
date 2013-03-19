@@ -174,4 +174,14 @@ public abstract class AbstractNavigator implements Navigator {
   public void setCoordinates(Coordinate[] waypoint) {
     this.waypoints = waypoint;
   }
+
+  @Override
+  public NXTRegulatedMotor getLeftMotor() {
+    return leftMotor;
+  }
+
+  @Override
+  public NXTRegulatedMotor getRightMotor() {
+    return rightMotor;
+  }
 }
