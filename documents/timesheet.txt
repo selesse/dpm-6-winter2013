@@ -39,6 +39,9 @@ Francois  | 03/11 12:28 PM |   3  |     3.5     | Change the basket, build ball 
 Francois  | 03/12 15:30 PM |   3  |     3       | Built LDD sketch
 Francois  | 03/15 12:30 PM |   4  |     3.5     | Built the new ball dispenser and modified basket
 Francois  | 03/16  9:30 PM |   4  |     2       | Modified the mechanical design document
+Francois  | 03/18 12:30 PM |   4  |     3.5     | Modified the mechanical design and meeting witn professor
+Francois  | 03/19 11:30 PM |   4  |     2       | Modified the launcher and did basic tests
+
 
 
 # Hassan
@@ -85,3 +88,4 @@ Kaichen   | 03/17  5:00 PM |   4  |     1.0     | Dropbox files organization. Up
 # Reading Week entries: REMEMBER IT'S WEEK 7
 # Name    | Time Completed | Week | Hours spent | Task done
 Alex      | 03/11 11:24 AM |   7  |      2      | Group meeting, git tutorial, software architecture discussion
+Francois  | 03/04  2:00 PM |   7  |      3      | Group meeting, mechanical design discussion
