@@ -24,6 +24,14 @@ public interface Navigator extends Runnable {
   void travelTo(double x, double y);
 
   /**
+   * Makes the robot walk {@code distance} centimeters.
+   * 
+   * @param distance
+   *          The <b>signed</b> distance in which the robot should be traveling.
+   */
+  void travelStraight(double distance);
+
+  /**
    * Turn the robot by "theta" degrees.
    * 
    * @param theta
@@ -50,7 +58,7 @@ public interface Navigator extends Runnable {
    * @param rotateSpeed
    *          The speed you want the robot rotate at.
    */
-  void setRotateSpeed(int rotateSpeed);
+  void setMotorRotateSpeed(int rotateSpeed);
 
   /**
    * Set the coordinates that we want to travel to.
@@ -73,5 +81,13 @@ public interface Navigator extends Runnable {
    * @return
    */
   NXTRegulatedMotor getRightMotor();
+
+  /**
+   * Make the robot face an absolute angle.
+   * 
+   * @param theta
+   *          The absolute angle for which the robot will face.
+   */
+  void face(double theta);
 
 }

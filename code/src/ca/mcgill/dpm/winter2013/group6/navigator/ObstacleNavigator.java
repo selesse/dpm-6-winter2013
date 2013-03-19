@@ -35,7 +35,7 @@ public class ObstacleNavigator extends NoObstacleNavigator {
     // Keep running until we're within an acceptable threshold.
     while (((x - odometer.getX() > THRESHOLD || x - odometer.getX() < -THRESHOLD))
         || ((y - odometer.getY() > THRESHOLD || y - odometer.getY() < -THRESHOLD))) {
-      if (pause) {
+      if (true) {
 
       }
       else {

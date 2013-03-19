@@ -6,9 +6,9 @@ import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
  * The obstacle avoidance thread responsible for avoiding collisions. Our
  * preliminary designs suggest that we'll be using bumpers to navigate through
  * the obstacles.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public interface ObstacleAvoider extends Runnable {
   /**
@@ -16,4 +16,12 @@ public interface ObstacleAvoider extends Runnable {
    * some measure of control over the {@link Navigator}.
    */
   public void avoidObstacles();
+
+  /**
+   * Turn the avoiding on or off.
+   * 
+   * @param avoiding
+   *          True if you want to avoid obstacles, false otherwise.
+   */
+  void setAvoiding(boolean avoiding);
 }
