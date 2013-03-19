@@ -15,7 +15,7 @@ import ca.mcgill.dpm.winter2013.group6.avoidance.UltrasonicAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
-import ca.mcgill.dpm.winter2013.group6.navigator.NoObstacleNavigator;
+import ca.mcgill.dpm.winter2013.group6.navigator.ObstacleNavigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
 import ca.mcgill.dpm.winter2013.group6.util.InfoDisplay;
@@ -37,7 +37,7 @@ public class Main {
 
     UltrasonicSensor ultrasonicSensor = new UltrasonicSensor(SensorPort.S1);
     TouchSensor leftTouchSensor = new TouchSensor(SensorPort.S3);
-    TouchSensor rightTouchSensor = new TouchSensor(SensorPort.S3);
+    TouchSensor rightTouchSensor = new TouchSensor(SensorPort.S4);
 
     Robot patBot = new Robot(2.71, 2.71, 16.2, leftMotor, rightMotor);
 
@@ -52,7 +52,8 @@ public class Main {
 
       buttonChoice = Button.waitForAnyPress();
     }
-    while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT);
+    while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT
+        && buttonChoice != Button.ID_ESCAPE);
 
     // start the odometer
     Odometer odometer = new Odometer(patBot);
@@ -69,7 +70,7 @@ public class Main {
       Motor.B.flt(false);
     }
     else if (buttonChoice == Button.ID_RIGHT) {
-      Navigator navigator = new NoObstacleNavigator(odometer, leftMotor, rightMotor);
+      Navigator navigator = new ObstacleNavigator(odometer, leftMotor, rightMotor);
       navigator.setCoordinates(new Coordinate[] { new Coordinate(30, 30), new Coordinate(0, 30) });
 
       ObstacleAvoider touchAvoidance = new TouchAvoidanceImpl(odometer, navigator, leftTouchSensor,
@@ -84,10 +85,16 @@ public class Main {
       touchThread.start();
       ultrasonicSensorThread.start();
       navigatorThread.start();
+
+      touchThread.run();
+      navigatorThread.run();
     }
     else if (buttonChoice != Button.ID_ESCAPE) {
       BallLauncher launcher = new BallLauncherImpl(ballThrowingMotor, 10.0);
       new Thread(launcher).start();
+    }
+    else {
+      System.exit(0);
     }
 
     while (Button.waitForAnyPress() != Button.ID_ESCAPE) {

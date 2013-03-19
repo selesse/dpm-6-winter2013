@@ -23,24 +23,22 @@ public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
       // do not give it control
       navigator.stop();
       moveBackAndTurnABit();
-      navigator.travelTo(0, 30);
+      // navigator.travelTo(0, 30);
 
     }
 
   }
 
   private void moveBackAndTurnABit() {
-    boolean isTurningLeft = leftTouchSensor.isPressed();
+    boolean hitFromLeft = leftTouchSensor.isPressed();
     double turningAngle = 45;
 
-    if (!isTurningLeft) {
+    if (!hitFromLeft) {
       turningAngle = -45;
     }
 
     // back up
-    // move motors a brick
-
-    navigator.turnTo(turningAngle);
+    navigator.navigator.turnTo(turningAngle);
 
   }
 

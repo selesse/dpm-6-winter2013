@@ -7,9 +7,9 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
 /**
  * {@link Navigator} implementation which takes into consideration obstacles.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public class ObstacleNavigator extends NoObstacleNavigator {
   protected UltrasonicSensor uSensor;
@@ -27,6 +27,27 @@ public class ObstacleNavigator extends NoObstacleNavigator {
 
   @Override
   public void travelTo(double x, double y) {
-    // TODO
+    double turningAngle = getTurningAngle(x, y);
+    turnTo(turningAngle);
+
+    // Travel straight.
+
+    // Keep running until we're within an acceptable threshold.
+    while (((x - odometer.getX() > THRESHOLD || x - odometer.getX() < -THRESHOLD))
+        || ((y - odometer.getY() > THRESHOLD || y - odometer.getY() < -THRESHOLD))) {
+      if (pause) {
+
+      }
+      else {
+        leftMotor.setSpeed(robot.getForwardSpeed());
+        rightMotor.setSpeed(robot.getForwardSpeed());
+        leftMotor.forward();
+        rightMotor.forward();
+
+      }
+
+      ;
+    }
+    stop();
   }
 }
