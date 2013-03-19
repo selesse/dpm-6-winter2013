@@ -20,7 +20,8 @@ public abstract class AbstractNavigator implements Navigator {
   protected NXTRegulatedMotor leftMotor;
   protected NXTRegulatedMotor rightMotor;
   protected Coordinate[] waypoints;
-  protected final double THRESHOLD = 2;
+  private final double THRESHOLD = 2;
+  private final int PERIOD = 2000;
 
   public AbstractNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,
       NXTRegulatedMotor rightMotor) {
@@ -52,13 +53,33 @@ public abstract class AbstractNavigator implements Navigator {
     leftMotor.forward();
     rightMotor.forward();
 
-    // Keep running until we're within an acceptable threshold.
-    while (((x - odometer.getX() > THRESHOLD || x - odometer.getX() < -THRESHOLD))
-        || ((y - odometer.getY() > THRESHOLD || y - odometer.getY() < -THRESHOLD))) {
+    // Keep running until we're within an acceptable threshold, with an adjust
+    // to the angle every period of time
+    double lastUpdate = System.currentTimeMillis();
 
-      ;
+    while (Math.abs(x - odometer.getX()) > THRESHOLD || Math.abs(y - odometer.getY()) > THRESHOLD) {
+
+      if (lastUpdate + PERIOD > System.currentTimeMillis()) {
+        turningAngle = getTurningAngle(x, y);
+        turnTo(turningAngle);
+        lastUpdate = System.currentTimeMillis();
+      }
     }
     stop();
+  }
+
+  @Override
+  public void travelStraight(double distance) {
+    if (distance > 0) {
+      leftMotor.forward();
+      rightMotor.forward();
+    }
+    else {
+      leftMotor.backward();
+      leftMotor.forward();
+    }
+    leftMotor.rotate(convertDistance(robot.getLeftWheelRadius(), distance), true);
+    rightMotor.rotate(convertDistance(robot.getRightWheelRadius(), distance), true);
   }
 
   /**
@@ -72,8 +93,7 @@ public abstract class AbstractNavigator implements Navigator {
    * @return The angle, in degrees, that you need to turn to if you want to go
    *         to (x, y).
    */
-
-  public double getTurningAngle(double desiredX, double desiredY) {
+  protected double getTurningAngle(double desiredX, double desiredY) {
     double x = desiredX - odometer.getX();
     double y = desiredY - odometer.getY();
     double odometerTheta = odometer.getTheta();
@@ -94,16 +114,27 @@ public abstract class AbstractNavigator implements Navigator {
     return turningAngle;
   }
 
+  public double getOptimalAngle(double degree) {
+    if (degree > 180) {
+      return getOptimalAngle(degree - 360);
+    }
+    else if (degree < -180) {
+      return getOptimalAngle(degree + 360);
+    }
+    return degree;
+  }
+
   @Override
   public void turnTo(double theta) {
     Sound.beep();
-    theta = optimDegree(theta);
+    theta = getOptimalAngle(theta);
     leftMotor.setSpeed(robot.getRotateSpeed());
     rightMotor.setSpeed(robot.getRotateSpeed());
     leftMotor.rotate(convertAngle(robot, theta), true);
     rightMotor.rotate(-convertAngle(robot, theta), false);
   }
 
+  @Override
   public void face(double theta) {
     turnTo(theta - odometer.getTheta());
   }
@@ -126,7 +157,7 @@ public abstract class AbstractNavigator implements Navigator {
     rightMotor.stop(false);
   }
 
-  public void setSpeed(double leftSpeed, double rightSpeed) {
+  public void setMotorSpeeds(double leftSpeed, double rightSpeed) {
     leftMotor.setSpeed((int) leftSpeed);
     rightMotor.setSpeed((int) rightSpeed);
     if (leftSpeed > 0) {
@@ -144,23 +175,13 @@ public abstract class AbstractNavigator implements Navigator {
   }
 
   @Override
-  public void setRotateSpeed(int rotateSpeed) {
-    setSpeed(rotateSpeed, -rotateSpeed);
+  public void setMotorRotateSpeed(int rotateSpeed) {
+    setMotorSpeeds(rotateSpeed, -rotateSpeed);
   }
 
   @Override
   public boolean isNavigating() {
     return isNavigating;
-  }
-
-  public double optimDegree(double degree) {
-    if (degree > 180) {
-      return optimDegree(degree - 360);
-    }
-    else if (degree < -180) {
-      return optimDegree(degree + 360);
-    }
-    return degree;
   }
 
   @Override
