@@ -30,7 +30,8 @@ Arthur    | 03/11 11:20 PM |   3  |      7      | Fixed several things in the od
 Arthur    | 03/12 02:36 PM |   3  |     0.5     | Added in the code to support starting corner numbers for localization. Haven't tested them yet.
 Arthur    | 03/12 10:00 PM |   3  |     2.5     | Tested Navigation and made sure localization works for further testing.
 Arthur    | 03/17 01:31 PM |   4  |     0.5     | Brainstorm ideas for odometry correction.
-
+Arthur    | 03/19 08:39 PM |   4  |      5      | Helped Hassan & Alex finish touchAvoid
+Arthur    | 03/19 22:26 PM |   4  |     0.5     | Teach Hassan git
 # Francois
 # Name    | Time Completed | Week | Hours spent | Task done
 Francois  | 02/18 5:11 PM  |   1  |     3.5     | Worked on mechanical design and completed mechanical document
@@ -58,6 +59,7 @@ Hassan    | 03/12 9:39 PM  |   3  |     2.5     | Tested Navigation
 
 Hassan    | 03/17 11:53 AM |   4  |     4.5     | Completed testing specifications document + combined all test results into 1 document in order
 
+Hassan    | 03/19 10:27 PM |   4  |     2       | Worked on TouchAvoider && learned how to use git with Arthur
 
 # Hong Yi
 # Name    | Time Completed | Week | Hours spent | Task done
