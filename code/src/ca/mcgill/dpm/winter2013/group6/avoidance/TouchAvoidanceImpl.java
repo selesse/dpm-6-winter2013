@@ -5,6 +5,14 @@ import lejos.nxt.TouchSensor;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
+/**
+ * An obstacle avoider that has two touch sensors. When either of the sensor is
+ * pressed, it will back up and turn away (depending on which sensor is
+ * touched).
+ *
+ * @author Alex Selesse
+ *
+ */
 public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
   protected TouchSensor leftTouchSensor;
   protected TouchSensor rightTouchSensor;

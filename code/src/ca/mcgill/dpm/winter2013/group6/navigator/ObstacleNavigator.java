@@ -1,5 +1,7 @@
 package ca.mcgill.dpm.winter2013.group6.navigator;
 
+import java.util.List;
+
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.Sound;
 import lejos.nxt.TouchSensor;
@@ -9,23 +11,23 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
 /**
  * {@link Navigator} implementation which takes into consideration obstacles.
- * 
+ *
  * @author Alex Selesse
- * 
+ *
  */
 public class ObstacleNavigator extends NoObstacleNavigator {
-  protected UltrasonicSensor uSensor;
-  protected TouchSensor leftSensor;
-  protected TouchSensor rightSensor;
-  protected ObstacleAvoider[] avoiderList;
+  protected UltrasonicSensor ultrasonicSensor;
+  protected TouchSensor leftTouchSensor;
+  protected TouchSensor rightTouchSensor;
+  protected List<ObstacleAvoider> obstacleAvoiders;
 
   public ObstacleNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,
       NXTRegulatedMotor rightMotor, UltrasonicSensor uSensor, TouchSensor leftSensor,
       TouchSensor rightSensor) {
     super(odometer, leftMotor, rightMotor);
-    this.uSensor = uSensor;
-    this.leftSensor = leftSensor;
-    this.rightSensor = rightSensor;
+    this.ultrasonicSensor = uSensor;
+    this.leftTouchSensor = leftSensor;
+    this.rightTouchSensor = rightSensor;
   }
 
   @Override
@@ -38,10 +40,10 @@ public class ObstacleNavigator extends NoObstacleNavigator {
     // Keep running until we're within an acceptable threshold.
     while (((x - odometer.getX() > THRESHOLD || x - odometer.getX() < -THRESHOLD))
         || ((y - odometer.getY() > THRESHOLD || y - odometer.getY() < -THRESHOLD))) {
-      if (getAvoiding() != null) {
-        ObstacleAvoider dummby = getAvoiding();
+      if (getObstacleAvoider() != null) {
+        ObstacleAvoider avoider = getObstacleAvoider();
         stop();
-        while (dummby.getAvoiding()) {
+        while (avoider.isAvoiding()) {
           try {
             Thread.sleep(100);
           }
@@ -62,23 +64,18 @@ public class ObstacleNavigator extends NoObstacleNavigator {
         rightMotor.forward();
 
       }
-
-      ;
     }
     stop();
   }
 
-  public void setAvoid(ObstacleAvoider[] avoiderList) {
-    this.avoiderList = avoiderList;
+  public void setAvoiderList(List<ObstacleAvoider> obstacleAvoiders) {
+    this.obstacleAvoiders = obstacleAvoiders;
   }
 
-  public ObstacleAvoider getAvoiding() {
-    if (avoiderList == null) {
-      return null;
-    }
-    for (int i = 0; i < avoiderList.length; i++) {
-      if (avoiderList[i].getAvoiding() == true) {
-        return avoiderList[i];
+  public ObstacleAvoider getObstacleAvoider() {
+    for (ObstacleAvoider avoider : obstacleAvoiders) {
+      if (avoider.isAvoiding()) {
+        return avoider;
       }
     }
     return null;

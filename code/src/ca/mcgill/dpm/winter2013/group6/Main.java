@@ -24,9 +24,9 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
 /**
  * Entrypoint to the application. Will start the robot to be either attacker or
  * defender.
- * 
+ *
  * @author Alex Selesse
- * 
+ *
  */
 public class Main {
   public static void main(String[] args) {
@@ -70,7 +70,8 @@ public class Main {
       Motor.B.flt(false);
     }
     else if (buttonChoice == Button.ID_RIGHT) {
-      Navigator navigator = new ObstacleNavigator(odometer, leftMotor, rightMotor);
+      Navigator navigator = new ObstacleNavigator(odometer, leftMotor, rightMotor,
+          ultrasonicSensor, leftTouchSensor, rightTouchSensor);
       navigator.setCoordinates(new Coordinate[] { new Coordinate(30, 30), new Coordinate(0, 30) });
 
       ObstacleAvoider touchAvoidance = new TouchAvoidanceImpl(odometer, navigator, leftTouchSensor,
