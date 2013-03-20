@@ -7,13 +7,13 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 /**
  * Ultrasonic obstacle avoider. Our current hardware version of the robot has an
  * ultrasonic sensor that will allow it to detect obstacles in front of it.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
   protected UltrasonicSensor ultrasonicSensor;
-  private final int THRESHOLD_DISTANCE = 40;
+  private final int THRESHOLD_DISTANCE = 45;
 
   public UltrasonicAvoidanceImpl(Odometer odometer, Navigator navigator,
       UltrasonicSensor ultrasonicSensor) {
