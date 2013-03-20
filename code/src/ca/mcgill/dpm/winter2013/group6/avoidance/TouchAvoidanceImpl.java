@@ -1,5 +1,6 @@
 package ca.mcgill.dpm.winter2013.group6.avoidance;
 
+import lejos.nxt.Sound;
 import lejos.nxt.TouchSensor;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
@@ -33,10 +34,9 @@ public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
       turningAngle = -turningAngle;
     }
 
+    Sound.beep();
     navigator.travelStraight(-100);
 
-    navigator.turnTo(turningAngle);
-    navigator.travelStraight(100);
     try {
       Thread.sleep(1000);
     }
@@ -44,6 +44,13 @@ public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+    Sound.beep();
+
+    navigator.turnTo(turningAngle);
+
+    navigator.travelStraight(100);
+    Sound.beep();
+
   }
 
   private boolean obstacleDetected() {

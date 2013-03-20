@@ -70,6 +70,8 @@ public abstract class AbstractNavigator implements Navigator {
 
   @Override
   public void travelStraight(double distance) {
+    leftMotor.setSpeed(robot.getForwardSpeed());
+    rightMotor.setSpeed(robot.getForwardSpeed());
     if (distance > 0) {
       leftMotor.forward();
       rightMotor.forward();
