@@ -11,10 +11,8 @@ import lejos.nxt.UltrasonicSensor;
 import lejos.util.Timer;
 import ca.mcgill.dpm.winter2013.group6.avoidance.ObstacleAvoider;
 import ca.mcgill.dpm.winter2013.group6.avoidance.TouchAvoidanceImpl;
-import ca.mcgill.dpm.winter2013.group6.avoidance.UltrasonicAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
-import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.navigator.ObstacleNavigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
@@ -70,20 +68,23 @@ public class Main {
       Motor.B.flt(false);
     }
     else if (buttonChoice == Button.ID_RIGHT) {
-      Navigator navigator = new ObstacleNavigator(odometer, leftMotor, rightMotor);
-      navigator.setCoordinates(new Coordinate[] { new Coordinate(30, 30), new Coordinate(0, 30) });
-
+      ObstacleNavigator navigator = new ObstacleNavigator(odometer, leftMotor, rightMotor,
+          ultrasonicSensor, leftTouchSensor, rightTouchSensor);
       ObstacleAvoider touchAvoidance = new TouchAvoidanceImpl(odometer, navigator, leftTouchSensor,
           rightTouchSensor);
-      ObstacleAvoider ultrasonicAvoidance = new UltrasonicAvoidanceImpl(odometer, navigator,
-          ultrasonicSensor);
+      // ObstacleAvoider ultrasonicAvoidance = new
+      // UltrasonicAvoidanceImpl(odometer, navigator,
+      // ultrasonicSensor);
+      navigator.setAvoid(new ObstacleAvoider[] { touchAvoidance });
+      // ultrasonicAvoidance });
+      navigator.setCoordinates(new Coordinate[] { new Coordinate(30, 30), new Coordinate(0, 30) });
 
       Thread touchThread = new Thread(touchAvoidance);
-      Thread ultrasonicSensorThread = new Thread(ultrasonicAvoidance);
+      // Thread ultrasonicSensorThread = new Thread(ultrasonicAvoidance);
       Thread navigatorThread = new Thread(navigator);
 
       touchThread.start();
-      ultrasonicSensorThread.start();
+      // ultrasonicSensorThread.start();
       navigatorThread.start();
 
       touchThread.run();
