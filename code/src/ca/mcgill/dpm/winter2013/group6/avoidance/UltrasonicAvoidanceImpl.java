@@ -4,6 +4,13 @@ import lejos.nxt.UltrasonicSensor;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
+/**
+ * Ultrasonic obstacle avoider. Our current hardware version of the robot has an
+ * ultrasonic sensor that will allow it to detect obstacles in front of it.
+ *
+ * @author Alex Selesse
+ *
+ */
 public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
   protected UltrasonicSensor ultrasonicSensor;
   private final int THRESHOLD_DISTANCE = 40;
@@ -16,14 +23,12 @@ public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
 
   @Override
   public void avoidObstacles() {
-
-    if (thereIsAnObstacleInFrontOfUs() && !currentlyAvoiding) {
-      setAvoiding(true);
+    if (thereIsAnObstacleInFrontOfUs() && !isAvoiding) {
+      this.isAvoiding = true;
       navigator.stop();
       avoidTheObstacle();
-      setAvoiding(false);
+      this.isAvoiding = false;
     }
-
   }
 
   private void avoidTheObstacle() {

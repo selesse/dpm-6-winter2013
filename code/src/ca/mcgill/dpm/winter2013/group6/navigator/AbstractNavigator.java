@@ -9,9 +9,9 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
 /**
  * Abstract implementation of the Navigator class, providing functionality that
  * both {@link NoObstacleNavigator} and {@link ObstacleNavigator} will inherit.
- * 
+ *
  * @author Alex Selesse
- * 
+ *
  */
 public abstract class AbstractNavigator implements Navigator {
   protected Odometer odometer;
@@ -20,7 +20,7 @@ public abstract class AbstractNavigator implements Navigator {
   protected NXTRegulatedMotor leftMotor;
   protected NXTRegulatedMotor rightMotor;
   protected Coordinate[] waypoints;
-  private final double THRESHOLD = 2;
+  protected final double THRESHOLD = 2;
   private final int PERIOD = 2000;
 
   public AbstractNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,
@@ -70,22 +70,24 @@ public abstract class AbstractNavigator implements Navigator {
 
   @Override
   public void travelStraight(double distance) {
+    leftMotor.setSpeed(robot.getForwardSpeed());
+    rightMotor.setSpeed(robot.getForwardSpeed());
     if (distance > 0) {
       leftMotor.forward();
       rightMotor.forward();
     }
     else {
       leftMotor.backward();
-      leftMotor.forward();
+      rightMotor.backward();
     }
     leftMotor.rotate(convertDistance(robot.getLeftWheelRadius(), distance), true);
-    rightMotor.rotate(convertDistance(robot.getRightWheelRadius(), distance), true);
+    rightMotor.rotate(convertDistance(robot.getRightWheelRadius(), distance), false);
   }
 
   /**
    * Get the turning angle given an (x, y) coordinate. Takes care of finding the
    * shortest angle to turn to.
-   * 
+   *
    * @param desiredX
    *          The x-coordinate you want to go to.
    * @param desiredY
