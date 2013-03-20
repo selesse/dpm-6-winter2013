@@ -11,10 +11,8 @@ import lejos.nxt.UltrasonicSensor;
 import lejos.util.Timer;
 import ca.mcgill.dpm.winter2013.group6.avoidance.ObstacleAvoider;
 import ca.mcgill.dpm.winter2013.group6.avoidance.TouchAvoidanceImpl;
-import ca.mcgill.dpm.winter2013.group6.avoidance.UltrasonicAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
-import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.navigator.ObstacleNavigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
@@ -80,11 +78,11 @@ public class Main {
           ultrasonicSensor);
 
       Thread touchThread = new Thread(touchAvoidance);
-      Thread ultrasonicSensorThread = new Thread(ultrasonicAvoidance);
+      // Thread ultrasonicSensorThread = new Thread(ultrasonicAvoidance);
       Thread navigatorThread = new Thread(navigator);
 
       touchThread.start();
-      ultrasonicSensorThread.start();
+      // ultrasonicSensorThread.start();
       navigatorThread.start();
 
       touchThread.run();
