@@ -23,5 +23,12 @@ public interface ObstacleAvoider extends Runnable {
    * @param avoiding
    *          True if you want to avoid obstacles, false otherwise.
    */
-  void setAvoiding(boolean avoiding);
+  void setRunning(boolean running);
+
+  /**
+   * Get if its running the avoidance routine right now
+   * 
+   */
+  public boolean getAvoiding();
+
 }

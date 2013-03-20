@@ -17,11 +17,11 @@ public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
 
   @Override
   public void avoidObstacles() {
-    if (obstacleDetected() && !currentlyAvoiding) {
-      setAvoiding(true);
+    if (obstacleDetected() && !isAvoiding) {
+      this.isAvoiding = true;
       navigator.stop();
       moveBackAndTurnAway();
-      setAvoiding(false);
+      this.isAvoiding = false;
     }
   }
 
@@ -33,9 +33,17 @@ public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
       turningAngle = -turningAngle;
     }
 
-    navigator.travelStraight(-10);
+    navigator.travelStraight(-100);
+
     navigator.turnTo(turningAngle);
-    navigator.travelStraight(10);
+    navigator.travelStraight(100);
+    try {
+      Thread.sleep(1000);
+    }
+    catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   private boolean obstacleDetected() {

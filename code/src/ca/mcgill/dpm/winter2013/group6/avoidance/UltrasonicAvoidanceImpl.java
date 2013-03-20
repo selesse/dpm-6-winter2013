@@ -17,11 +17,11 @@ public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
   @Override
   public void avoidObstacles() {
 
-    if (thereIsAnObstacleInFrontOfUs() && !currentlyAvoiding) {
-      setAvoiding(true);
+    if (thereIsAnObstacleInFrontOfUs() && !isAvoiding) {
+      this.isAvoiding = true;
       navigator.stop();
       avoidTheObstacle();
-      setAvoiding(false);
+      this.isAvoiding = false;
     }
 
   }

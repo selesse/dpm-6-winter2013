@@ -13,23 +13,29 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 public abstract class AbstractObstacleAvoider implements ObstacleAvoider {
   protected Odometer odometer;
   protected Navigator navigator;
-  protected boolean currentlyAvoiding;
+  protected boolean isRunning;
+  protected boolean isAvoiding;
 
   public AbstractObstacleAvoider(Odometer odometer, Navigator navigator) {
     this.odometer = odometer;
     this.navigator = navigator;
-    this.currentlyAvoiding = true;
+    this.isRunning = true;
   }
 
   @Override
   public void run() {
-    while (currentlyAvoiding) {
+    while (isRunning) {
       avoidObstacles();
     }
   }
 
   @Override
-  public void setAvoiding(boolean avoiding) {
-    this.currentlyAvoiding = avoiding;
+  public void setRunning(boolean avoiding) {
+    this.isRunning = avoiding;
+  }
+
+  @Override
+  public boolean getAvoiding() {
+    return isAvoiding;
   }
 }

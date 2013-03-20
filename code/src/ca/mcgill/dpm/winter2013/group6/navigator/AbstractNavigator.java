@@ -20,7 +20,7 @@ public abstract class AbstractNavigator implements Navigator {
   protected NXTRegulatedMotor leftMotor;
   protected NXTRegulatedMotor rightMotor;
   protected Coordinate[] waypoints;
-  private final double THRESHOLD = 2;
+  protected final double THRESHOLD = 2;
   private final int PERIOD = 2000;
 
   public AbstractNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,
@@ -76,7 +76,7 @@ public abstract class AbstractNavigator implements Navigator {
     }
     else {
       leftMotor.backward();
-      leftMotor.forward();
+      rightMotor.backward();
     }
     leftMotor.rotate(convertDistance(robot.getLeftWheelRadius(), distance), true);
     rightMotor.rotate(convertDistance(robot.getRightWheelRadius(), distance), true);
