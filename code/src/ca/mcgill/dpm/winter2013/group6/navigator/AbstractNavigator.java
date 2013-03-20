@@ -81,7 +81,7 @@ public abstract class AbstractNavigator implements Navigator {
       rightMotor.backward();
     }
     leftMotor.rotate(convertDistance(robot.getLeftWheelRadius(), distance), true);
-    rightMotor.rotate(convertDistance(robot.getRightWheelRadius(), distance), true);
+    rightMotor.rotate(convertDistance(robot.getRightWheelRadius(), distance), false);
   }
 
   /**

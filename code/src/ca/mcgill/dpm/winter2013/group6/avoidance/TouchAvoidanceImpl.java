@@ -35,20 +35,13 @@ public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
     }
 
     Sound.beep();
-    navigator.travelStraight(-100);
+    navigator.travelStraight(-10);
 
-    try {
-      Thread.sleep(1000);
-    }
-    catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
     Sound.beep();
 
     navigator.turnTo(turningAngle);
 
-    navigator.travelStraight(100);
+    navigator.travelStraight(10);
     Sound.beep();
 
   }
