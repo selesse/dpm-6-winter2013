@@ -5,9 +5,8 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
 
 /**
- * The AbstractLocalizer provides a base contructor for other Localizer classes
- * to use
- *
+ * The AbstractLocalizer provides a base contructor for other Localizer classes.
+ * 
  * @author arthurkam
  */
 public abstract class AbstractLocalizer implements Localizer {
@@ -19,7 +18,7 @@ public abstract class AbstractLocalizer implements Localizer {
 
   /**
    * Initializes the Localizer using the given parameters
-   *
+   * 
    * @param odometer
    *          The odometer is used to get the angle and make adjustments to it
    * @param navigator
@@ -32,6 +31,11 @@ public abstract class AbstractLocalizer implements Localizer {
     this.navigator = navigator;
     this.robot = odometer.getRobot();
     this.corner = corner;
+  }
+
+  @Override
+  public void run() {
+    localize();
   }
 
 }

@@ -6,13 +6,12 @@ import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
 public class UltrasonicLocalizer extends AbstractLocalizer {
-  private UltrasonicSensor us;
+  private UltrasonicSensor ultrasonicSensor;
 
-  public UltrasonicLocalizer(Odometer odometer, Navigator navigator, UltrasonicSensor usSensor,
+  public UltrasonicLocalizer(Odometer odometer, Navigator navigator, UltrasonicSensor ultrasonicSensor,
       int corner) {
     super(odometer, navigator, corner);
-    this.us = usSensor;
-    // us.off();
+    this.ultrasonicSensor = ultrasonicSensor;
   }
 
   @Override
@@ -99,7 +98,7 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
 
     // do a ping
     for (int i = 0; i < 6; i++) {
-      us.ping();
+      ultrasonicSensor.ping();
 
       // wait for the ping to complete
       try {
@@ -109,7 +108,7 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
       }
 
       // there will be a delay here
-      distances[i] = us.getDistance();
+      distances[i] = ultrasonicSensor.getDistance();
     }
     sort(distances);
     int distance = distances[3];
@@ -131,11 +130,5 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
         }
       }
     }
-  }
-
-  @Override
-  public void run() {
-    // TODO Auto-generated method stub
-
   }
 }
