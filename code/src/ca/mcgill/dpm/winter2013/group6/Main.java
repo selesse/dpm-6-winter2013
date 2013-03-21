@@ -1,5 +1,8 @@
 package ca.mcgill.dpm.winter2013.group6;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
@@ -11,6 +14,7 @@ import lejos.nxt.UltrasonicSensor;
 import lejos.util.Timer;
 import ca.mcgill.dpm.winter2013.group6.avoidance.ObstacleAvoider;
 import ca.mcgill.dpm.winter2013.group6.avoidance.TouchAvoidanceImpl;
+import ca.mcgill.dpm.winter2013.group6.avoidance.UltrasonicAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
 import ca.mcgill.dpm.winter2013.group6.navigator.ObstacleNavigator;
@@ -22,9 +26,9 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
 /**
  * Entrypoint to the application. Will start the robot to be either attacker or
  * defender.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public class Main {
   public static void main(String[] args) {
@@ -68,7 +72,7 @@ public class Main {
       Motor.B.flt(false);
     }
     else if (buttonChoice == Button.ID_RIGHT) {
-      Navigator navigator = new ObstacleNavigator(odometer, leftMotor, rightMotor,
+      ObstacleNavigator navigator = new ObstacleNavigator(odometer, leftMotor, rightMotor,
           ultrasonicSensor, leftTouchSensor, rightTouchSensor);
       navigator.setCoordinates(new Coordinate[] { new Coordinate(30, 30), new Coordinate(0, 30) });
 
@@ -76,7 +80,9 @@ public class Main {
           rightTouchSensor);
       ObstacleAvoider ultrasonicAvoidance = new UltrasonicAvoidanceImpl(odometer, navigator,
           ultrasonicSensor);
-
+      List<ObstacleAvoider> avoiderList = new ArrayList<ObstacleAvoider>();
+      avoiderList.add(touchAvoidance);
+      navigator.setAvoiderList(avoiderList);
       Thread touchThread = new Thread(touchAvoidance);
       // Thread ultrasonicSensorThread = new Thread(ultrasonicAvoidance);
       Thread navigatorThread = new Thread(navigator);

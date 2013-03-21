@@ -11,9 +11,9 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
 /**
  * {@link Navigator} implementation which takes into consideration obstacles.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public class ObstacleNavigator extends NoObstacleNavigator {
   protected UltrasonicSensor ultrasonicSensor;
@@ -73,6 +73,8 @@ public class ObstacleNavigator extends NoObstacleNavigator {
   }
 
   public ObstacleAvoider getObstacleAvoider() {
+    if (obstacleAvoiders == null)
+      return null;
     for (ObstacleAvoider avoider : obstacleAvoiders) {
       if (avoider.isAvoiding()) {
         return avoider;
