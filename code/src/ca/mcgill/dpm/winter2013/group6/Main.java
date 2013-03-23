@@ -52,7 +52,7 @@ public class Main {
       LCD.drawString("       |        ", 0, 2);
       LCD.drawString("       |        ", 0, 3);
 
-      buttonChoice = Button.waitForPress();
+      buttonChoice = Button.waitForAnyPress();
     }
     while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT
         && buttonChoice != Button.ID_ESCAPE);
@@ -74,7 +74,7 @@ public class Main {
     else if (buttonChoice == Button.ID_RIGHT) {
       ObstacleNavigator navigator = new ObstacleNavigator(odometer, leftMotor, rightMotor,
           ultrasonicSensor, leftTouchSensor, rightTouchSensor);
-      navigator.setCoordinates(new Coordinate[] { new Coordinate(30, 30), new Coordinate(0, 30) });
+      navigator.setCoordinates(new Coordinate[] { new Coordinate(0, 90) });
 
       ObstacleAvoider touchAvoidance = new TouchAvoidanceImpl(odometer, navigator, leftTouchSensor,
           rightTouchSensor);
@@ -82,17 +82,19 @@ public class Main {
           ultrasonicSensor);
       List<ObstacleAvoider> avoiderList = new ArrayList<ObstacleAvoider>();
       avoiderList.add(touchAvoidance);
+      avoiderList.add(ultrasonicAvoidance);
       navigator.setAvoiderList(avoiderList);
       Thread touchThread = new Thread(touchAvoidance);
-      // Thread ultrasonicSensorThread = new Thread(ultrasonicAvoidance);
+      Thread ultrasonicSensorThread = new Thread(ultrasonicAvoidance);
       Thread navigatorThread = new Thread(navigator);
 
       touchThread.start();
-      // ultrasonicSensorThread.start();
+      ultrasonicSensorThread.start();
       navigatorThread.start();
 
       touchThread.run();
       navigatorThread.run();
+      ultrasonicSensorThread.run();
     }
     else if (buttonChoice != Button.ID_ESCAPE) {
       BallLauncher launcher = new BallLauncherImpl(ballThrowingMotor, 10.0);
@@ -102,7 +104,7 @@ public class Main {
       System.exit(0);
     }
 
-    while (Button.waitForPress() != Button.ID_ESCAPE) {
+    while (Button.waitForAnyPress() != Button.ID_ESCAPE) {
       ;
     }
   }
