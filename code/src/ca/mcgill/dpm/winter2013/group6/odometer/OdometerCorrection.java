@@ -68,17 +68,19 @@ public class OdometerCorrection implements TimerListener {
 
   public double getClosestGridLine(boolean axis) {
     double location = axis ? odometer.getX() : odometer.getY();
-    int direction = closest90();
+    double degree = odometer.getTheta();
+    // x-axis
     if (axis) {
-      switch (direction) {
-        case 1:
-        case 3:
-      }
+      location = location - LIGHT_SENSOR_DISTANCE * Math.cos(degree);
     }
-    location = location % 30.48;
-    if (location > 30.48 / 2) {
-      location -= 30.48;
+    else {
+      location = location - LIGHT_SENSOR_DISTANCE * Math.sin(degree);
     }
+    int mult = ((int) (location / 30.48));
+    if (Math.abs(mult * 30.48 - location) > Math.abs((mult + 1) * 30.48 - location)) {
+      return mult * 30.48 + 30.48;
+    }
+    return mult * 30.48;
 
   }
 
