@@ -4,13 +4,13 @@ import lejos.nxt.NXTRegulatedMotor;
 
 /**
  * An implementation of the {@link BallLauncher} interface.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public class BallLauncherImpl extends AbstractBallLauncher {
-  public BallLauncherImpl(NXTRegulatedMotor motor, double distanceFromTarget) {
-    super(motor, distanceFromTarget);
+  public BallLauncherImpl(NXTRegulatedMotor ballThrowingMotor, double distanceFromTarget) {
+    super(ballThrowingMotor, distanceFromTarget);
   }
 
   @Override
@@ -20,21 +20,21 @@ public class BallLauncherImpl extends AbstractBallLauncher {
     int rotateSpeed = 12000;
     int accelerationSpeed = 7000;
 
-    motor.setAcceleration(accelerationSpeed);
-    motor.setSpeed(rotateSpeed);
-    motor.rotate(rotateAngle, false);
+    ballThrowingMotor.setAcceleration(accelerationSpeed);
+    ballThrowingMotor.setSpeed(rotateSpeed);
+    ballThrowingMotor.rotate(rotateAngle, false);
 
     // make the thread sleep, then bring it back to its starting point, slowly
     try {
       Thread.sleep(1250);
 
-      motor.stop();
-      motor.setAcceleration(3000);
-      motor.setSpeed(200);
-      motor.rotate(-rotateAngle, false);
+      ballThrowingMotor.stop();
+      ballThrowingMotor.setAcceleration(3000);
+      ballThrowingMotor.setSpeed(200);
+      ballThrowingMotor.rotate(-rotateAngle, false);
     }
     catch (InterruptedException e) {
-      // nothing will interrupt this
+      // nothing should interrupt this
     }
   }
 }

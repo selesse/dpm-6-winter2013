@@ -6,27 +6,26 @@ import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
 public class UltrasonicLocalizer extends AbstractLocalizer {
-  private UltrasonicSensor us;
+  private UltrasonicSensor ultrasonicSensor;
 
-  public UltrasonicLocalizer(Odometer odometer, Navigator navigator, UltrasonicSensor usSensor,
+  public UltrasonicLocalizer(Odometer odometer, Navigator navigator, UltrasonicSensor ultrasonicSensor,
       int corner) {
     super(odometer, navigator, corner);
-    this.us = usSensor;
-    // us.off();
+    this.ultrasonicSensor = ultrasonicSensor;
   }
 
   @Override
   public void localize() {
     int min = 20;
     int max = 24;
-    navigator.setRotateSpeed(robot.getRotateSpeed());
+    navigator.setMotorRotateSpeed(robot.getRotateSpeed());
 
     // rotate until it doesn't see a wall
     while (max > getFilteredData()) {
     }
     navigator.stop();
     // rotate the robot until it sees a wall
-    navigator.setRotateSpeed(robot.getRotateSpeed());
+    navigator.setMotorRotateSpeed(robot.getRotateSpeed());
     while (min < getFilteredData()) {
     }
     navigator.stop();
@@ -42,7 +41,7 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
     catch (InterruptedException e) {
     }
 
-    navigator.setRotateSpeed(robot.getRotateSpeed());
+    navigator.setMotorRotateSpeed(robot.getRotateSpeed());
     // rotate till it doesnt see a wall;
 
     while (max > getFilteredData()) {
@@ -55,14 +54,14 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
     catch (InterruptedException e) {
     }
 
-    navigator.setRotateSpeed(-robot.getRotateSpeed());
+    navigator.setMotorRotateSpeed(-robot.getRotateSpeed());
 
     while (min < getFilteredData()) {
     }
     navigator.stop();
     double angleB = odometer.getTheta();
     Sound.beep();
-    navigator.setRotateSpeed(-robot.getRotateSpeed());
+    navigator.setMotorRotateSpeed(-robot.getRotateSpeed());
     // rotate till it doesnt see a wall;
 
     while (max > getFilteredData()) {
@@ -99,7 +98,7 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
 
     // do a ping
     for (int i = 0; i < 6; i++) {
-      us.ping();
+      ultrasonicSensor.ping();
 
       // wait for the ping to complete
       try {
@@ -109,7 +108,7 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
       }
 
       // there will be a delay here
-      distances[i] = us.getDistance();
+      distances[i] = ultrasonicSensor.getDistance();
     }
     sort(distances);
     int distance = distances[3];
@@ -131,11 +130,5 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
         }
       }
     }
-  }
-
-  @Override
-  public void run() {
-    // TODO Auto-generated method stub
-
   }
 }

@@ -17,6 +17,8 @@ Alex      | 03/12 11:30 AM |   3  |     1.5     | Clean up documentation, add do
 Alex      | 03/16 7:00 PM  |   4  |    0.75     | Write up an initial draft of attack strategy
 Alex      | 03/17 3:40 PM  |   4  |     1.5     | Revise and add to the attack strategy
 Alex      | 03/18 12:56 PM |   4  |      3      | Help Hassan with the ObstacleAvoidance (separate branch now), change tests to be 1 class per test
+Alex      | 03/19 2:00 PM  |   4  |     1.5     | Implement the first version of touch avoid + ultrasonic avoid
+Alex      | 03/19 9:04 PM  |   4  |     0.5     | Work on bug fixes in the ObstacleAvoiders, clean up the code and add missing documentation
 
 # Arthur
 # Name    | Time Completed | Week | Hours spent | Task done
@@ -28,7 +30,8 @@ Arthur    | 03/11 11:20 PM |   3  |      7      | Fixed several things in the od
 Arthur    | 03/12 02:36 PM |   3  |     0.5     | Added in the code to support starting corner numbers for localization. Haven't tested them yet.
 Arthur    | 03/12 10:00 PM |   3  |     2.5     | Tested Navigation and made sure localization works for further testing.
 Arthur    | 03/17 01:31 PM |   4  |     0.5     | Brainstorm ideas for odometry correction.
-
+Arthur    | 03/19 08:39 PM |   4  |      5      | Helped Hassan & Alex finish touchAvoid
+Arthur    | 03/19 22:26 PM |   4  |     0.5     | Teach Hassan git
 # Francois
 # Name    | Time Completed | Week | Hours spent | Task done
 Francois  | 02/18 5:11 PM  |   1  |     3.5     | Worked on mechanical design and completed mechanical document
@@ -39,6 +42,9 @@ Francois  | 03/11 12:28 PM |   3  |     3.5     | Change the basket, build ball 
 Francois  | 03/12 15:30 PM |   3  |     3       | Built LDD sketch
 Francois  | 03/15 12:30 PM |   4  |     3.5     | Built the new ball dispenser and modified basket
 Francois  | 03/16  9:30 PM |   4  |     2       | Modified the mechanical design document
+Francois  | 03/18 12:30 PM |   4  |     3.5     | Modified the mechanical design and meeting witn professor
+Francois  | 03/19 11:30 PM |   4  |     2       | Modified the launcher and did basic tests
+
 
 
 # Hassan
@@ -48,11 +54,11 @@ Hassan    | 02/18  2:28 PM |   1  |     6.5     | Worked on the software documen
 Hassan    | 02/25 9:28 PM  |   2  |     4       | Wrote and tested odometer and navigator
 
 Hassan    | 03/11 9:30 PM  |   3  |     6.0     | Fixed several things in the odometer, navigation code
-
 Hassan    | 03/12 9:39 PM  |   3  |     2.5     | Tested Navigation
 
 Hassan    | 03/17 11:53 AM |   4  |     4.5     | Completed testing specifications document + combined all test results into 1 document in order
-
+Hassan    | 03/19 10:27 PM |   4  |     2       | Worked on TouchAvoider && learned how to use git with Arthur
+Hassan    | 03/22 8:40 PM  |   4  |     3       | Implemented the ultrasonicAvoidance algorithm
 
 # Hong Yi
 # Name    | Time Completed | Week | Hours spent | Task done
@@ -85,3 +91,4 @@ Kaichen   | 03/17  5:00 PM |   4  |     1.0     | Dropbox files organization. Up
 # Reading Week entries: REMEMBER IT'S WEEK 7
 # Name    | Time Completed | Week | Hours spent | Task done
 Alex      | 03/11 11:24 AM |   7  |      2      | Group meeting, git tutorial, software architecture discussion
+Francois  | 03/04  2:00 PM |   7  |      3      | Group meeting, mechanical design discussion

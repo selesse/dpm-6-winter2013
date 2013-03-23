@@ -1,8 +1,10 @@
 package ca.mcgill.dpm.winter2013.group6.localization;
 
 /**
- * @author arthurkam
- *
+ * Localization interface responsible for determining where we are.
+ * 
+ * @author Alex Selesse, Arthur Kam
+ * 
  */
 public interface Localizer extends Runnable {
 

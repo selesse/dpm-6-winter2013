@@ -1,5 +1,6 @@
 package ca.mcgill.dpm.winter2013.group6.navigator;
 
+import lejos.nxt.NXTRegulatedMotor;
 import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
 
 /**
@@ -21,6 +22,14 @@ public interface Navigator extends Runnable {
    *          The y-coordinate we're going to.
    */
   void travelTo(double x, double y);
+
+  /**
+   * Makes the robot walk {@code distance} centimeters.
+   *
+   * @param distance
+   *          The <b>signed</b> distance in which the robot should be traveling.
+   */
+  void travelStraight(double distance);
 
   /**
    * Turn the robot by "theta" degrees.
@@ -49,7 +58,7 @@ public interface Navigator extends Runnable {
    * @param rotateSpeed
    *          The speed you want the robot rotate at.
    */
-  void setRotateSpeed(int rotateSpeed);
+  void setMotorRotateSpeed(int rotateSpeed);
 
   /**
    * Set the coordinates that we want to travel to.
@@ -58,5 +67,27 @@ public interface Navigator extends Runnable {
    *          An array of coordinates where we're traveling to.
    */
   void setCoordinates(Coordinate[] coordinates);
+
+  /**
+   * Get the left motor of the robot.
+   *
+   * @return
+   */
+  NXTRegulatedMotor getLeftMotor();
+
+  /**
+   * Get the right motor of the robot.
+   *
+   * @return
+   */
+  NXTRegulatedMotor getRightMotor();
+
+  /**
+   * Make the robot face an absolute angle.
+   *
+   * @param theta
+   *          The absolute angle for which the robot will face.
+   */
+  void face(double theta);
 
 }

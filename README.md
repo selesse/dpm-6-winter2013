@@ -73,9 +73,10 @@ between implementations. For an example, look at BallLauncherTest.
         if (buttonChoice == Button.ID.LEFT) {
           // initialize the attacker, taking advantage of polymorphism
           RobotAttacker attacker = new RobotAttackerTest( /*constructor*/ );
+          Thread attackerThread = new Thread(attacker);
 
           // start the thread
-          attacker.run();
+          attackerThread.start();
         }
       }
     }

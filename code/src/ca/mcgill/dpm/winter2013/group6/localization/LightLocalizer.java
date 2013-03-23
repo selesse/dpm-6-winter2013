@@ -6,22 +6,20 @@ import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
 public class LightLocalizer extends AbstractLocalizer {
-  private LightSensor ls;
-  private static int threshold = 50;
+  private LightSensor lightSensor;
   private int sensorAverage = 0;
-  private static final double LIGHT_SENSOR_DISTANCE = 11.6;
-  public static int ROTATION_SPEED = 60;
-  public static int FORWARD_SPEED = 60;
+  private final int THRESHOLD = 50;
+  private final double LIGHT_SENSOR_DISTANCE = 11.6;
 
   public LightLocalizer(Odometer odometer, Navigator navigator, LightSensor lightSensor, int corner) {
     super(odometer, navigator, corner);
-    this.ls = lightSensor;
+    this.lightSensor = lightSensor;
   }
 
   @Override
   public void localize() {
     odometer.setPosition(new double[] { 0, 0, 0 }, new boolean[] { true, true, true });
-    ls.setFloodlight(true);
+    lightSensor.setFloodlight(true);
 
     int lineCounter = 0;
 
@@ -36,7 +34,7 @@ public class LightLocalizer extends AbstractLocalizer {
     // Rotate and clock the 4 grid lines
     calibrateSensorAverage();
 
-    navigator.setRotateSpeed(-robot.getRotateSpeed());
+    navigator.setMotorRotateSpeed(-robot.getRotateSpeed());
 
     // Detect the four lines
     while (lineCounter < 4) {
@@ -81,8 +79,7 @@ public class LightLocalizer extends AbstractLocalizer {
       newY += 10 * 30.48;
     }
     odometer.setPosition(new double[] { newX, newY, newTheta }, new boolean[] { true, true, true });
-    ls.setFloodlight(false);
-
+    lightSensor.setFloodlight(false);
   }
 
   // calibrates the sensor average using the current conditions
@@ -90,7 +87,7 @@ public class LightLocalizer extends AbstractLocalizer {
     int senValue = 0;
     // collects the average of a 5 samples
     for (int i = 0; i < 5; i++) {
-      senValue += ls.readNormalizedValue();
+      senValue += lightSensor.readNormalizedValue();
     }
     senValue = senValue / 5;
     this.sensorAverage = senValue;
@@ -99,13 +96,6 @@ public class LightLocalizer extends AbstractLocalizer {
 
   // Helper method to detect the black line
   private boolean blackLineDetected() {
-    return (ls.readNormalizedValue() < sensorAverage - threshold);
+    return (lightSensor.readNormalizedValue() < sensorAverage - THRESHOLD);
   }
-
-  @Override
-  public void run() {
-    // TODO Auto-generated method stub
-
-  }
-
 }
