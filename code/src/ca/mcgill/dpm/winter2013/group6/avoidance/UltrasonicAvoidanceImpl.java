@@ -7,13 +7,13 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 /**
  * Ultrasonic obstacle avoider. Our current hardware version of the robot has an
  * ultrasonic sensor that will allow it to detect obstacles in front of it.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
   protected UltrasonicSensor ultrasonicSensor;
-  private final int THRESHOLD_DISTANCE = 40;
+  private final int THRESHOLD_DISTANCE = 20;
 
   public UltrasonicAvoidanceImpl(Odometer odometer, Navigator navigator,
       UltrasonicSensor ultrasonicSensor) {
@@ -28,15 +28,27 @@ public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
       navigator.stop();
       avoidTheObstacle();
       this.isAvoiding = false;
+
     }
   }
 
   private void avoidTheObstacle() {
-    // TODO: figure out how to actually avoid an obstacle intelligently
+
+    // Sound.beep();
+    boolean isCloserToLeft = odometer.getX() > navigator.getXCoordinate();
+
+    // turn left
+    double turningAngle = 70;
+    if (!isCloserToLeft) {
+      turningAngle = -70;
+    }
+    navigator.turnTo(turningAngle);
+    navigator.travelStraight(30);
+
   }
 
   private boolean thereIsAnObstacleInFrontOfUs() {
-    return (ultrasonicSensor.getDistance() - THRESHOLD_DISTANCE) < 0;
+    return (ultrasonicSensor.getDistance() - THRESHOLD_DISTANCE < 0);
   }
 
 }
