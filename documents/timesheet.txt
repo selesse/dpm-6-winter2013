@@ -61,6 +61,8 @@ Hassan    | 03/17 11:53 AM |   4  |     4.5     | Completed testing specificatio
 
 Hassan    | 03/19 10:27 PM |   4  |     2       | Worked on TouchAvoider && learned how to use git with Arthur
 
+Hassan    | 03/22 8:40 PM  |   4  |     3       | Implemented the ultrasonicAvoidance algorithm
+
 # Hong Yi
 # Name    | Time Completed | Week | Hours spent | Task done
 Hong Yi   | 02/18 12:00 PM |   1  |     4       | Work on mechanical document
