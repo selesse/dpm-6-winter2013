@@ -2,41 +2,46 @@ package ca.mcgill.dpm.winter2013.group6.odometer;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
-import lejos.util.Timer;
-import lejos.util.TimerListener;
+import lejos.nxt.Sound;
 
-public class OdometerCorrection implements TimerListener {
+public class OdometerCorrection implements Runnable {
   private Odometer odometer;
   private LightSensor lightSensor;
-  private static int threshold = 50;
+  private static final int THRESHOLD = 50;
   private int sensorAverage = 0;
   private static final double LIGHT_SENSOR_DISTANCE = 11.6;
-  private Timer timer;
+  private boolean isRunning;
   private static final int PERIOD = 25;
 
   public OdometerCorrection(Odometer odometer, LightSensor lightSensor) {
     this.odometer = odometer;
     this.lightSensor = lightSensor;
-    this.timer = new Timer(PERIOD, this);
 
   }
 
   @Override
-  public void timedOut() {
-    // if they have the same speed == moving straight, going forward
-    if (Motor.A.getRotationSpeed() == Motor.B.getRotationSpeed() && getQuadrantRobotIsFacing() > 0
-        && Motor.A.getRotationSpeed() > 0) {
-      if (isCloserToXAxis()) {
-
-      }
-      else {
-
+  public void run() {
+    isRunning = true;
+    while (isRunning) {
+      // if they have the same speed == moving straight, going forward
+      if (blackLineDetected() && Motor.A.getRotationSpeed() == Motor.B.getRotationSpeed()
+          && getQuadrantRobotIsFacing() > 0 && Motor.A.getRotationSpeed() > 0) {
+        Sound.beep();
+        boolean closerToXAxis = (isCloserToXAxis());
+        double closestGridLine = getClosestGridLine(closerToXAxis);
+        if (closerToXAxis) {
+          odometer.setX(closestGridLine);
+        }
+        else {
+          odometer.setY(closestGridLine);
+        }
       }
     }
   }
 
   /**
-   * This function will determine which axis it is approaching
+   * This function will determine which axis it is approaching. Takes into
+   * consideration of the current heading of the robot
    * 
    * @return true if x is closer, else y
    */
@@ -49,7 +54,7 @@ public class OdometerCorrection implements TimerListener {
     if (y > 30.48 / 2) {
       y -= 30.48;
     }
-    double theta = odometer.getTheta();
+    double theta = Math.toRadians(odometer.getTheta());
     double speed = Motor.A.getRotationSpeed();
     // 2 * Math.PI * 2.71 * speed / 360 = cm/s
     double xComp = Math.cos(theta) * 2 * Math.PI * 2.71 * speed / 360;
@@ -65,9 +70,15 @@ public class OdometerCorrection implements TimerListener {
 
   }
 
+  /**
+   * 
+   * @param axis
+   *          The axis you would like to get
+   * @return Returns the closest grid line using the given axis
+   */
   public double getClosestGridLine(boolean axis) {
     double location = axis ? odometer.getX() : odometer.getY();
-    double degree = odometer.getTheta();
+    double degree = Math.toRadians(odometer.getTheta());
     // x-axis
     if (axis) {
       location = location - LIGHT_SENSOR_DISTANCE * Math.cos(degree);
@@ -107,11 +118,15 @@ public class OdometerCorrection implements TimerListener {
   }
 
   public void start() {
-    this.timer.start();
+    this.isRunning = true;
   }
 
   public void stop() {
-    this.timer.stop();
+    this.isRunning = false;
+  }
+
+  private boolean blackLineDetected() {
+    return (lightSensor.readNormalizedValue() < sensorAverage - THRESHOLD);
   }
 
 }
