@@ -8,8 +8,8 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 public class UltrasonicLocalizer extends AbstractLocalizer {
   private UltrasonicSensor ultrasonicSensor;
 
-  public UltrasonicLocalizer(Odometer odometer, Navigator navigator, UltrasonicSensor ultrasonicSensor,
-      int corner) {
+  public UltrasonicLocalizer(Odometer odometer, Navigator navigator,
+      UltrasonicSensor ultrasonicSensor, int corner) {
     super(odometer, navigator, corner);
     this.ultrasonicSensor = ultrasonicSensor;
   }
@@ -17,7 +17,7 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
   @Override
   public void localize() {
     int min = 20;
-    int max = 24;
+    int max = 30;
     navigator.setMotorRotateSpeed(robot.getRotateSpeed());
 
     // rotate until it doesn't see a wall
@@ -34,7 +34,7 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
     // collect angle A from the odomter
     Sound.beep();
     double angleA = odometer.getTheta();
-
+    navigator.turnTo(90);
     try {
       Thread.sleep(500);
     }

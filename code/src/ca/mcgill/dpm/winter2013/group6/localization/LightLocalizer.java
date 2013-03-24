@@ -67,16 +67,18 @@ public class LightLocalizer extends AbstractLocalizer {
     }
     else if (corner == 2) {
       newTheta -= 90;
-      newX += 10 * 30.48;
+      newY = -newX;
+      newX += 10 * 30.48 - newY;
     }
     else if (corner == 3) {
       newTheta -= 180;
-      newX += 10 * 30.48;
-      newY += 10 * 30.48;
+      newX += 10 * 30.48 - newX;
+      newY += 10 * 30.48 - newY;
     }
     else {
       newTheta += 90;
-      newY += 10 * 30.48;
+      newY += 10 * 30.48 - newX;
+      newX = newY;
     }
     odometer.setPosition(new double[] { newX, newY, newTheta }, new boolean[] { true, true, true });
     lightSensor.setFloodlight(false);
