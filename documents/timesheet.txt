@@ -21,6 +21,7 @@ Alex      | 03/19 2:00 PM  |   4  |     1.5     | Implement the first version of
 Alex      | 03/19 9:04 PM  |   4  |     0.5     | Work on bug fixes in the ObstacleAvoiders, clean up the code and add missing documentation
 
 Alex      | 03/24 2:04 PM  |   5  |      4      | Set up bluetooth, integrate all components together
+Alex      | 03/24 4:00 PM  |   5  |     0.5     | Tweak code to be demo-friendly
 
 # Arthur
 # Name    | Time Completed | Week | Hours spent | Task done
@@ -28,15 +29,19 @@ Arthur    | 02/18 8:01 PM  |   1  |      6      | Work on the software document
 
 Arthur    | 02/18 2:40 PM  |   2  |     4.5     | Wrote most of the testing specs
 Arthur    | 02/26 5:11 PM  |   2  |     1.5     | Created a basic layout for the testing document with introduction. Also edited BallLauncher.java for testing
+
 Arthur    | 03/11 11:20 PM |   3  |      7      | Fixed several things in the odometer, navigation and USlocalization code.
 Arthur    | 03/12 02:36 PM |   3  |     0.5     | Added in the code to support starting corner numbers for localization. Haven't tested them yet.
 Arthur    | 03/12 10:00 PM |   3  |     2.5     | Tested Navigation and made sure localization works for further testing.
+
 Arthur    | 03/17 01:31 PM |   4  |     0.5     | Brainstorm ideas for odometry correction.
 Arthur    | 03/19 08:39 PM |   4  |      5      | Helped Hassan & Alex finish TouchAvoidance
 Arthur    | 03/19 10:26 PM |   4  |     0.5     | Teach Hassan git
+
 Arthur    | 03/22 10:11 PM |   5  |      2      | More on odometer correction
 Arthur    | 03/23 06:19 PM |   5  |      2      | Added more functions to odometerCorrection
 Arthur    | 03/23 11:29 PM |   5  |      1      | Helped HongYi to improve the accuracy for the odometry correction
+
 # Francois
 # Name    | Time Completed | Week | Hours spent | Task done
 Francois  | 02/18 5:11 PM  |   1  |     3.5     | Worked on mechanical design and completed mechanical document
@@ -49,11 +54,8 @@ Francois  | 03/15 12:30 PM |   4  |     3.5     | Built the new ball dispenser a
 Francois  | 03/16  9:30 PM |   4  |     2       | Modified the mechanical design document
 Francois  | 03/18 12:30 PM |   4  |     3.5     | Modified the mechanical design and meeting witn professor
 Francois  | 03/19 11:30 AM |   4  |     2       | Modified the launcher and did basic tests
-Francois  | 03/20 11:30 AM |   5  |     2       | Modified the launcher to adapt the modification done by therest of the team.
+Francois  | 03/20 11:30 AM |   5  |     2       | Modified the launcher to adapt the modification done by the rest of the team.
 Francois  | 03/23  8:30 PM |   5  |     1       | Modified the hardware document to reflect the modifications done during the week
-
-
-
 
 # Hassan
 # Name    | Time Completed | Week | Hours spent | Task done
@@ -74,8 +76,10 @@ Hong Yi   | 02/18 12:00 PM |   1  |     4       | Work on mechanical document
 
 Hong Yi   | 02/26 15:00 PM |   2  |     1.5     | Complete test document
 Hong Yi   | 03/07 1:00 AM  |   2  |     4       | Testing and adjusting the localization methods
+
 Hong Yi   | 03/15 3:00 PM  |   3  |     8       | Test on Odometer and Localization.Resolve the problems in localization
 Hong Yi   | 03/16 5:00 PM  |   3  |     3.5     | Work on test doc of odometer and localiztaion
+
 Hong Yi   | 03/23 0:00 AM  |   4  |     2.5     | Test on launcher and launcher doc
 Hong Yi   | 03/23 8:00 PM  |   4  |     4       | Test on obstacle avoidance and localization for latest hardware design
 Hong Yi   | 03/24 11:00 AM |   4  |     3.5     | Work on test docs
@@ -86,20 +90,24 @@ Kaichen   | 02/18 9:00 AM  |   1  |     0.5     | Group meeting
 Kaichen   | 02/20 9:00 PM  |   1  |     1.0     | Administrative tasks and pulling team contact information
 Kaichen   | 02/24 3:00 PM  |   1  |     2.0     | Added major tasks + milestone dates + resources to Gantt chart
 Kaichen   | 02/24 6:00 PM  |   1  |     3.0     | Split up documents for software and hardware teams. Put together and published documents
+
 Kaichen   | 02/24 11:00 PM |   2  |     1.0     | Prepared powerpoint and presentation material
 Kaichen   | 02/25 9:30 AM  |   2  |     0.5     | Group meeting
-Kaichen   | 02/29 10:00 PM |   2  |     3.5     | Took pictures of robot. Wrote and completed Mechanical design document 
+Kaichen   | 02/29 10:00 PM |   2  |     3.5     | Took pictures of robot. Wrote and completed Mechanical design document
+
 Kaichen   | 03/09 11:00 PM |   3  |     1.0     | Prepared powerpoint and presentation material
 Kaichen   | 03/10 9:30 AM  |   3  |     0.5     | Group meeting
 Kaichen   | 03/14 9:00 PM  |   3  |     2.0     | Tested launcher mechanism in DPM lab. Noted results and observations
 Kaichen   | 03/15 11:00 PM |   3  |     3.0     | Organized documents, PowerPoint + tested launcher mechanism
-Kaichen   | 03/16  9:00 PM |   3  |     3.0     | Modified launch mechanism + Ran tests and obtained video footage for launcher
+Kaichen   | 03/16  9:00 PM |   3  |     3.0     | Modified launch mechanism + ran tests and obtained video footage for launcher
+
 Kaichen   | 03/17  1:00 PM |   4  |     1.0     | Gantt chart updated with tasks completion. PowerPoint.
 Kaichen   | 03/17  5:00 PM |   4  |     1.0     | Dropbox files organization. Update 3 Main documents. Presentation
 Kaichen   | 03/17  9:30 AM |   4  |     0.5     | Group meeting
 Kaichen   | 03/18 11:00 AM |   4  |     0.5     | Group meeting
 Kaichen   | 03/19 10:00 PM |   4  |     4.0     | Tested launching mechanism. Updated Mechanical design for Ball launcher
 Kaichen   | 03/22 11:30 PM |   4  |     4.0     | Tested and improved ball launcher. Tried new ball feeding mechanism. Test footage + pictures.
+
 Kaichen   | 03/23 11:30 PM |   5  |     1.5     | Task distribution. Gantt Chart update. Document and weekly update preparation
 
 

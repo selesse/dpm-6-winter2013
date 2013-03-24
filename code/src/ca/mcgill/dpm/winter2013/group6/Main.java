@@ -103,15 +103,18 @@ public class Main {
       Transmission transmission = bluetooth.getTransmission();
 
       if (transmission.role == PlayerRole.ATTACKER) {
-        // go to the ball dispenser coordinates
-        navigator
-            .setCoordinates(new Coordinate[] { new Coordinate(transmission.bx, transmission.by) });
+        // go to the ball dispenser coordinates, then go to the goal coordinates
+        // TODO: modify the second set of coordinates because we're not going
+        // right next to the goal
+        navigator.setCoordinates(new Coordinate[] {
+            new Coordinate(transmission.bx, transmission.by),
+            new Coordinate(transmission.w1, transmission.w2) });
         BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, transmission.d1);
         Thread ballLauncherThread = new Thread(ballLauncher);
         touchAvoidanceThread.start();
         ultrasonicAvoidanceThread.start();
 
-        // start the navigation thread, once we're done navigating, throw the
+        // start the navigation thread; once we're done navigating, throw the
         // ball
         navigatorThread.start();
         try {
