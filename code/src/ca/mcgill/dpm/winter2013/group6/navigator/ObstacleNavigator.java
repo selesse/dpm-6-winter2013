@@ -73,6 +73,9 @@ public class ObstacleNavigator extends NoObstacleNavigator {
   }
 
   public ObstacleAvoider getObstacleAvoider() {
+    if (obstacleAvoiders == null) { 
+        return null;
+    }
     for (ObstacleAvoider avoider : obstacleAvoiders) {
       if (avoider.isAvoiding()) {
         return avoider;
