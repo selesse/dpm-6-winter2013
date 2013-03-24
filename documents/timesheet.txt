@@ -46,7 +46,10 @@ Francois  | 03/12 15:30 PM |   3  |     3       | Built LDD sketch
 Francois  | 03/15 12:30 PM |   4  |     3.5     | Built the new ball dispenser and modified basket
 Francois  | 03/16  9:30 PM |   4  |     2       | Modified the mechanical design document
 Francois  | 03/18 12:30 PM |   4  |     3.5     | Modified the mechanical design and meeting witn professor
-Francois  | 03/19 11:30 PM |   4  |     2       | Modified the launcher and did basic tests
+Francois  | 03/19 11:30 AM |   4  |     2       | Modified the launcher and did basic tests
+Francois  | 03/20 11:30 AM |   5  |     2       | Modified the launcher to adapt the modification done by therest of the team.
+Francois  | 03/23  8:30 PM |   5  |     1       | Modified the hardware document to reflect the modifications done during the week
+
 
 
 
