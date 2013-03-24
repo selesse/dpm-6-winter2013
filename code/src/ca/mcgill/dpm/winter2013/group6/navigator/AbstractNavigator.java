@@ -1,7 +1,6 @@
 package ca.mcgill.dpm.winter2013.group6.navigator;
 
 import lejos.nxt.NXTRegulatedMotor;
-import lejos.nxt.Sound;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
@@ -9,9 +8,9 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
 /**
  * Abstract implementation of the Navigator class, providing functionality that
  * both {@link NoObstacleNavigator} and {@link ObstacleNavigator} will inherit.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public abstract class AbstractNavigator implements Navigator {
   protected Odometer odometer;
@@ -87,7 +86,7 @@ public abstract class AbstractNavigator implements Navigator {
   /**
    * Get the turning angle given an (x, y) coordinate. Takes care of finding the
    * shortest angle to turn to.
-   *
+   * 
    * @param desiredX
    *          The x-coordinate you want to go to.
    * @param desiredY
@@ -128,7 +127,7 @@ public abstract class AbstractNavigator implements Navigator {
 
   @Override
   public void turnTo(double theta) {
-    Sound.beep();
+    // Sound.beep();
     theta = getOptimalAngle(theta);
     leftMotor.setSpeed(robot.getRotateSpeed());
     rightMotor.setSpeed(robot.getRotateSpeed());
@@ -189,6 +188,15 @@ public abstract class AbstractNavigator implements Navigator {
   @Override
   public void setCoordinates(Coordinate[] waypoint) {
     this.waypoints = waypoint;
+  }
+
+  @Override
+  public double getXCoordinate() {
+    if (this.waypoints != null) {
+      return waypoints[0].getX();
+    }
+    return 0;
+
   }
 
   @Override
