@@ -101,6 +101,7 @@ Kaichen   | 03/18 11:00 AM |   4  |     0.5     | Group meeting
 Kaichen   | 03/19 10:00 PM |   4  |     4.0     | Tested launching mechanism. Updated Mechanical design for Ball launcher
 Kaichen   | 03/22 11:30 PM |   4  |     4.0     | Tested and improved ball launcher. Tried new ball feeding mechanism. Test footage + pictures.
 Kaichen   | 03/23 11:30 PM |   5  |     1.5     | Task distribution. Gantt Chart update. Document and weekly update preparation
+Kaichen   | 03/24  2:50 PM |   5  |     2.0     | Gantt Chart update. Test documents update. Document and weekly update preparation	
 
 
 # Reading Week entries: REMEMBER IT'S WEEK 7
