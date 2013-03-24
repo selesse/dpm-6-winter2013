@@ -34,7 +34,7 @@ Arthur    | 03/19 08:39 PM |   4  |      5      | Helped Hassan & Alex finish To
 Arthur    | 03/19 10:26 PM |   4  |     0.5     | Teach Hassan git
 Arthur    | 03/22 10:11 PM |   5  |      2      | More on odometer correction
 Arthur    | 03/23 06:19 PM |   5  |      2      | Added more functions to odometerCorrection
-
+Arthur    | 03/23 11:29 PM |   5  |      1      | Helped HongYi to improve the accuracy for the odometry correction
 # Francois
 # Name    | Time Completed | Week | Hours spent | Task done
 Francois  | 02/18 5:11 PM  |   1  |     3.5     | Worked on mechanical design and completed mechanical document
@@ -74,7 +74,8 @@ Hong Yi   | 02/26 15:00 PM |   2  |     1.5     | Complete test document
 Hong Yi   | 03/07 1:00 AM  |   2  |     4       | Testing and adjusting the localization methods
 Hong Yi   | 03/15 3:00 PM  |   3  |     8       | Test on Odometer and Localization.Resolve the problems in localization
 Hong Yi   | 03/16 5:00 PM  |   3  |     3.5     | Work on test doc of odometer and localiztaion
-
+Hong Yi   | 03/23 0:00 AM  |   4  |     2.5     | Test on launcher and launcher doc
+Hong Yi   | 03/23 8:00 PM  |   4  |     4       | Test on obstacle avoidance and localization for latest hardware design
 
 # Kaichen
 # Name    | Time Completed | Week | Hours spent | Task done
