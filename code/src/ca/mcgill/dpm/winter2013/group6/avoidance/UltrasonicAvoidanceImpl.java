@@ -13,7 +13,7 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
  */
 public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
   protected UltrasonicSensor ultrasonicSensor;
-  private final int THRESHOLD_DISTANCE = 45;
+  private final int THRESHOLD_DISTANCE = 20;
 
   public UltrasonicAvoidanceImpl(Odometer odometer, Navigator navigator,
       UltrasonicSensor ultrasonicSensor) {
@@ -28,11 +28,23 @@ public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
       navigator.stop();
       avoidTheObstacle();
       this.isAvoiding = false;
+
     }
   }
 
   private void avoidTheObstacle() {
-    // TODO: figure out how to actually avoid an obstacle intelligently
+
+    // Sound.beep();
+    boolean isCloserToLeft = odometer.getX() > navigator.getXCoordinate();
+
+    // turn left
+    double turningAngle = 70;
+    if (!isCloserToLeft) {
+      turningAngle = -70;
+    }
+    navigator.turnTo(turningAngle);
+    navigator.travelStraight(30);
+
   }
 
   private boolean thereIsAnObstacleInFrontOfUs() {

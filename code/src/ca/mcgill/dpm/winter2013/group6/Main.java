@@ -1,5 +1,8 @@
 package ca.mcgill.dpm.winter2013.group6;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
@@ -11,6 +14,7 @@ import lejos.nxt.UltrasonicSensor;
 import lejos.util.Timer;
 import ca.mcgill.dpm.winter2013.group6.avoidance.ObstacleAvoider;
 import ca.mcgill.dpm.winter2013.group6.avoidance.TouchAvoidanceImpl;
+import ca.mcgill.dpm.winter2013.group6.avoidance.UltrasonicAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
 import ca.mcgill.dpm.winter2013.group6.navigator.ObstacleNavigator;
@@ -22,9 +26,9 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
 /**
  * Entrypoint to the application. Will start the robot to be either attacker or
  * defender.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public class Main {
   public static void main(String[] args) {
@@ -48,7 +52,7 @@ public class Main {
       LCD.drawString("       |        ", 0, 2);
       LCD.drawString("       |        ", 0, 3);
 
-      buttonChoice = Button.waitForPress();
+      buttonChoice = Button.waitForAnyPress();
     }
     while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT
         && buttonChoice != Button.ID_ESCAPE);
@@ -68,25 +72,29 @@ public class Main {
       Motor.B.flt(false);
     }
     else if (buttonChoice == Button.ID_RIGHT) {
-      Navigator navigator = new ObstacleNavigator(odometer, leftMotor, rightMotor,
+      ObstacleNavigator navigator = new ObstacleNavigator(odometer, leftMotor, rightMotor,
           ultrasonicSensor, leftTouchSensor, rightTouchSensor);
-      navigator.setCoordinates(new Coordinate[] { new Coordinate(30, 30), new Coordinate(0, 30) });
+      navigator.setCoordinates(new Coordinate[] { new Coordinate(0, 90) });
 
       ObstacleAvoider touchAvoidance = new TouchAvoidanceImpl(odometer, navigator, leftTouchSensor,
           rightTouchSensor);
       ObstacleAvoider ultrasonicAvoidance = new UltrasonicAvoidanceImpl(odometer, navigator,
           ultrasonicSensor);
-
+      List<ObstacleAvoider> avoiderList = new ArrayList<ObstacleAvoider>();
+      avoiderList.add(touchAvoidance);
+      avoiderList.add(ultrasonicAvoidance);
+      navigator.setAvoiderList(avoiderList);
       Thread touchThread = new Thread(touchAvoidance);
-      // Thread ultrasonicSensorThread = new Thread(ultrasonicAvoidance);
+      Thread ultrasonicSensorThread = new Thread(ultrasonicAvoidance);
       Thread navigatorThread = new Thread(navigator);
 
       touchThread.start();
-      // ultrasonicSensorThread.start();
+      ultrasonicSensorThread.start();
       navigatorThread.start();
 
       touchThread.run();
       navigatorThread.run();
+      ultrasonicSensorThread.run();
     }
     else if (buttonChoice != Button.ID_ESCAPE) {
       BallLauncher launcher = new BallLauncherImpl(ballThrowingMotor, 10.0);
@@ -96,7 +104,7 @@ public class Main {
       System.exit(0);
     }
 
-    while (Button.waitForPress() != Button.ID_ESCAPE) {
+    while (Button.waitForAnyPress() != Button.ID_ESCAPE) {
       ;
     }
   }
