@@ -27,6 +27,7 @@ public enum StartCorner {
     this.name = name;
   }
 
+  @Override
   public String toString() {
     return this.name;
   }
@@ -48,9 +49,11 @@ public enum StartCorner {
   }
 
   public static StartCorner lookupCorner(int cornerId) {
-    for (StartCorner corner : StartCorner.values())
-      if (corner.id == cornerId)
+    for (StartCorner corner : StartCorner.values()) {
+      if (corner.id == cornerId) {
         return corner;
+      }
+    }
     return NULL;
   }
 }

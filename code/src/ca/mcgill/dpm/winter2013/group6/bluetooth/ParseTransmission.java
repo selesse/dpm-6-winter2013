@@ -20,8 +20,9 @@ public class ParseTransmission {
     Transmission trans = null;
     try {
 
-      while (dis.available() <= 0)
+      while (dis.available() <= 0) {
         Thread.sleep(10); // spin waiting for data
+      }
 
       trans = new Transmission();
       trans.role = PlayerRole.lookupRole(dis.readInt());

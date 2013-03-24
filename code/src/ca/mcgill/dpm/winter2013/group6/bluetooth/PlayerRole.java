@@ -20,6 +20,7 @@ public enum PlayerRole {
     this.str = str;
   }
 
+  @Override
   public String toString() {
     return this.str;
   }
@@ -32,9 +33,11 @@ public enum PlayerRole {
   }
 
   public static PlayerRole lookupRole(int rl) {
-    for (PlayerRole role : PlayerRole.values())
-      if (role.getId() == rl)
+    for (PlayerRole role : PlayerRole.values()) {
+      if (role.getId() == rl) {
         return role;
+      }
+    }
     return PlayerRole.NULL;
   }
 }
