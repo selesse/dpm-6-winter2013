@@ -34,10 +34,12 @@ Arthur    | 03/11 11:20 PM |   3  |      7      | Fixed several things in the od
 Arthur    | 03/12 02:36 PM |   3  |     0.5     | Added in the code to support starting corner numbers for localization. Haven't tested them yet.
 Arthur    | 03/12 10:00 PM |   3  |     2.5     | Tested Navigation and made sure localization works for further testing.
 
+Arthur    | 03/15 09:00 PM |   4  |     3.5     | Helped HongYi to reduce the chances of localization failing
 Arthur    | 03/17 01:31 PM |   4  |     0.5     | Brainstorm ideas for odometry correction.
 Arthur    | 03/19 08:39 PM |   4  |      5      | Helped Hassan & Alex finish TouchAvoidance
 Arthur    | 03/19 10:26 PM |   4  |     0.5     | Teach Hassan git
 
+Arthur    | 03/22 05:45 PM |   5  |     0.5     | Refresher course for Hassasn on git
 Arthur    | 03/22 10:11 PM |   5  |      2      | More on odometer correction
 Arthur    | 03/23 06:19 PM |   5  |      2      | Added more functions to odometerCorrection
 Arthur    | 03/23 11:29 PM |   5  |      1      | Helped HongYi to improve the accuracy for the odometry correction
@@ -109,6 +111,7 @@ Kaichen   | 03/19 10:00 PM |   4  |     4.0     | Tested launching mechanism. Up
 Kaichen   | 03/22 11:30 PM |   4  |     4.0     | Tested and improved ball launcher. Tried new ball feeding mechanism. Test footage + pictures.
 
 Kaichen   | 03/23 11:30 PM |   5  |     1.5     | Task distribution. Gantt Chart update. Document and weekly update preparation
+Kaichen   | 03/24  2:50 PM |   5  |     2.0     | Gantt Chart update. Test documents update. Document and weekly update preparation	
 
 
 # Reading Week entries: REMEMBER IT'S WEEK 7
