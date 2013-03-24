@@ -13,17 +13,17 @@ import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.NXTConnection;
 
 /**
- * This class inits a bluetooth connection, waits for the data and then allows
- * access to the data after closing the BT channel.
- *
+ * This class initializes a Bluetooth connection, waits for the data and then
+ * allows access to the data after closing the BT channel.
+ * 
  * It should be used by calling the constructor which will automatically wait
  * for data without any further user command
- *
+ * 
  * Then, once completed, it will allow access to an instance of the Transmission
  * class which has access to all of the data needed
  */
 public class BluetoothConnection {
-  private Transmission trans;
+  private Transmission transmission;
 
   public BluetoothConnection() {
     LCD.clear();
@@ -32,7 +32,7 @@ public class BluetoothConnection {
     NXTConnection conn = Bluetooth.waitForConnection();
     DataInputStream dis = conn.openDataInputStream();
     LCD.drawString("Opened DIS", 0, 1);
-    this.trans = ParseTransmission.parse(dis);
+    this.transmission = ParseTransmission.parse(dis);
     LCD.drawString("Finished Parsing", 0, 2);
     try {
       dis.close();
@@ -44,18 +44,23 @@ public class BluetoothConnection {
   }
 
   public Transmission getTransmission() {
-    return this.trans;
+    return this.transmission;
   }
 
   public void printTransmission() {
     try {
       LCD.clear();
       LCD.drawString(("Transmitted Values"), 0, 0);
-      LCD.drawString("Goal X: " + trans.goalX, 0, 1);
-      LCD.drawString("Goal Y: " + trans.goalY, 0, 2);
+      LCD.drawString("Start: " + transmission.startingCorner.toString(), 0, 1);
+      LCD.drawString("Role: " + transmission.role.toString(), 0, 2);
+      LCD.drawString("bx: " + transmission.bx, 0, 3);
+      LCD.drawString("by: " + transmission.by, 0, 4);
+      LCD.drawString("w1: " + transmission.w1, 0, 5);
+      LCD.drawString("w2: " + transmission.w2, 0, 6);
+      LCD.drawString("d1: " + transmission.d1, 0, 7);
     }
     catch (NullPointerException e) {
-      LCD.drawString("Bad Trans", 0, 7);
+      LCD.drawString("Bad Trans", 0, 8);
     }
   }
 

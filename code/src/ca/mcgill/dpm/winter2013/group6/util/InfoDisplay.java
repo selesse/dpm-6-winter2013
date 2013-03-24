@@ -3,16 +3,15 @@ package ca.mcgill.dpm.winter2013.group6.util;
 import lejos.nxt.LCD;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
-import lejos.util.TimerListener;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
 /**
  * InfoDisplay class that takes care of displaying some debugging information on
  * the NXT LCD screen.
- *
+ * 
  * @author Arthur Kam
  */
-public class InfoDisplay implements TimerListener {
+public class InfoDisplay implements Runnable {
   private Odometer odometer;
   private UltrasonicSensor ultrasonicSensor;
   private TouchSensor leftTouchSensor;
@@ -20,7 +19,7 @@ public class InfoDisplay implements TimerListener {
 
   /**
    * Initialize the InfoDisplay with the objects you want to keep track of.
-   *
+   * 
    * @param odometer
    *          The odometer - display the (X, Y, theta).
    * @param ultrasonicSensor
@@ -39,7 +38,7 @@ public class InfoDisplay implements TimerListener {
   }
 
   @Override
-  public void timedOut() {
+  public void run() {
     LCD.clear();
     LCD.drawString("X: ", 0, 0);
     LCD.drawString("Y: ", 0, 1);

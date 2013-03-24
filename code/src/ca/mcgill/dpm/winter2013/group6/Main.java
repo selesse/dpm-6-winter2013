@@ -5,18 +5,20 @@ import java.util.List;
 
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
-import lejos.nxt.Motor;
 import lejos.nxt.MotorPort;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
-import lejos.util.Timer;
 import ca.mcgill.dpm.winter2013.group6.avoidance.ObstacleAvoider;
 import ca.mcgill.dpm.winter2013.group6.avoidance.TouchAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.avoidance.UltrasonicAvoidanceImpl;
+import ca.mcgill.dpm.winter2013.group6.bluetooth.Bluetooth;
+import ca.mcgill.dpm.winter2013.group6.bluetooth.PlayerRole;
+import ca.mcgill.dpm.winter2013.group6.bluetooth.Transmission;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
+import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.navigator.ObstacleNavigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
@@ -47,64 +49,84 @@ public class Main {
       // clear the display
       LCD.clear();
 
-      LCD.drawString("< Left | Right >", 0, 0);
+      LCD.drawString("< Test | Demo  >", 0, 0);
       LCD.drawString("  Mode | Mode   ", 0, 1);
       LCD.drawString("       |        ", 0, 2);
       LCD.drawString("       |        ", 0, 3);
 
-      buttonChoice = Button.waitForAnyPress();
+      buttonChoice = Button.waitForPress();
     }
     while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT
         && buttonChoice != Button.ID_ESCAPE);
 
-    // start the odometer
+    // initialize all the constructors for all the components
     Odometer odometer = new Odometer(patBot);
-    InfoDisplay display = new InfoDisplay(odometer, new UltrasonicSensor(SensorPort.S1),
-        new TouchSensor(SensorPort.S3), new TouchSensor(SensorPort.S4));
-    Timer displayTimer = new Timer(25, display);
+    InfoDisplay infoDisplay = new InfoDisplay(odometer, ultrasonicSensor, leftTouchSensor,
+        rightTouchSensor);
+    Navigator navigator = new ObstacleNavigator(odometer, leftMotor, rightMotor, ultrasonicSensor,
+        leftTouchSensor, rightTouchSensor);
+    Bluetooth bluetooth = new Bluetooth();
+    ObstacleAvoider touchAvoidance = new TouchAvoidanceImpl(odometer, navigator, leftTouchSensor,
+        rightTouchSensor);
+    ObstacleAvoider ultrasonicAvoidance = new UltrasonicAvoidanceImpl(odometer, navigator,
+        ultrasonicSensor);
 
+    // extra things you need to set up here
+    List<ObstacleAvoider> obstacleAvoiders = new ArrayList<ObstacleAvoider>();
+    obstacleAvoiders.add(touchAvoidance);
+    obstacleAvoiders.add(ultrasonicAvoidance);
+
+    // initialize all the threads for every component
     Thread odometerThread = new Thread(odometer);
-    odometerThread.start();
-    displayTimer.start();
+    Thread infoDisplayThread = new Thread(infoDisplay);
+    Thread navigatorThread = new Thread(navigator);
+    Thread bluetoothThread = new Thread(bluetooth);
+    Thread touchAvoidanceThread = new Thread(touchAvoidance);
+    Thread ultrasonicAvoidanceThread = new Thread(ultrasonicAvoidance);
 
     if (buttonChoice == Button.ID_LEFT) {
-      Motor.A.flt(true);
-      Motor.B.flt(false);
+      // test any component you want here
     }
     else if (buttonChoice == Button.ID_RIGHT) {
-      ObstacleNavigator navigator = new ObstacleNavigator(odometer, leftMotor, rightMotor,
-          ultrasonicSensor, leftTouchSensor, rightTouchSensor);
-      navigator.setCoordinates(new Coordinate[] { new Coordinate(0, 90) });
+      odometerThread.start();
+      infoDisplayThread.start();
+      bluetoothThread.start();
 
-      ObstacleAvoider touchAvoidance = new TouchAvoidanceImpl(odometer, navigator, leftTouchSensor,
-          rightTouchSensor);
-      ObstacleAvoider ultrasonicAvoidance = new UltrasonicAvoidanceImpl(odometer, navigator,
-          ultrasonicSensor);
-      List<ObstacleAvoider> avoiderList = new ArrayList<ObstacleAvoider>();
-      avoiderList.add(touchAvoidance);
-      avoiderList.add(ultrasonicAvoidance);
-      navigator.setAvoiderList(avoiderList);
-      Thread touchThread = new Thread(touchAvoidance);
-      Thread ultrasonicSensorThread = new Thread(ultrasonicAvoidance);
-      Thread navigatorThread = new Thread(navigator);
+      // wait until the bluetooth thread finishes before continuing
+      try {
+        bluetoothThread.join();
+      }
+      catch (InterruptedException e) {
 
-      touchThread.start();
-      ultrasonicSensorThread.start();
-      navigatorThread.start();
+      }
 
-      touchThread.run();
-      navigatorThread.run();
-      ultrasonicSensorThread.run();
+      Transmission transmission = bluetooth.getTransmission();
+
+      if (transmission.role == PlayerRole.ATTACKER) {
+        // go to the ball dispenser coordinates
+        navigator
+            .setCoordinates(new Coordinate[] { new Coordinate(transmission.bx, transmission.by) });
+        BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, transmission.d1);
+        Thread ballLauncherThread = new Thread(ballLauncher);
+        touchAvoidanceThread.start();
+        ultrasonicAvoidanceThread.start();
+
+        // start the navigation thread, once we're done navigating, throw the
+        // ball
+        navigatorThread.start();
+        try {
+          navigatorThread.join();
+        }
+        catch (InterruptedException e) {
+        }
+        ballLauncherThread.start();
+      }
+      else if (transmission.role == PlayerRole.DEFENDER) {
+        // TODO defense
+      }
     }
-    else if (buttonChoice != Button.ID_ESCAPE) {
-      BallLauncher launcher = new BallLauncherImpl(ballThrowingMotor, 10.0);
-      new Thread(launcher).start();
-    }
-    else {
-      System.exit(0);
-    }
 
-    while (Button.waitForAnyPress() != Button.ID_ESCAPE) {
+    while (Button.waitForPress() != Button.ID_ESCAPE) {
       ;
     }
   }

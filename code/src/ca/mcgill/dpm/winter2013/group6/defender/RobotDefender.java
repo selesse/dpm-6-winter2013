@@ -5,9 +5,9 @@ import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 /**
  * Defender version of the robot. Extension of the {@link Navigator} class as it
  * may move around.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public interface RobotDefender extends Navigator {
   /**

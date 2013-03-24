@@ -20,6 +20,8 @@ Alex      | 03/18 12:56 PM |   4  |      3      | Help Hassan with the ObstacleA
 Alex      | 03/19 2:00 PM  |   4  |     1.5     | Implement the first version of touch avoid + ultrasonic avoid
 Alex      | 03/19 9:04 PM  |   4  |     0.5     | Work on bug fixes in the ObstacleAvoiders, clean up the code and add missing documentation
 
+Alex      | 03/24 2:04 PM  |   5  |      4      | Set up bluetooth, integrate all components together
+
 # Arthur
 # Name    | Time Completed | Week | Hours spent | Task done
 Arthur    | 02/18 8:01 PM  |   1  |      6      | Work on the software document

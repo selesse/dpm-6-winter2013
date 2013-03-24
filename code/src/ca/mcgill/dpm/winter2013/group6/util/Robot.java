@@ -6,9 +6,9 @@ import lejos.nxt.NXTRegulatedMotor;
  * Robot class, representing the physical manifestation of our robot. Contains
  * characteristics such as wheel radius, width between wheels, and current
  * displacement and heading information.
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public class Robot {
 
@@ -19,7 +19,7 @@ public class Robot {
 
   /**
    * Base constructor of robot specifying its wheel and width values.
-   *
+   * 
    * @param leftWheelRadius
    *          The radius of the left wheel.
    * @param rightWheelRadius
@@ -38,7 +38,7 @@ public class Robot {
 
   /**
    * Return the radius (in cm) of the left wheel of the robot.
-   *
+   * 
    * @return The radius of the left wheel (in cm).
    */
   public double getLeftWheelRadius() {
@@ -47,7 +47,7 @@ public class Robot {
 
   /**
    * Return the radius (in cm) of the right wheel of the robot.
-   *
+   * 
    * @return The radius of the right wheel (in cm).
    */
   public double getRightWheelRadius() {
@@ -57,7 +57,7 @@ public class Robot {
   /**
    * Get the width (i.e. distance from the left wheel to the right wheel) of the
    * robot.
-   *
+   * 
    * @return The distance from the left wheel to the right wheel.
    */
   public double getWidth() {
@@ -66,7 +66,7 @@ public class Robot {
 
   /**
    * Set the displacement and the heading to the dDH parameter.
-   *
+   * 
    * @param dDH
    *          An array that will be modified with the values corresponding to
    *          the displacement and the heading.
@@ -82,7 +82,7 @@ public class Robot {
 
   /**
    * Return the speed the wheels of the {@link Robot} should rotate at.
-   *
+   * 
    * @return The speed the wheels of the robot should rotate at.
    */
   public int getRotateSpeed() {
@@ -91,7 +91,7 @@ public class Robot {
 
   /**
    * Return the speed the wheels of the {@link Robot} should move forward at.
-   *
+   * 
    * @return The speed the wheels of the robot should move forward at.
    */
   public int getForwardSpeed() {

@@ -1,5 +1,6 @@
 package ca.mcgill.dpm.winter2013.group6.navigator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lejos.nxt.NXTRegulatedMotor;
@@ -22,12 +23,13 @@ public class ObstacleNavigator extends NoObstacleNavigator {
   protected List<ObstacleAvoider> obstacleAvoiders;
 
   public ObstacleNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,
-      NXTRegulatedMotor rightMotor, UltrasonicSensor uSensor, TouchSensor leftSensor,
-      TouchSensor rightSensor) {
+      NXTRegulatedMotor rightMotor, UltrasonicSensor ultrasonicSensor, TouchSensor leftTouchSensor,
+      TouchSensor rightTouchSensor) {
     super(odometer, leftMotor, rightMotor);
-    this.ultrasonicSensor = uSensor;
-    this.leftTouchSensor = leftSensor;
-    this.rightTouchSensor = rightSensor;
+    this.ultrasonicSensor = ultrasonicSensor;
+    this.leftTouchSensor = leftTouchSensor;
+    this.rightTouchSensor = rightTouchSensor;
+    this.obstacleAvoiders = new ArrayList<ObstacleAvoider>();
   }
 
   @Override
@@ -40,8 +42,8 @@ public class ObstacleNavigator extends NoObstacleNavigator {
     // Keep running until we're within an acceptable threshold.
     while (((x - odometer.getX() > THRESHOLD || x - odometer.getX() < -THRESHOLD))
         || ((y - odometer.getY() > THRESHOLD || y - odometer.getY() < -THRESHOLD))) {
-      if (getObstacleAvoider() != null) {
-        ObstacleAvoider avoider = getObstacleAvoider();
+      ObstacleAvoider avoider = getObstacleAvoider();
+      if (avoider != null) {
         stop();
         while (avoider.isAvoiding()) {
           try {
@@ -56,7 +58,6 @@ public class ObstacleNavigator extends NoObstacleNavigator {
         turningAngle = getTurningAngle(x, y);
         turnTo(turningAngle);
       }
-
       else {
         leftMotor.setSpeed(robot.getForwardSpeed());
         rightMotor.setSpeed(robot.getForwardSpeed());
@@ -73,8 +74,8 @@ public class ObstacleNavigator extends NoObstacleNavigator {
   }
 
   public ObstacleAvoider getObstacleAvoider() {
-    if (obstacleAvoiders == null) { 
-        return null;
+    if (obstacleAvoiders == null) {
+      return null;
     }
     for (ObstacleAvoider avoider : obstacleAvoiders) {
       if (avoider.isAvoiding()) {

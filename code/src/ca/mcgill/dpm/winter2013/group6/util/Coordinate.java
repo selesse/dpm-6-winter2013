@@ -3,9 +3,9 @@ package ca.mcgill.dpm.winter2013.group6.util;
 /**
  * Coordinate helper class for 2 dimensional coordinates, essentially a
  * representation of (x, y).
- *
+ * 
  * @author Alex Selesse
- *
+ * 
  */
 public class Coordinate {
   private double x;
@@ -13,7 +13,7 @@ public class Coordinate {
 
   /**
    * Create a new set of coordinates (x, y).
-   *
+   * 
    * @param x
    *          X-coordinate
    * @param y
@@ -26,7 +26,7 @@ public class Coordinate {
 
   /**
    * Return the x value of the coordinate.
-   *
+   * 
    * @return The x-coordinate.
    */
   public double getX() {
@@ -35,7 +35,7 @@ public class Coordinate {
 
   /**
    * Return the y value of the coordinate.
-   *
+   * 
    * @return The y-coordinate.
    */
   public double getY() {
