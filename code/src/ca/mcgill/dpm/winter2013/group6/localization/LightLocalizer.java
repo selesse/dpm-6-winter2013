@@ -7,7 +7,7 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
 public class LightLocalizer extends AbstractLocalizer {
   private LightSensor ls;
-  private static int threshold = 50;
+  private static int threshold = 55;
   private int sensorAverage = 0;
   private static final double LIGHT_SENSOR_DISTANCE = 11.6;
   public static int ROTATION_SPEED = 60;
