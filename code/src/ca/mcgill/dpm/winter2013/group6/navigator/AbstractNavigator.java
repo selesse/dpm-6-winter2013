@@ -61,7 +61,7 @@ public abstract class AbstractNavigator implements Navigator {
 
     while (Math.abs(x - odometer.getX()) > THRESHOLD || Math.abs(y - odometer.getY()) > THRESHOLD) {
 
-      if (lastUpdate + PERIOD > System.currentTimeMillis()) {
+      if (lastUpdate + PERIOD > System.currentTimeMillis() && Math.abs(getTurningAngle(x, y)) > 2) {
         turningAngle = getTurningAngle(x, y);
         turnTo(turningAngle);
         lastUpdate = System.currentTimeMillis();
