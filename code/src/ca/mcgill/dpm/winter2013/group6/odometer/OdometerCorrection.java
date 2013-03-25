@@ -71,10 +71,12 @@ public class OdometerCorrection implements Runnable {
   }
 
   /**
+   * The function gets the closest gridline in terms of displacement from the
+   * robot
    * 
    * @param axis
    *          The axis you would like to get
-   * @return Returns the closest grid line using the given axis
+   * @return The closest grid line using the given axis
    */
   public double getClosestGridLine(boolean axis) {
     double location = axis ? odometer.getX() : odometer.getY();
