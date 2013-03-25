@@ -45,32 +45,6 @@ public abstract class AbstractNavigator implements Navigator {
   }
 
   @Override
-  public void travelTo(double x, double y) {
-    double turningAngle = getTurningAngle(x, y);
-    turnTo(turningAngle);
-
-    // Travel straight.
-    leftMotor.setSpeed(robot.getForwardSpeed());
-    rightMotor.setSpeed(robot.getForwardSpeed());
-    leftMotor.forward();
-    rightMotor.forward();
-
-    // Keep running until we're within an acceptable threshold, with an adjust
-    // to the angle every period of time
-    long lastUpdate = System.currentTimeMillis();
-
-    while (Math.abs(x - odometer.getX()) > THRESHOLD || Math.abs(y - odometer.getY()) > THRESHOLD) {
-
-      if (lastUpdate + PERIOD > System.currentTimeMillis() && Math.abs(getTurningAngle(x, y)) > 2) {
-        turningAngle = getTurningAngle(x, y);
-        turnTo(turningAngle);
-        lastUpdate = System.currentTimeMillis();
-      }
-    }
-    stop();
-  }
-
-  @Override
   public void travelStraight(double distance) {
     leftMotor.setSpeed(robot.getForwardSpeed());
     rightMotor.setSpeed(robot.getForwardSpeed());
