@@ -75,9 +75,9 @@ public class Main {
         rightTouchSensor);
     ObstacleAvoider ultrasonicAvoidance = new UltrasonicAvoidanceImpl(odometer, navigator,
         ultrasonicSensor);
-    Localizer lightLocalizer = new LightLocalizer(odometer, navigator, lightSensor, 0);
+    Localizer lightLocalizer = new LightLocalizer(odometer, navigator, lightSensor, 1);
     Localizer ultrasonicLocalizer = new UltrasonicLocalizer(odometer, navigator, ultrasonicSensor,
-        0);
+        1);
 
     // extra things you need to set up here
     List<ObstacleAvoider> obstacleAvoiders = new ArrayList<ObstacleAvoider>();
@@ -109,8 +109,10 @@ public class Main {
         lightLocalizerThread.start();
         lightLocalizerThread.join();
 
-        navigator
-            .setCoordinates(new Coordinate[] { new Coordinate(20, 30), new Coordinate(30, 200) });
+        navigator.setCoordinates(new Coordinate[] {
+            new Coordinate(30, 30),
+            new Coordinate(80, 45),
+            new Coordinate(0, 0) });
 
         touchAvoidanceThread.start();
         ultrasonicAvoidanceThread.start();

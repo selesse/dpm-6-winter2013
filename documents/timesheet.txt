@@ -24,6 +24,7 @@ Alex      | 03/24 2:04 PM  |   5  |      4      | Set up bluetooth, integrate al
 Alex      | 03/24 4:00 PM  |   5  |     0.5     | Tweak code to be demo-friendly
 Alex      | 03/25 11:20 AM |   5  |     0.5     | Update Main to localize (integration for demo done, bug fixing left)
 Alex      | 03/25 12:10 PM |   5  |     0.9     | Fix bug with Odometer display, Navigators, etc. Integration testing.
+Alex      | 03/25 4:25 PM  |   5  |     2.0     | Fix more bugs
 
 # Arthur
 # Name    | Time Completed | Week | Hours spent | Task done

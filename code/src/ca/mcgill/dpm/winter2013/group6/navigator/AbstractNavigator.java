@@ -37,8 +37,8 @@ public abstract class AbstractNavigator implements Navigator {
   public void run() {
     isNavigating = true;
     for (Coordinate coordinate : waypoints) {
-      travelTo(coordinate.getX(), coordinate.getY());
       currentCoordinateHeading = coordinate;
+      travelTo(coordinate.getX(), coordinate.getY());
     }
     stop();
     isNavigating = false;

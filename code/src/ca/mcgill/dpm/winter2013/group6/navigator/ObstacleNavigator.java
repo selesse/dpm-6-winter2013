@@ -16,7 +16,7 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
  * @author Alex Selesse
  * 
  */
-public class ObstacleNavigator extends NoObstacleNavigator {
+public class ObstacleNavigator extends AbstractNavigator {
   protected UltrasonicSensor ultrasonicSensor;
   protected TouchSensor leftTouchSensor;
   protected TouchSensor rightTouchSensor;
@@ -63,7 +63,6 @@ public class ObstacleNavigator extends NoObstacleNavigator {
         rightMotor.setSpeed(robot.getForwardSpeed());
         leftMotor.forward();
         rightMotor.forward();
-
       }
     }
     stop();
