@@ -21,6 +21,7 @@ public class ObstacleNavigator extends AbstractNavigator {
   protected TouchSensor leftTouchSensor;
   protected TouchSensor rightTouchSensor;
   protected List<ObstacleAvoider> obstacleAvoiders;
+  protected final static int PERIOD = 1000;
 
   public ObstacleNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,
       NXTRegulatedMotor rightMotor, UltrasonicSensor ultrasonicSensor, TouchSensor leftTouchSensor,
@@ -40,6 +41,7 @@ public class ObstacleNavigator extends AbstractNavigator {
     // Travel straight.
 
     // Keep running until we're within an acceptable threshold.
+    double lastUpdate = System.currentTimeMillis();
     while (((x - odometer.getX() > THRESHOLD || x - odometer.getX() < -THRESHOLD))
         || ((y - odometer.getY() > THRESHOLD || y - odometer.getY() < -THRESHOLD))) {
       ObstacleAvoider avoider = getObstacleAvoider();
@@ -59,6 +61,11 @@ public class ObstacleNavigator extends AbstractNavigator {
         turnTo(turningAngle);
       }
       else {
+        if (lastUpdate + PERIOD > System.currentTimeMillis()) {
+          turningAngle = getTurningAngle(x, y);
+          turnTo(turningAngle);
+          lastUpdate = System.currentTimeMillis();
+        }
         leftMotor.setSpeed(robot.getForwardSpeed());
         rightMotor.setSpeed(robot.getForwardSpeed());
         leftMotor.forward();
