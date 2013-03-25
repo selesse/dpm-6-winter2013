@@ -11,6 +11,19 @@ public class LightLocalizer extends AbstractLocalizer {
   private final int THRESHOLD = 55;
   private final double LIGHT_SENSOR_DISTANCE = 11.6;
 
+  /**
+   * The constructor the light localizer class.
+   * 
+   * @param odometer
+   *          The odometer to read from
+   * @param navigator
+   *          The navigator class for the localizer to use
+   * @param lightSensor
+   *          The light sensor object
+   * @param corner
+   *          The corner number the localizer will be localizing. corners are
+   *          named from 1-4
+   */
   public LightLocalizer(Odometer odometer, Navigator navigator, LightSensor lightSensor, int corner) {
     super(odometer, navigator, corner);
     this.lightSensor = lightSensor;
@@ -84,7 +97,11 @@ public class LightLocalizer extends AbstractLocalizer {
     lightSensor.setFloodlight(false);
   }
 
-  // calibrates the sensor average using the current conditions
+  /**
+   * calibrates the sensor average using the current conditions
+   * 
+   * @return The average value for the light sensor over 5 reads.
+   */
   private int calibrateSensorAverage() {
     int senValue = 0;
     // collects the average of a 5 samples
@@ -96,7 +113,11 @@ public class LightLocalizer extends AbstractLocalizer {
     return senValue;
   }
 
-  // Helper method to detect the black line
+  /**
+   * Helper method to detect the black line
+   * 
+   * @return True if there is a black line detected, else returns a false.
+   */
   private boolean blackLineDetected() {
     return (lightSensor.readNormalizedValue() < sensorAverage - THRESHOLD);
   }
