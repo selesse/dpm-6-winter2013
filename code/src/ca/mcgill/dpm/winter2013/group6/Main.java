@@ -101,6 +101,7 @@ public class Main {
       infoDisplayThread.start();
 
       try {
+
         ultrasonicLocalizerThread.start();
         ultrasonicLocalizerThread.join();
 
@@ -108,13 +109,13 @@ public class Main {
 
         lightLocalizerThread.start();
         lightLocalizerThread.join();
-
         navigator.setCoordinates(new Coordinate[] {
             new Coordinate(30, 30),
             new Coordinate(80, 45),
             new Coordinate(0, 0) });
 
         touchAvoidanceThread.start();
+        ultrasonicSensor.continuous();
         ultrasonicAvoidanceThread.start();
 
         navigatorThread.start();
