@@ -21,7 +21,7 @@ public class ObstacleNavigator extends AbstractNavigator {
   protected TouchSensor leftTouchSensor;
   protected TouchSensor rightTouchSensor;
   protected List<ObstacleAvoider> obstacleAvoiders;
-  protected final static int PERIOD = 1000;
+  protected final static int PERIOD = 5000;
 
   public ObstacleNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,
       NXTRegulatedMotor rightMotor, UltrasonicSensor ultrasonicSensor, TouchSensor leftTouchSensor,
@@ -61,7 +61,7 @@ public class ObstacleNavigator extends AbstractNavigator {
         turnTo(turningAngle);
       }
       else {
-        if (lastUpdate + PERIOD > System.currentTimeMillis()) {
+        if (lastUpdate + PERIOD > System.currentTimeMillis() && Math.abs(getTurningAngle(x, y)) > 2) {
           turningAngle = getTurningAngle(x, y);
           turnTo(turningAngle);
           lastUpdate = System.currentTimeMillis();
