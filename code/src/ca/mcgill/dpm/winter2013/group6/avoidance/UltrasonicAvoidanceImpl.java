@@ -28,23 +28,22 @@ public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
       navigator.stop();
       avoidTheObstacle();
       this.isAvoiding = false;
-
     }
   }
 
   private void avoidTheObstacle() {
-
-    // Sound.beep();
-    boolean isCloserToLeft = odometer.getX() > navigator.getXCoordinate();
+    if (navigator.getCoordinateHeading() == null) {
+      return;
+    }
+    boolean closerToLeft = odometer.getX() > navigator.getCoordinateHeading().getX();
 
     // turn left
     double turningAngle = 70;
-    if (!isCloserToLeft) {
+    if (!closerToLeft) {
       turningAngle = -70;
     }
     navigator.turnTo(turningAngle);
-    navigator.travelStraight(30);
-
+    navigator.travelStraight(45);
   }
 
   private boolean thereIsAnObstacleInFrontOfUs() {

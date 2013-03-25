@@ -23,6 +23,7 @@ Alex      | 03/19 9:04 PM  |   4  |     0.5     | Work on bug fixes in the Obsta
 Alex      | 03/24 2:04 PM  |   5  |      4      | Set up bluetooth, integrate all components together
 Alex      | 03/24 4:00 PM  |   5  |     0.5     | Tweak code to be demo-friendly
 Alex      | 03/25 11:20 AM |   5  |     0.5     | Update Main to localize (integration for demo done, bug fixing left)
+Alex      | 03/25 12:10 PM |   5  |     0.9     | Fix bug with Odometer display, Navigators, etc. Integration testing.
 
 # Arthur
 # Name    | Time Completed | Week | Hours spent | Task done

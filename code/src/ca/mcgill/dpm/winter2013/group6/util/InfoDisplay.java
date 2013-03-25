@@ -39,19 +39,26 @@ public class InfoDisplay implements Runnable {
 
   @Override
   public void run() {
-    LCD.clear();
-    LCD.drawString("X: ", 0, 0);
-    LCD.drawString("Y: ", 0, 1);
-    LCD.drawString("H: ", 0, 2);
-    LCD.drawString(Double.toString(odometer.getX()), 3, 0);
-    LCD.drawString(Double.toString(odometer.getY()), 3, 1);
-    LCD.drawInt((int) odometer.getTheta(), 3, 2);
-    LCD.drawString("US: ", 0, 4);
-    LCD.drawString("TL: ", 0, 5);
-    LCD.drawString("TR: ", 0, 6);
-    LCD.drawInt(ultrasonicSensor.getDistance(), 4, 4);
-    LCD.drawString(leftTouchSensor.isPressed() ? "true" : "false", 4, 5);
-    LCD.drawString(rightTouchSensor.isPressed() ? "true" : "false", 4, 6);
+    while (true) {
+      LCD.clear();
+      LCD.drawString("X: ", 0, 0);
+      LCD.drawString("Y: ", 0, 1);
+      LCD.drawString("H: ", 0, 2);
+      LCD.drawString(Double.toString(odometer.getX()), 3, 0);
+      LCD.drawString(Double.toString(odometer.getY()), 3, 1);
+      LCD.drawInt((int) odometer.getTheta(), 3, 2);
+      LCD.drawString("US: ", 0, 4);
+      LCD.drawString("TL: ", 0, 5);
+      LCD.drawString("TR: ", 0, 6);
+      LCD.drawInt(ultrasonicSensor.getDistance(), 4, 4);
+      LCD.drawString(leftTouchSensor.isPressed() ? "true" : "false", 4, 5);
+      LCD.drawString(rightTouchSensor.isPressed() ? "true" : "false", 4, 6);
+      try {
+        Thread.sleep(25);
+      }
+      catch (InterruptedException e) {
+      }
+    }
   }
 
 }

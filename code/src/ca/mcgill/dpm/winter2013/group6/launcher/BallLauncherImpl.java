@@ -16,9 +16,9 @@ public class BallLauncherImpl extends AbstractBallLauncher {
   @Override
   public void throwBall(double distanceFromTarget) {
     // rotate it 180 degrees, at a high speed and high acceleration
-    int rotateAngle = 180;
-    int rotateSpeed = 12000;
-    int accelerationSpeed = 7000;
+    int rotateAngle = 130;
+    int rotateSpeed = 2000;
+    int accelerationSpeed = 2000;
 
     ballThrowingMotor.setAcceleration(accelerationSpeed);
     ballThrowingMotor.setSpeed(rotateSpeed);

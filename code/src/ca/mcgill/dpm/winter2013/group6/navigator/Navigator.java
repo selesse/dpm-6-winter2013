@@ -41,6 +41,14 @@ public interface Navigator extends Runnable {
   void turnTo(double theta);
 
   /**
+   * Turn the robot so that it faces (x, y).
+   * 
+   * @param x
+   * @param y
+   */
+  void turnTo(double x, double y);
+
+  /**
    * Check whether the robot is currently traveling or rotating
    * 
    * @return True if the robot is traveling or rotating, false otherwise.
@@ -91,10 +99,10 @@ public interface Navigator extends Runnable {
   void face(double theta);
 
   /**
-   * Make x coordinate
+   * Return the current coordinate heading (or null if there is none yet).
    * 
    * @return
    */
-  double getXCoordinate();
+  Coordinate getCoordinateHeading();
 
 }

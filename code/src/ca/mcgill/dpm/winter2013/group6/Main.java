@@ -39,9 +39,9 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
 public class Main {
   public static void main(String[] args) {
     int buttonChoice;
-    NXTRegulatedMotor ballThrowingMotor = new NXTRegulatedMotor(MotorPort.C);
     NXTRegulatedMotor leftMotor = new NXTRegulatedMotor(MotorPort.A);
     NXTRegulatedMotor rightMotor = new NXTRegulatedMotor(MotorPort.B);
+    NXTRegulatedMotor ballThrowingMotor = new NXTRegulatedMotor(MotorPort.C);
 
     UltrasonicSensor ultrasonicSensor = new UltrasonicSensor(SensorPort.S1);
     LightSensor lightSensor = new LightSensor(SensorPort.S2);
@@ -83,6 +83,7 @@ public class Main {
     List<ObstacleAvoider> obstacleAvoiders = new ArrayList<ObstacleAvoider>();
     obstacleAvoiders.add(touchAvoidance);
     obstacleAvoiders.add(ultrasonicAvoidance);
+    ((ObstacleNavigator) navigator).setAvoiderList(obstacleAvoiders);
 
     // initialize all the threads for every component
     Thread odometerThread = new Thread(odometer);
@@ -96,6 +97,37 @@ public class Main {
 
     if (buttonChoice == Button.ID_LEFT) {
       // test any component you want here
+      odometerThread.start();
+      infoDisplayThread.start();
+
+      try {
+        ultrasonicLocalizerThread.start();
+        ultrasonicLocalizerThread.join();
+
+        navigator.travelTo(15, 15);
+
+        lightLocalizerThread.start();
+        lightLocalizerThread.join();
+
+        navigator
+            .setCoordinates(new Coordinate[] { new Coordinate(20, 30), new Coordinate(30, 200) });
+
+        touchAvoidanceThread.start();
+        ultrasonicAvoidanceThread.start();
+
+        navigatorThread.start();
+        navigatorThread.join();
+
+        BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, 30);
+        Thread ballLauncherThread = new Thread(ballLauncher);
+
+        navigator.turnTo(30, 200);
+        ballLauncherThread.start();
+        ballLauncherThread.join();
+      }
+      catch (InterruptedException e) {
+
+      }
     }
     else if (buttonChoice == Button.ID_RIGHT) {
       odometerThread.start();
