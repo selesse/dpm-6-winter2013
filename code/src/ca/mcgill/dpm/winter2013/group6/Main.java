@@ -5,6 +5,7 @@ import java.util.List;
 
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
+import lejos.nxt.LightSensor;
 import lejos.nxt.MotorPort;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
@@ -18,6 +19,9 @@ import ca.mcgill.dpm.winter2013.group6.bluetooth.PlayerRole;
 import ca.mcgill.dpm.winter2013.group6.bluetooth.Transmission;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
+import ca.mcgill.dpm.winter2013.group6.localization.LightLocalizer;
+import ca.mcgill.dpm.winter2013.group6.localization.Localizer;
+import ca.mcgill.dpm.winter2013.group6.localization.UltrasonicLocalizer;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.navigator.ObstacleNavigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
@@ -40,6 +44,7 @@ public class Main {
     NXTRegulatedMotor rightMotor = new NXTRegulatedMotor(MotorPort.B);
 
     UltrasonicSensor ultrasonicSensor = new UltrasonicSensor(SensorPort.S1);
+    LightSensor lightSensor = new LightSensor(SensorPort.S2);
     TouchSensor leftTouchSensor = new TouchSensor(SensorPort.S3);
     TouchSensor rightTouchSensor = new TouchSensor(SensorPort.S4);
 
@@ -70,6 +75,9 @@ public class Main {
         rightTouchSensor);
     ObstacleAvoider ultrasonicAvoidance = new UltrasonicAvoidanceImpl(odometer, navigator,
         ultrasonicSensor);
+    Localizer lightLocalizer = new LightLocalizer(odometer, navigator, lightSensor, 0);
+    Localizer ultrasonicLocalizer = new UltrasonicLocalizer(odometer, navigator, ultrasonicSensor,
+        0);
 
     // extra things you need to set up here
     List<ObstacleAvoider> obstacleAvoiders = new ArrayList<ObstacleAvoider>();
@@ -83,6 +91,8 @@ public class Main {
     Thread bluetoothThread = new Thread(bluetooth);
     Thread touchAvoidanceThread = new Thread(touchAvoidance);
     Thread ultrasonicAvoidanceThread = new Thread(ultrasonicAvoidance);
+    Thread lightLocalizerThread = new Thread(lightLocalizer);
+    Thread ultrasonicLocalizerThread = new Thread(ultrasonicLocalizer);
 
     if (buttonChoice == Button.ID_LEFT) {
       // test any component you want here
@@ -103,14 +113,29 @@ public class Main {
       Transmission transmission = bluetooth.getTransmission();
 
       if (transmission.role == PlayerRole.ATTACKER) {
-        // go to the ball dispenser coordinates, then go to the goal coordinates
-        // TODO: modify the second set of coordinates because we're not going
-        // right next to the goal
-        navigator.setCoordinates(new Coordinate[] {
-            new Coordinate(transmission.bx, transmission.by),
-            new Coordinate(transmission.w1, transmission.w2) });
+
+        navigator.setCoordinates(new Coordinate[] { new Coordinate(transmission.w1,
+            transmission.w2 - 31 * 5) });
         BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, transmission.d1);
         Thread ballLauncherThread = new Thread(ballLauncher);
+
+        ultrasonicLocalizerThread.start();
+        try {
+          ultrasonicLocalizerThread.join();
+        }
+        catch (InterruptedException e) {
+        }
+
+        navigator.travelTo(15, 15);
+
+        lightLocalizerThread.start();
+        try {
+          lightLocalizerThread.join();
+        }
+        catch (InterruptedException e) {
+
+        }
+
         touchAvoidanceThread.start();
         ultrasonicAvoidanceThread.start();
 
@@ -123,6 +148,12 @@ public class Main {
         catch (InterruptedException e) {
         }
         ballLauncherThread.start();
+        try {
+          ballLauncherThread.join();
+        }
+        catch (InterruptedException e) {
+
+        }
       }
       else if (transmission.role == PlayerRole.DEFENDER) {
         // TODO defense
