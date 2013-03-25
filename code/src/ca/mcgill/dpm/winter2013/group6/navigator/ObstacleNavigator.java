@@ -38,8 +38,6 @@ public class ObstacleNavigator extends AbstractNavigator {
     double turningAngle = getTurningAngle(x, y);
     turnTo(turningAngle);
 
-    // Travel straight.
-
     // Keep running until we're within an acceptable threshold.
     double lastUpdate = System.currentTimeMillis();
     while (((x - odometer.getX() > THRESHOLD || x - odometer.getX() < -THRESHOLD))
@@ -52,8 +50,6 @@ public class ObstacleNavigator extends AbstractNavigator {
             Thread.sleep(100);
           }
           catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
           }
         }
         Sound.buzz();

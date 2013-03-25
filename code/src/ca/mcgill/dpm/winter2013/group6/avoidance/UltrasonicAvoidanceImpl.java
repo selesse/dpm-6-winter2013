@@ -1,6 +1,5 @@
 package ca.mcgill.dpm.winter2013.group6.avoidance;
 
-import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
@@ -27,19 +26,18 @@ public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
     if (thereIsAnObstacleInFrontOfUs() && !isAvoiding) {
       this.isAvoiding = true;
       navigator.stop();
-      avoidTheObstacle();
+      moveAwayFromTheObstacle();
       this.isAvoiding = false;
     }
   }
 
-  private void avoidTheObstacle() {
-    if (navigator.getCoordinateHeading() == null) {
+  private void moveAwayFromTheObstacle() {
+    // if we don't have a current heading, don't do anything
+    if (navigator.getCurrentHeading() == null) {
       return;
     }
-    Sound.playNote(Sound.PIANO, 20, 250);
-    boolean closerToLeft = odometer.getX() > navigator.getCoordinateHeading().getX();
+    boolean closerToLeft = odometer.getX() > navigator.getCurrentHeading().getX();
 
-    // turn left
     double turningAngle = 70;
     if (!closerToLeft) {
       turningAngle = -70;

@@ -198,7 +198,7 @@ public abstract class AbstractNavigator implements Navigator {
   }
 
   @Override
-  public Coordinate getCoordinateHeading() {
+  public Coordinate getCurrentHeading() {
     return currentCoordinateHeading;
   }
 

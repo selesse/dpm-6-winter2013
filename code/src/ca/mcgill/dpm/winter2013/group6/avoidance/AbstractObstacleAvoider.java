@@ -30,8 +30,8 @@ public abstract class AbstractObstacleAvoider implements ObstacleAvoider {
   }
 
   @Override
-  public void setRunning(boolean avoiding) {
-    this.isRunning = avoiding;
+  public void setRunning(boolean running) {
+    this.isRunning = running;
   }
 
   @Override

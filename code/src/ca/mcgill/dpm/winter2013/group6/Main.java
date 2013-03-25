@@ -39,10 +39,12 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
 public class Main {
   public static void main(String[] args) {
     int buttonChoice;
+    // initialize all the motors (left wheel, right wheel, ball thrower)
     NXTRegulatedMotor leftMotor = new NXTRegulatedMotor(MotorPort.A);
     NXTRegulatedMotor rightMotor = new NXTRegulatedMotor(MotorPort.B);
     NXTRegulatedMotor ballThrowingMotor = new NXTRegulatedMotor(MotorPort.C);
 
+    // initialize all the sensors
     UltrasonicSensor ultrasonicSensor = new UltrasonicSensor(SensorPort.S1);
     LightSensor lightSensor = new LightSensor(SensorPort.S2);
     TouchSensor leftTouchSensor = new TouchSensor(SensorPort.S3);
@@ -50,8 +52,8 @@ public class Main {
 
     Robot patBot = new Robot(2.71, 2.71, 16.2, leftMotor, rightMotor);
 
+    // wait for user input
     do {
-      // clear the display
       LCD.clear();
 
       LCD.drawString("< Test | Demo  >", 0, 0);
@@ -64,7 +66,7 @@ public class Main {
     while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT
         && buttonChoice != Button.ID_ESCAPE);
 
-    // initialize all the constructors for all the components
+    // initialize all the components
     Odometer odometer = new Odometer(patBot);
     InfoDisplay infoDisplay = new InfoDisplay(odometer, ultrasonicSensor, leftTouchSensor,
         rightTouchSensor);
@@ -79,12 +81,6 @@ public class Main {
     Localizer ultrasonicLocalizer = new UltrasonicLocalizer(odometer, navigator, ultrasonicSensor,
         1);
 
-    // extra things you need to set up here
-    List<ObstacleAvoider> obstacleAvoiders = new ArrayList<ObstacleAvoider>();
-    obstacleAvoiders.add(touchAvoidance);
-    obstacleAvoiders.add(ultrasonicAvoidance);
-    ((ObstacleNavigator) navigator).setAvoiderList(obstacleAvoiders);
-
     // initialize all the threads for every component
     Thread odometerThread = new Thread(odometer);
     Thread infoDisplayThread = new Thread(infoDisplay);
@@ -95,18 +91,28 @@ public class Main {
     Thread lightLocalizerThread = new Thread(lightLocalizer);
     Thread ultrasonicLocalizerThread = new Thread(ultrasonicLocalizer);
 
+    // additional things to set up
+    List<ObstacleAvoider> obstacleAvoiders = new ArrayList<ObstacleAvoider>();
+    obstacleAvoiders.add(touchAvoidance);
+    obstacleAvoiders.add(ultrasonicAvoidance);
+    // set the list of ObstacleAvoider objects
+    ((ObstacleNavigator) navigator).setAvoiderList(obstacleAvoiders);
+    // set the ultrasonic sensor to be continuous rather than pinging
+    ultrasonicSensor.continuous();
+
     if (buttonChoice == Button.ID_LEFT) {
-      // test any component you want here
       odometerThread.start();
       infoDisplayThread.start();
 
       try {
-
+        // start and finish ultrasonic localization
         ultrasonicLocalizerThread.start();
         ultrasonicLocalizerThread.join();
 
+        // travel to (15, 15)
         navigator.travelTo(15, 15);
 
+        // start and finish light localization
         lightLocalizerThread.start();
         lightLocalizerThread.join();
         navigator.setCoordinates(new Coordinate[] {
@@ -115,7 +121,6 @@ public class Main {
             new Coordinate(0, 0) });
 
         touchAvoidanceThread.start();
-        ultrasonicSensor.continuous();
         ultrasonicAvoidanceThread.start();
 
         navigatorThread.start();
@@ -129,7 +134,6 @@ public class Main {
         ballLauncherThread.join();
       }
       catch (InterruptedException e) {
-
       }
     }
     else if (buttonChoice == Button.ID_RIGHT) {
@@ -154,34 +158,43 @@ public class Main {
         BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, transmission.d1);
         Thread ballLauncherThread = new Thread(ballLauncher);
 
+        // start and finish ultrasonic localization
         ultrasonicLocalizerThread.start();
         try {
           ultrasonicLocalizerThread.join();
         }
         catch (InterruptedException e) {
+          // don't do anything - this thread is not expected to be interrupted
         }
 
+        // travel to (15, 15)
         navigator.travelTo(15, 15);
 
+        // start and finish light localization
         lightLocalizerThread.start();
         try {
           lightLocalizerThread.join();
         }
         catch (InterruptedException e) {
-
+          // don't do anything - this thread is not expected to be interrupted
         }
 
+        // start the touch avoidance and the ultrasonic avoidance threads
         touchAvoidanceThread.start();
         ultrasonicAvoidanceThread.start();
 
-        // start the navigation thread; once we're done navigating, throw the
-        // ball
+        // start the navigation thread
         navigatorThread.start();
         try {
           navigatorThread.join();
         }
         catch (InterruptedException e) {
+          // don't do anything - this thread is not expected to be interrupted
         }
+
+        // TODO face the goal
+
+        // start the ball launching thread, wait for it to finish
         ballLauncherThread.start();
         try {
           ballLauncherThread.join();

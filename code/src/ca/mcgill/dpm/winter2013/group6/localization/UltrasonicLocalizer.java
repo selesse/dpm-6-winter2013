@@ -5,6 +5,13 @@ import lejos.nxt.UltrasonicSensor;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
+/**
+ * A {@link Localizer} implementation that uses an {@link UltrasonicSensor} for
+ * performing its localization.
+ * 
+ * @author Alex Selesse
+ * 
+ */
 public class UltrasonicLocalizer extends AbstractLocalizer {
   private UltrasonicSensor ultrasonicSensor;
 
