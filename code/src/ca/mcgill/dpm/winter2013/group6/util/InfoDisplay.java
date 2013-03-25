@@ -39,8 +39,8 @@ public class InfoDisplay implements Runnable {
 
   @Override
   public void run() {
+    LCD.clear();
     while (true) {
-      LCD.clear();
       LCD.drawString("X: ", 0, 0);
       LCD.drawString("Y: ", 0, 1);
       LCD.drawString("H: ", 0, 2);

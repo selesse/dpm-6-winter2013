@@ -21,7 +21,7 @@ public abstract class AbstractNavigator implements Navigator {
   protected Coordinate[] waypoints;
   private Coordinate currentCoordinateHeading;
   protected final double THRESHOLD = 2;
-  private final int PERIOD = 2000;
+  private final long PERIOD = 2000;
 
   public AbstractNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,
       NXTRegulatedMotor rightMotor) {
@@ -57,7 +57,7 @@ public abstract class AbstractNavigator implements Navigator {
 
     // Keep running until we're within an acceptable threshold, with an adjust
     // to the angle every period of time
-    double lastUpdate = System.currentTimeMillis();
+    long lastUpdate = System.currentTimeMillis();
 
     while (Math.abs(x - odometer.getX()) > THRESHOLD || Math.abs(y - odometer.getY()) > THRESHOLD) {
 
