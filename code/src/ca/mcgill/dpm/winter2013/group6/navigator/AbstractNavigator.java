@@ -19,6 +19,7 @@ public abstract class AbstractNavigator implements Navigator {
   protected NXTRegulatedMotor leftMotor;
   protected NXTRegulatedMotor rightMotor;
   protected Coordinate[] waypoints;
+  private Coordinate currentCoordinateHeading;
   protected final double THRESHOLD = 2;
   private final int PERIOD = 2000;
 
@@ -29,6 +30,7 @@ public abstract class AbstractNavigator implements Navigator {
     this.rightMotor = rightMotor;
     this.isNavigating = false;
     this.robot = odometer.getRobot();
+    this.currentCoordinateHeading = null;
   }
 
   @Override
@@ -36,6 +38,7 @@ public abstract class AbstractNavigator implements Navigator {
     isNavigating = true;
     for (Coordinate coordinate : waypoints) {
       travelTo(coordinate.getX(), coordinate.getY());
+      currentCoordinateHeading = coordinate;
     }
     stop();
     isNavigating = false;
@@ -127,12 +130,16 @@ public abstract class AbstractNavigator implements Navigator {
 
   @Override
   public void turnTo(double theta) {
-    // Sound.beep();
     theta = getOptimalAngle(theta);
     leftMotor.setSpeed(robot.getRotateSpeed());
     rightMotor.setSpeed(robot.getRotateSpeed());
     leftMotor.rotate(convertAngle(robot, theta), true);
     rightMotor.rotate(-convertAngle(robot, theta), false);
+  }
+
+  @Override
+  public void turnTo(double x, double y) {
+    turnTo(getTurningAngle(x, y));
   }
 
   @Override
@@ -191,12 +198,8 @@ public abstract class AbstractNavigator implements Navigator {
   }
 
   @Override
-  public double getXCoordinate() {
-    if (this.waypoints != null) {
-      return waypoints[0].getX();
-    }
-    return 0;
-
+  public Coordinate getCoordinateHeading() {
+    return currentCoordinateHeading;
   }
 
   @Override
