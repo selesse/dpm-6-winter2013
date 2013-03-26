@@ -31,6 +31,14 @@ public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
     }
   }
 
+  @Override
+  public void run() {
+    // set the ultrasonic sensor to be continuous rather than pinging
+    ultrasonicSensor.continuous();
+    super.run();
+
+  }
+
   private void moveAwayFromTheObstacle() {
     // if we don't have a current heading, don't do anything
     if (navigator.getCurrentHeading() == null) {
