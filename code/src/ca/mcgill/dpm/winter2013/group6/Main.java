@@ -174,6 +174,7 @@ public class Main {
         // don't do anything - this thread is not expected to be interrupted
       }
 
+      ultrasonicSensor.continuous();
       // start the touch avoidance and the ultrasonic avoidance threads
       touchAvoidanceThread.start();
       ultrasonicAvoidanceThread.start();

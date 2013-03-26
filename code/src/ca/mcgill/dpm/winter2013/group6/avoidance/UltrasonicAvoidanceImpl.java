@@ -36,7 +36,6 @@ public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
     // set the ultrasonic sensor to be continuous rather than pinging
     ultrasonicSensor.continuous();
     super.run();
-
   }
 
   private void moveAwayFromTheObstacle() {
