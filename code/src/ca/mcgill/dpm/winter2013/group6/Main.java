@@ -97,8 +97,6 @@ public class Main {
     obstacleAvoiders.add(ultrasonicAvoidance);
     // set the list of ObstacleAvoider objects
     ((ObstacleNavigator) navigator).setAvoiderList(obstacleAvoiders);
-    // set the ultrasonic sensor to be continuous rather than pinging
-    ultrasonicSensor.continuous();
 
     if (buttonChoice == Button.ID_LEFT) {
       odometerThread.start();
@@ -115,6 +113,7 @@ public class Main {
         // start and finish light localization
         lightLocalizerThread.start();
         lightLocalizerThread.join();
+
         navigator.setCoordinates(new Coordinate[] {
             new Coordinate(30, 30),
             new Coordinate(80, 45),
