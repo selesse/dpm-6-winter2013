@@ -57,7 +57,8 @@ public class ObstacleNavigator extends AbstractNavigator {
         turnTo(turningAngle);
       }
       else {
-        if (lastUpdate + PERIOD > System.currentTimeMillis() && Math.abs(getTurningAngle(x, y)) > 2) {
+        if (Math.abs(getTurningAngle(x, y)) > 5) {
+          stop();
           turningAngle = getTurningAngle(x, y);
           turnTo(turningAngle);
           lastUpdate = System.currentTimeMillis();

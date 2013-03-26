@@ -198,6 +198,7 @@ public class Main {
       catch (InterruptedException e) {
 
       }
+      navigator.travelTo(0, 0);
     }
 
     while (Button.waitForPress() != Button.ID_ESCAPE) {
