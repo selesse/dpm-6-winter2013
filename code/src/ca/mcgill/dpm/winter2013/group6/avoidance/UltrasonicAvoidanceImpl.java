@@ -45,10 +45,11 @@ public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
     }
     boolean closerToLeft = odometer.getX() > navigator.getCurrentHeading().getX();
 
-    double turningAngle = 70;
+    double turningAngle = -70;
     if (!closerToLeft) {
-      turningAngle = -70;
+      turningAngle = 70;
     }
+    navigator.travelStraight(-10);
     navigator.turnTo(turningAngle);
     navigator.travelStraight(38);
   }

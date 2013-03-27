@@ -9,6 +9,7 @@ import lejos.nxt.LightSensor;
 import lejos.nxt.MotorPort;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
+import lejos.nxt.Sound;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
 import ca.mcgill.dpm.winter2013.group6.avoidance.ObstacleAvoider;
@@ -49,7 +50,7 @@ public class Main {
     TouchSensor leftTouchSensor = new TouchSensor(SensorPort.S3);
     TouchSensor rightTouchSensor = new TouchSensor(SensorPort.S4);
 
-    Robot patBot = new Robot(2.71, 2.71, 16.2, leftMotor, rightMotor);
+    Robot patBot = new Robot(2.71, 2.71, 15.5, leftMotor, rightMotor);
 
     // wait for user input
     do {
@@ -108,28 +109,26 @@ public class Main {
 
         // travel to (15, 15)
         navigator.travelTo(15, 15);
-
+        ;
         // start and finish light localization
         lightLocalizerThread.start();
         lightLocalizerThread.join();
 
-        navigator.setCoordinates(new Coordinate[] {
-            new Coordinate(30, 30),
-            new Coordinate(80, 45),
-            new Coordinate(0, 0) });
-
+        navigator.setCoordinates(new Coordinate[] { new Coordinate((int) (3.0 * 30.5),
+            (int) (30.5 * 5.0)) });
         touchAvoidanceThread.start();
         ultrasonicAvoidanceThread.start();
 
         navigatorThread.start();
         navigatorThread.join();
 
-        BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, 30);
-        Thread ballLauncherThread = new Thread(ballLauncher);
+        // BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor,
+        // 30);
+        // Thread ballLauncherThread = new Thread(ballLauncher);
 
-        navigator.turnTo(30, 200);
-        ballLauncherThread.start();
-        ballLauncherThread.join();
+        // navigator.turnTo(31, 200);
+        // ballLauncherThread.start();
+        // ballLauncherThread.join();
       }
       catch (InterruptedException e) {
       }
@@ -187,7 +186,7 @@ public class Main {
       catch (InterruptedException e) {
         // don't do anything - this thread is not expected to be interrupted
       }
-
+      Sound.beep();
       navigator.turnTo(transmission.getGoalX(), transmission.getGoalY());
 
       // start the ball launching thread, wait for it to finish
@@ -198,6 +197,7 @@ public class Main {
       catch (InterruptedException e) {
 
       }
+      // go back to origin
       navigator.travelTo(0, 0);
     }
 

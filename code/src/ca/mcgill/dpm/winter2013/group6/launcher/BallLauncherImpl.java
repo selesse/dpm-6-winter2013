@@ -19,7 +19,7 @@ public class BallLauncherImpl extends AbstractBallLauncher {
     for (int i = 0; i < 5; i++) {
       super.run();
       try {
-        Thread.sleep(3450);
+        Thread.sleep(5000);
       }
       catch (InterruptedException e) {
         // TODO Auto-generated catch block
