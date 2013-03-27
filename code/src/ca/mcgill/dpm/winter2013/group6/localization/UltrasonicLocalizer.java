@@ -28,7 +28,7 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
     navigator.setMotorRotateSpeed(robot.getRotateSpeed());
 
     // rotate until it doesn't see a wall
-    while (max > getFilteredData()) {
+    while (100 > getFilteredData()) {
     }
     navigator.stop();
     // rotate the robot until it sees a wall
