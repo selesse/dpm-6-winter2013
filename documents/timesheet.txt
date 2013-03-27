@@ -27,6 +27,7 @@ Alex      | 03/25 12:10 PM |   5  |     0.9     | Fix bug with Odometer display,
 Alex      | 03/25 4:25 PM  |   5  |     2.0     | Fix more bugs
 Alex      | 03/25 7:42 PM  |   5  |     0.5     | Update documentation, clarify code and add comments where deemed necessary.
 Alex      | 03/25 1:24 PM  |   5  |      2      | Run full test on robot, fixing demo bugs when applicable
+Alex      | 03/27 4:21 PM  |   5  |      1      | Demo day: final bug fixup
 
 # Arthur
 # Name    | Time Completed | Week | Hours spent | Task done
