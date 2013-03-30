@@ -101,6 +101,9 @@ Hong Yi   | 03/16 5:00 PM  |   3  |     3.5     | Work on test doc of odometer a
 Hong Yi   | 03/23 0:00 AM  |   4  |     2.5     | Test on launcher and launcher doc
 Hong Yi   | 03/23 8:00 PM  |   4  |     4       | Test on obstacle avoidance and localization for latest hardware design
 Hong Yi   | 03/24 11:00 AM |   4  |     3.5     | Work on test docs
+Hong Yi   | 03/25 1:00  PM |   5  |     3       | Fix bugs. Integration Testing
+Hong Yi   | 03/26 11:00 AM |   5  |     4.5     | Fix bugs. Integration test again.
+Hong Yi   | 03/27 1:00 PM  |   5  |     2       | Bug fix at last min plus demo presentation
 
 # Kaichen
 # Name    | Time Completed | Week | Hours spent | Task done
