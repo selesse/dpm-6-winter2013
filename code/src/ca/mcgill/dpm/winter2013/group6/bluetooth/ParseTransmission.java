@@ -10,14 +10,12 @@ import java.io.IOException;
 
 import lejos.nxt.LCD;
 
-/*
+/**
  * Static parsers for parsing data off the communication channel
- *
+ * 
  * The order of data is defined in the Server's Transmission class
  */
-
 public class ParseTransmission {
-
   public static Transmission parse(DataInputStream dis) {
     Transmission trans = null;
     try {
@@ -27,9 +25,19 @@ public class ParseTransmission {
       }
 
       trans = new Transmission();
-      trans.setGoalX(dis.readInt());
+      trans.role = PlayerRole.lookupRole(dis.readInt());
       ignore(dis);
-      trans.setGoalY(dis.readInt());
+      trans.startingCorner = StartCorner.lookupCorner(dis.readInt());
+      ignore(dis);
+      trans.bx = dis.readInt();
+      ignore(dis);
+      trans.by = dis.readInt();
+      ignore(dis);
+      trans.w1 = dis.readInt();
+      ignore(dis);
+      trans.w2 = dis.readInt();
+      ignore(dis);
+      trans.d1 = dis.readInt();
 
       return trans;
     }
@@ -41,11 +49,9 @@ public class ParseTransmission {
     catch (InterruptedException e) {
       return trans;
     }
-
   }
 
   public static void ignore(DataInputStream dis) throws IOException {
     dis.readChar();
   }
-
 }
