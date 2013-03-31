@@ -15,7 +15,6 @@ public class OdometerCorrection implements Runnable {
   public OdometerCorrection(Odometer odometer, LightSensor lightSensor) {
     this.odometer = odometer;
     this.lightSensor = lightSensor;
-
   }
 
   @Override
@@ -71,11 +70,7 @@ public class OdometerCorrection implements Runnable {
     // closer
     x = x / xComp;
     y = y / yComp;
-    if (x > 0 && x < y) {
-      return true;
-    }
-    return false;
-
+    return x > 0 && x < y;
   }
 
   /**

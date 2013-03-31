@@ -41,16 +41,9 @@ public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
       turningAngle = -turningAngle;
     }
 
-    // Sound.beep();
     navigator.travelStraight(-10);
-
-    // Sound.beep();
-
     navigator.turnTo(turningAngle);
-
     navigator.travelStraight(10);
-    // Sound.beep();
-
   }
 
   private boolean obstacleDetected() {

@@ -1,54 +1,40 @@
-/**
- * @author Sean Lawlor, Stepan Salenikovich
+/*
+ * @author Sean Lawlor
  * @date November 3, 2011
  * @class ECSE 211 - Design Principle and Methods
  */
 package ca.mcgill.dpm.winter2013.group6.bluetooth;
 
-/**
+/*
  * Skeleton class to hold datatypes needed for final project
- * 
+ *
  * Simply all public variables so can be accessed with
- * 
- * <pre>
  * Transmission t = new Transmission();
- * int fx = t.fx;
- * </pre>
- * 
+ * int d1 = t.d1;
+ *
  * and so on...
- * 
- * Also the role is an enum, converted from the char transmitted. (It should
- * never be Role.NULL)
+ *
+ * Also the role is an enum, converted from the char transmitted. (It should never be
+ * Role.NULL)
  */
 
 public class Transmission {
-  /**
-   * The role, Defender or Attacker
-   */
-  public PlayerRole role;
-  /**
-   * Ball dispenser X tile position
-   */
-  public int bx;
-  /**
-   * Ball dispenser Y tile position
-   */
-  public int by;
-  /**
-   * Defender zone dimension 1
-   */
-  public int w1;
-  /**
-   * Defender zone dimension 2
-   */
-  public int w2;
-  /**
-   * Forward line distance from goal
-   */
-  public int d1;
-  /**
-   * starting corner, 1 through 4
-   */
-  public StartCorner startingCorner;
+  private int goalX;
+  private int goalY;
 
+  public void setGoalX(int goalX) {
+    this.goalX = goalX;
+  }
+
+  public void setGoalY(int goalY) {
+    this.goalY = goalY;
+  }
+
+  public int getGoalX() {
+    return (int) (goalX * 30.5);
+  }
+
+  public int getGoalY() {
+    return (int) (goalY * 30.5);
+  }
 }

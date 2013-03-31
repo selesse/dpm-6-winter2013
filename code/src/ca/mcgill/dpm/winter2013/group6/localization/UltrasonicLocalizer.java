@@ -5,6 +5,13 @@ import lejos.nxt.UltrasonicSensor;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
+/**
+ * A {@link Localizer} implementation that uses an {@link UltrasonicSensor} for
+ * performing its localization.
+ * 
+ * @author Alex Selesse
+ * 
+ */
 public class UltrasonicLocalizer extends AbstractLocalizer {
   private UltrasonicSensor ultrasonicSensor;
 
@@ -21,7 +28,7 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
     navigator.setMotorRotateSpeed(robot.getRotateSpeed());
 
     // rotate until it doesn't see a wall
-    while (max > getFilteredData()) {
+    while (100 > getFilteredData()) {
     }
     navigator.stop();
     // rotate the robot until it sees a wall
@@ -30,16 +37,15 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
     }
     navigator.stop();
     odometer.setPosition(new double[] { 0, 0, 0 }, new boolean[] { true, true, true });
-
-    // collect angle A from the odomter
-    Sound.beep();
-    double angleA = odometer.getTheta();
-    navigator.turnTo(90);
     try {
       Thread.sleep(500);
     }
     catch (InterruptedException e) {
     }
+    // collect angle A from the odomter
+    Sound.beep();
+    double angleA = odometer.getTheta();
+    navigator.turnTo(90);
 
     navigator.setMotorRotateSpeed(robot.getRotateSpeed());
     // rotate till it doesnt see a wall;
@@ -72,13 +78,13 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
     // the cases here are switched since we want it to be 180 degrees from the
     // mid angle calculated
     double angleMid;
-    if (angleB < angleA) {
-      angleMid = 45 - (angleA + angleB) / 2;
-
-    }
-    else {
-      angleMid = 225 - (angleA + angleB) / 2;
-    }
+    // if (angleB < angleA) {
+    // angleMid = 45 - (angleA + angleB) / 2;
+    //
+    // }
+    // else {
+    angleMid = 45 - (angleA + angleB) / 2;
+    // }
     // useful for testing
     /*
      * odometer.setPosition(new double[] { angleA, angleB, angleMid }, new

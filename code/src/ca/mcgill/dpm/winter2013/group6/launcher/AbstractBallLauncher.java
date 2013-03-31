@@ -4,8 +4,7 @@ import lejos.nxt.NXTRegulatedMotor;
 
 /**
  * Abstract ball launcher class created to specify the base constructor that
- * implementations of BallLauncher will adhere to. Useful for easily creating
- * test classes.
+ * implementations of BallLauncher will adhere to.
  * 
  * @author Alex Selesse
  * 
@@ -36,6 +35,7 @@ public abstract class AbstractBallLauncher implements BallLauncher {
 
   @Override
   public void run() {
+    // explicitly stop the motor, just in case
     ballThrowingMotor.stop();
     throwBall(distanceFromTarget);
   }

@@ -21,7 +21,7 @@ public abstract class AbstractNavigator implements Navigator {
   protected Coordinate[] waypoints;
   private Coordinate currentCoordinateHeading;
   protected final double THRESHOLD = 2;
-  private final int PERIOD = 2000;
+  private final long PERIOD = 2000;
 
   public AbstractNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,
       NXTRegulatedMotor rightMotor) {
@@ -42,32 +42,6 @@ public abstract class AbstractNavigator implements Navigator {
     }
     stop();
     isNavigating = false;
-  }
-
-  @Override
-  public void travelTo(double x, double y) {
-    double turningAngle = getTurningAngle(x, y);
-    turnTo(turningAngle);
-
-    // Travel straight.
-    leftMotor.setSpeed(robot.getForwardSpeed());
-    rightMotor.setSpeed(robot.getForwardSpeed());
-    leftMotor.forward();
-    rightMotor.forward();
-
-    // Keep running until we're within an acceptable threshold, with an adjust
-    // to the angle every period of time
-    double lastUpdate = System.currentTimeMillis();
-
-    while (Math.abs(x - odometer.getX()) > THRESHOLD || Math.abs(y - odometer.getY()) > THRESHOLD) {
-
-      if (lastUpdate + PERIOD > System.currentTimeMillis()) {
-        turningAngle = getTurningAngle(x, y);
-        turnTo(turningAngle);
-        lastUpdate = System.currentTimeMillis();
-      }
-    }
-    stop();
   }
 
   @Override
@@ -198,7 +172,7 @@ public abstract class AbstractNavigator implements Navigator {
   }
 
   @Override
-  public Coordinate getCoordinateHeading() {
+  public Coordinate getCurrentHeading() {
     return currentCoordinateHeading;
   }
 

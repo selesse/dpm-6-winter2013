@@ -103,6 +103,6 @@ public interface Navigator extends Runnable {
    * 
    * @return
    */
-  Coordinate getCoordinateHeading();
+  Coordinate getCurrentHeading();
 
 }

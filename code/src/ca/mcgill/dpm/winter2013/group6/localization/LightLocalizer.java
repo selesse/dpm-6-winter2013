@@ -5,24 +5,31 @@ import lejos.nxt.Sound;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 
+/**
+ * A {@link Localizer} implementation that uses a {@link LightSensor} for
+ * performing its localization.
+ * 
+ * @author Alex Selesse
+ * 
+ */
 public class LightLocalizer extends AbstractLocalizer {
   private LightSensor lightSensor;
   private int sensorAverage = 0;
   private final int THRESHOLD = 55;
-  private final double LIGHT_SENSOR_DISTANCE = 11.6;
+  private final double LIGHT_SENSOR_DISTANCE = 11.8;
 
   /**
    * The constructor the light localizer class.
    * 
    * @param odometer
-   *          The odometer to read from
+   *          The {@link Odometer} we'll be reading from.
    * @param navigator
-   *          The navigator class for the localizer to use
+   *          The navigator class that will be used by the localizer.
    * @param lightSensor
-   *          The light sensor object
+   *          The {@link LightSensor} object.
    * @param corner
-   *          The corner number the localizer will be localizing. corners are
-   *          named from 1-4
+   *          The corner number the localizer will be localizing. Corners are
+   *          numbered from 1 to 4.
    */
   public LightLocalizer(Odometer odometer, Navigator navigator, LightSensor lightSensor, int corner) {
     super(odometer, navigator, corner);
@@ -56,7 +63,8 @@ public class LightLocalizer extends AbstractLocalizer {
         Sound.beep();
         raw[lineCounter] = odometer.getTheta();
         lineCounter++;
-        try {// sleeping to avoid counting the same line twice
+        try {
+          // sleeping to avoid counting the same line twice
           Thread.sleep(150);
         }
         catch (InterruptedException e) {
@@ -67,7 +75,6 @@ public class LightLocalizer extends AbstractLocalizer {
     navigator.stop();
 
     // formula modified from the tutorial slides
-
     double thetaX = (raw[3] - raw[1]) / 2;
     double thetaY = (raw[2] - raw[0]) / 2;
     double newX = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaY));
