@@ -9,13 +9,13 @@ import lejos.nxt.LightSensor;
 import lejos.nxt.MotorPort;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
+import lejos.nxt.Sound;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
 import ca.mcgill.dpm.winter2013.group6.avoidance.ObstacleAvoider;
 import ca.mcgill.dpm.winter2013.group6.avoidance.TouchAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.avoidance.UltrasonicAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.bluetooth.Bluetooth;
-import ca.mcgill.dpm.winter2013.group6.bluetooth.PlayerRole;
 import ca.mcgill.dpm.winter2013.group6.bluetooth.Transmission;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
@@ -50,7 +50,7 @@ public class Main {
     TouchSensor leftTouchSensor = new TouchSensor(SensorPort.S3);
     TouchSensor rightTouchSensor = new TouchSensor(SensorPort.S4);
 
-    Robot patBot = new Robot(2.71, 2.71, 16.2, leftMotor, rightMotor);
+    Robot patBot = new Robot(2.71, 2.71, 15.5, leftMotor, rightMotor);
 
     // wait for user input
     do {
@@ -109,28 +109,26 @@ public class Main {
 
         // travel to (15, 15)
         navigator.travelTo(15, 15);
-
+        ;
         // start and finish light localization
         lightLocalizerThread.start();
         lightLocalizerThread.join();
 
-        navigator.setCoordinates(new Coordinate[] {
-            new Coordinate(30, 30),
-            new Coordinate(80, 45),
-            new Coordinate(0, 0) });
-
+        navigator.setCoordinates(new Coordinate[] { new Coordinate((int) (3.0 * 30.5),
+            (int) (30.5 * 5.0)) });
         touchAvoidanceThread.start();
         ultrasonicAvoidanceThread.start();
 
         navigatorThread.start();
         navigatorThread.join();
 
-        BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, 30);
-        Thread ballLauncherThread = new Thread(ballLauncher);
+        // BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor,
+        // 30);
+        // Thread ballLauncherThread = new Thread(ballLauncher);
 
-        navigator.turnTo(30, 200);
-        ballLauncherThread.start();
-        ballLauncherThread.join();
+        // navigator.turnTo(31, 200);
+        // ballLauncherThread.start();
+        // ballLauncherThread.join();
       }
       catch (InterruptedException e) {
       }
@@ -150,61 +148,57 @@ public class Main {
 
       Transmission transmission = bluetooth.getTransmission();
 
-      if (transmission.role == PlayerRole.ATTACKER) {
+      navigator.setCoordinates(new Coordinate[] { new Coordinate((transmission.getGoalX()),
+          transmission.getGoalY() - (int) (30.5 * 5)) });
+      BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, 1);
+      Thread ballLauncherThread = new Thread(ballLauncher);
 
-        navigator.setCoordinates(new Coordinate[] { new Coordinate(transmission.w1,
-            transmission.w2 - 31 * 5) });
-        BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, transmission.d1);
-        Thread ballLauncherThread = new Thread(ballLauncher);
-
-        // start and finish ultrasonic localization
-        ultrasonicLocalizerThread.start();
-        try {
-          ultrasonicLocalizerThread.join();
-        }
-        catch (InterruptedException e) {
-          // don't do anything - this thread is not expected to be interrupted
-        }
-
-        // travel to (15, 15)
-        navigator.travelTo(15, 15);
-
-        // start and finish light localization
-        lightLocalizerThread.start();
-        try {
-          lightLocalizerThread.join();
-        }
-        catch (InterruptedException e) {
-          // don't do anything - this thread is not expected to be interrupted
-        }
-
-        // start the touch avoidance and the ultrasonic avoidance threads
-        touchAvoidanceThread.start();
-        ultrasonicAvoidanceThread.start();
-
-        // start the navigation thread
-        navigatorThread.start();
-        try {
-          navigatorThread.join();
-        }
-        catch (InterruptedException e) {
-          // don't do anything - this thread is not expected to be interrupted
-        }
-
-        // TODO face the goal
-
-        // start the ball launching thread, wait for it to finish
-        ballLauncherThread.start();
-        try {
-          ballLauncherThread.join();
-        }
-        catch (InterruptedException e) {
-
-        }
+      // start and finish ultrasonic localization
+      ultrasonicLocalizerThread.start();
+      try {
+        ultrasonicLocalizerThread.join();
       }
-      else if (transmission.role == PlayerRole.DEFENDER) {
-        // TODO defense
+      catch (InterruptedException e) {
+        // don't do anything - this thread is not expected to be interrupted
       }
+
+      navigator.travelTo(15, 15);
+
+      // start and finish light localization
+      lightLocalizerThread.start();
+      try {
+        lightLocalizerThread.join();
+      }
+      catch (InterruptedException e) {
+        // don't do anything - this thread is not expected to be interrupted
+      }
+
+      ultrasonicSensor.continuous();
+      // start the touch avoidance and the ultrasonic avoidance threads
+      touchAvoidanceThread.start();
+      ultrasonicAvoidanceThread.start();
+
+      // start the navigation thread
+      navigatorThread.start();
+      try {
+        navigatorThread.join();
+      }
+      catch (InterruptedException e) {
+        // don't do anything - this thread is not expected to be interrupted
+      }
+      Sound.beep();
+      navigator.turnTo(transmission.getGoalX(), transmission.getGoalY());
+
+      // start the ball launching thread, wait for it to finish
+      ballLauncherThread.start();
+      try {
+        ballLauncherThread.join();
+      }
+      catch (InterruptedException e) {
+
+      }
+      // go back to origin
+      navigator.travelTo(0, 0);
     }
 
     while (Button.waitForPress() != Button.ID_ESCAPE) {
