@@ -54,6 +54,7 @@ Arthur    | 03/25 07:46 PM |   5  |      6      | Integration + tests for the ro
 Arthur    | 03/26 08:30 PM |   5  |      3      | More integration tests completeted
 Arthur    | 03/27 05:12 PM |   5  |      2      | Last minute bug smashing + demo
 Arthur    | 03/30 08:00 PM |   6  |      2      | Ran tests for odometryCorrection
+
 Arthur    | 03/31 03:21 AM |   6  |      1      | Attempted to fix odometryCorrection
 # Francois
 # Name    | Time Completed | Week | Hours spent | Task done
