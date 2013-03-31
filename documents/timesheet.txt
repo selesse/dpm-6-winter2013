@@ -132,7 +132,13 @@ Kaichen   | 03/19 10:00 PM |   4  |     4.0     | Tested launching mechanism. Up
 Kaichen   | 03/22 11:30 PM |   4  |     4.0     | Tested and improved ball launcher. Tried new ball feeding mechanism. Test footage + pictures.
 
 Kaichen   | 03/23 11:30 PM |   5  |     1.5     | Task distribution. Gantt Chart update. Document and weekly update preparation
-Kaichen   | 03/24  2:50 PM |   5  |     2.0     | Gantt Chart update. Test documents update. Document and weekly update preparation	
+Kaichen   | 03/24  2:50 PM |   5  |     3.0     | Gantt Chart update. Test documents update. Document and weekly update preparation	
+Kaichen   | 03/25  5:30 PM |   5  |     3.0     | Beta Demo testing. Beta Demo preparation
+Kaichen   | 03/26  4:30 PM |   5  |     3.0     | Beta Demo testing. Beta Demo preparation
+Kaichen   | 03/27  4:00 PM |   5  |     3.0     | Beta Demo testing. Beta Demo preparation. Beta Demo
+
+Kaichen   | 03/30  8:00 PM |   6  |     2.0     | Testing robot's odometry. documenting mechanical changes. administrative tasks (distribution of tasks).
+Kaichen   | 03/31 10:00 AM |   6  |     2.0     | Gantt chart update. PowerPoint.
 
 
 # Reading Week entries: REMEMBER IT'S WEEK 7
