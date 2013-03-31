@@ -7,11 +7,10 @@ import lejos.nxt.Sound;
 public class OdometerCorrection implements Runnable {
   private Odometer odometer;
   private LightSensor lightSensor;
-  private static final int THRESHOLD = 50;
+  private static final int THRESHOLD = 55;
   private int sensorAverage = 0;
-  private static final double LIGHT_SENSOR_DISTANCE = 11.6;
+  private static final double LIGHT_SENSOR_DISTANCE = 11.8;
   private boolean isRunning;
-  private static final int PERIOD = 25;
 
   public OdometerCorrection(Odometer odometer, LightSensor lightSensor) {
     this.odometer = odometer;
@@ -22,18 +21,25 @@ public class OdometerCorrection implements Runnable {
   @Override
   public void run() {
     isRunning = true;
+    calibrateSensorAverage();
+    lightSensor.setFloodlight(true);
+    Sound.twoBeeps();
     while (isRunning) {
       // if they have the same speed == moving straight, going forward
-      if (blackLineDetected() && Motor.A.getRotationSpeed() == Motor.B.getRotationSpeed()
-          && getQuadrantRobotIsFacing() > 0 && Motor.A.getRotationSpeed() > 0) {
-        Sound.beep();
-        boolean closerToXAxis = (isCloserToXAxis());
-        double closestGridLine = getClosestGridLine(closerToXAxis);
-        if (closerToXAxis) {
+      if (blackLineDetected()) {
+
+        boolean axisToAdjust = !(isCloserToXAxis());
+        // this part will get the closest gridline location for the opposite
+        // axis
+        double closestGridLine = getClosestGridLine(axisToAdjust);
+        // if x axis that was detected, you adjust the y coordinate
+        if (axisToAdjust) {
           odometer.setX(closestGridLine);
+          Sound.buzz();
         }
         else {
           odometer.setY(closestGridLine);
+          Sound.beep();
         }
       }
     }
@@ -46,8 +52,10 @@ public class OdometerCorrection implements Runnable {
    * @return true if x is closer, else y
    */
   public boolean isCloserToXAxis() {
-    double x = odometer.getX() % 30.48;
-    double y = odometer.getY() % 30.48;
+    double degree = odometer.getTheta();
+    // determines the extact location in a tile
+    double x = (odometer.getX() - LIGHT_SENSOR_DISTANCE * Math.sin(degree)) % 30.48;
+    double y = (odometer.getY() - LIGHT_SENSOR_DISTANCE * Math.cos(degree)) % 30.48;
     if (x > 30.48 / 2) {
       x -= 30.48;
     }
@@ -57,8 +65,8 @@ public class OdometerCorrection implements Runnable {
     double theta = Math.toRadians(odometer.getTheta());
     double speed = Motor.A.getRotationSpeed();
     // 2 * Math.PI * 2.71 * speed / 360 = cm/s
-    double xComp = Math.cos(theta) * 2 * Math.PI * 2.71 * speed / 360;
-    double yComp = Math.sin(theta) * 2 * Math.PI * 2.71 * speed / 360;
+    double xComp = Math.sin(theta) * 2 * Math.PI * 2.71 * speed / 360;
+    double yComp = Math.cos(theta) * 2 * Math.PI * 2.71 * speed / 360;
     // cm/cm/s gives us which one will be closer in terms of s, so smaller is
     // closer
     x = x / xComp;
@@ -75,19 +83,20 @@ public class OdometerCorrection implements Runnable {
    * robot
    * 
    * @param axis
-   *          The axis you would like to get
-   * @return The closest grid line using the given axis
+   *          The axis you would like to get the gridline location for. If
+   * @return The closest grid line location using the given axis
    */
   public double getClosestGridLine(boolean axis) {
     double location = axis ? odometer.getX() : odometer.getY();
     double degree = Math.toRadians(odometer.getTheta());
-    // x-axis
+    // if x-axis, get location of the y-axis grid line
     if (axis) {
-      location = location - LIGHT_SENSOR_DISTANCE * Math.cos(degree);
-    }
-    else {
       location = location - LIGHT_SENSOR_DISTANCE * Math.sin(degree);
     }
+    else {
+      location = location - LIGHT_SENSOR_DISTANCE * Math.cos(degree);
+    }
+    //
     int mult = ((int) (location / 30.48));
     if (Math.abs(mult * 30.48 - location) > Math.abs((mult + 1) * 30.48 - location)) {
       return mult * 30.48 + 30.48;
@@ -97,26 +106,24 @@ public class OdometerCorrection implements Runnable {
 
   /**
    * 
-   * @return the direction the robot is facing, returns a -1 if its not decisive
+   * @return A number bigger then zero if it is okay to fix odometry
    */
-  public int getQuadrantRobotIsFacing() {
-    double range = 5;
+
+  public int isOkayToFix() {
+    double range = 20;
+    double ignoreRange = 5;
     double theta = odometer.getTheta();
-    if (0 + range > theta && 0 - range < theta) {
-      return 1;
-    }
-    else if (90 + range > theta && 90 - range < theta) {
-      return 2;
-    }
-    else if (180 + range > theta && 180 - range < theta) {
-      return 3;
-    }
-    else if (270 + range > theta && 270 - range < theta) {
-      return 4;
-    }
-    else {
+    // check if its + or - within -5 to 5, 85-95 etc to discard since its more
+    // likely to be wrong
+    if (theta % 90 < ignoreRange || theta % 5 > 90 - ignoreRange) {
       return -1;
     }
+    // return a positive number if its within -20 to 20
+    else if (theta % 90 > range || theta % 5 < 90 - range) {
+      return ((int) (theta / 90)) % 4 + 1;
+    }
+    return -1;
+
   }
 
   public void start() {
@@ -125,6 +132,17 @@ public class OdometerCorrection implements Runnable {
 
   public void stop() {
     this.isRunning = false;
+  }
+
+  private int calibrateSensorAverage() {
+    int senValue = 0;
+    // collects the average of a 5 samples
+    for (int i = 0; i < 5; i++) {
+      senValue += lightSensor.readNormalizedValue();
+    }
+    senValue = senValue / 5;
+    this.sensorAverage = senValue;
+    return senValue;
   }
 
   private boolean blackLineDetected() {

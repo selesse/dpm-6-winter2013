@@ -9,6 +9,7 @@ import lejos.nxt.LightSensor;
 import lejos.nxt.MotorPort;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
+import lejos.nxt.Sound;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
 import ca.mcgill.dpm.winter2013.group6.avoidance.ObstacleAvoider;
@@ -25,6 +26,7 @@ import ca.mcgill.dpm.winter2013.group6.localization.UltrasonicLocalizer;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.navigator.ObstacleNavigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
+import ca.mcgill.dpm.winter2013.group6.odometer.OdometerCorrection;
 import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
 import ca.mcgill.dpm.winter2013.group6.util.InfoDisplay;
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
@@ -85,6 +87,9 @@ public class Main {
     obstacleAvoiders.add(ultrasonicAvoidance);
     ((ObstacleNavigator) navigator).setAvoiderList(obstacleAvoiders);
 
+    OdometerCorrection odometerCorrecter = new OdometerCorrection(odometer, lightSensor);
+    Thread correctionThread = new Thread(odometerCorrecter);
+
     // initialize all the threads for every component
     Thread odometerThread = new Thread(odometer);
     Thread infoDisplayThread = new Thread(infoDisplay);
@@ -100,36 +105,35 @@ public class Main {
       odometerThread.start();
       infoDisplayThread.start();
 
+      ultrasonicSensor.continuous();
+      navigator.turnTo(45);
+      navigator.setCoordinates(new Coordinate[] {
+          new Coordinate(30, 30),
+          new Coordinate(60, 30),
+          new Coordinate(0, 90) });
+      // start the touch avoidance and the ultrasonic avoidance threads
+      correctionThread.start();
+
+      touchAvoidanceThread.start();
+      ultrasonicAvoidanceThread.start();
+
+      // start the navigation thread
+      navigatorThread.start();
       try {
-        ultrasonicLocalizerThread.start();
-        ultrasonicLocalizerThread.join();
-
-        navigator.travelTo(15, 15);
-
-        lightLocalizerThread.start();
-        lightLocalizerThread.join();
-
-        navigator.setCoordinates(new Coordinate[] {
-            new Coordinate(30, 30),
-            new Coordinate(80, 45),
-            new Coordinate(0, 0) });
-
-        touchAvoidanceThread.start();
-        ultrasonicAvoidanceThread.start();
-
-        navigatorThread.start();
         navigatorThread.join();
-
-        BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, 30);
-        Thread ballLauncherThread = new Thread(ballLauncher);
-
-        navigator.turnTo(30, 200);
-        ballLauncherThread.start();
-        ballLauncherThread.join();
       }
       catch (InterruptedException e) {
-
+        // don't do anything - this thread is not expected to be interrupted
       }
+      Sound.beep();
+      navigator.turnTo(0, 0);
+
+      // start the ball launching thread, wait for it to finish
+
+      ballThrowingMotor.flt();
+      // go back to origin
+      navigator.travelTo(0, 0);
+      navigator.face(0);
     }
     else if (buttonChoice == Button.ID_RIGHT) {
       odometerThread.start();
@@ -192,6 +196,7 @@ public class Main {
       else if (transmission.role == PlayerRole.DEFENDER) {
         // TODO defense
       }
+
     }
 
     while (Button.waitForPress() != Button.ID_ESCAPE) {
