@@ -51,5 +51,6 @@ public class BallLauncherImpl extends AbstractBallLauncher {
     catch (InterruptedException e) {
       // nothing should interrupt this
     }
+    ballThrowingMotor.flt(false);
   }
 }

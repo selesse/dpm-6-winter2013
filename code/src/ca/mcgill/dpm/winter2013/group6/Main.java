@@ -25,6 +25,7 @@ import ca.mcgill.dpm.winter2013.group6.localization.UltrasonicLocalizer;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.navigator.ObstacleNavigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
+import ca.mcgill.dpm.winter2013.group6.odometer.OdometerCorrection;
 import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
 import ca.mcgill.dpm.winter2013.group6.util.InfoDisplay;
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
@@ -53,6 +54,7 @@ public class Main {
   private static ObstacleAvoider ultrasonicAvoidance;
   private static Localizer lightLocalizer;
   private static Localizer ultrasonicLocalizer;
+  private static OdometerCorrection odometerCorrection;
   private static Thread odometerThread;
   private static Thread infoDisplayThread;
   private static Thread navigatorThread;
@@ -61,6 +63,7 @@ public class Main {
   private static Thread ultrasonicAvoidanceThread;
   private static Thread lightLocalizerThread;
   private static Thread ultrasonicLocalizerThread;
+  private static Thread odometryCorrectionThread;
 
   public static void main(String[] args) {
     int buttonChoice;
@@ -107,6 +110,8 @@ public class Main {
   }
 
   private static void performLeftButtonAction() {
+    int goalX = (int) (2.0 * 30.5);
+    int goalY = (int) (5.0 * 30.5);
     odometerThread.start();
     infoDisplayThread.start();
 
@@ -122,21 +127,40 @@ public class Main {
       lightLocalizerThread.start();
       lightLocalizerThread.join();
 
-      navigator.setCoordinates(new Coordinate[] { new Coordinate((int) (3.0 * 30.5),
-          (int) (30.5 * 5.0)) });
+      // odometryCorrectionThread.start();
+      navigator.setCoordinates(new Coordinate[] { new Coordinate(goalX, goalY) });
       touchAvoidanceThread.start();
       ultrasonicAvoidanceThread.start();
 
       navigatorThread.start();
       navigatorThread.join();
+      navigator.face(45);
+      lightLocalizer = new LightLocalizer(odometer, navigator, lightSensor, 1);
+      lightLocalizerThread = new Thread(lightLocalizer);
 
-      // BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor,
-      // 30);
-      // Thread ballLauncherThread = new Thread(ballLauncher);
+      lightLocalizerThread.start();
+      lightLocalizerThread.join();
+      Thread.sleep(100);
+      odometer.setPosition(new double[] { odometer.getX() + goalX, odometer.getY() + goalY, 0 },
+          new boolean[] { true, true, false });
+      Thread.sleep(1500);
 
-      // navigator.turnTo(31, 200);
-      // ballLauncherThread.start();
-      // ballLauncherThread.join();
+      Sound.beep();
+      navigator.face(0);
+
+      navigator.travelTo(goalX, goalY);
+      navigator.turnTo(goalX, goalY + 5.0 * 30.5);
+
+      Sound.beep();
+
+      BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, 30);
+      Thread ballLauncherThread = new Thread(ballLauncher);
+
+      ballLauncherThread.start();
+      ballLauncherThread.join();
+      Sound.beep();
+      navigator.travelTo(0, 0);
+
     }
     catch (InterruptedException e) {
     }
@@ -220,6 +244,7 @@ public class Main {
     ultrasonicAvoidance = new UltrasonicAvoidanceImpl(odometer, navigator, ultrasonicSensor);
     lightLocalizer = new LightLocalizer(odometer, navigator, lightSensor, 1);
     ultrasonicLocalizer = new UltrasonicLocalizer(odometer, navigator, ultrasonicSensor, 1);
+    odometerCorrection = new OdometerCorrection(odometer, lightSensor);
   }
 
   private static void initializeComponentThreads() {
@@ -231,6 +256,7 @@ public class Main {
     ultrasonicAvoidanceThread = new Thread(ultrasonicAvoidance);
     lightLocalizerThread = new Thread(lightLocalizer);
     ultrasonicLocalizerThread = new Thread(ultrasonicLocalizer);
+    odometryCorrectionThread = new Thread(odometerCorrection);
   }
 
   private static void initializeObstacleAvoiders() {

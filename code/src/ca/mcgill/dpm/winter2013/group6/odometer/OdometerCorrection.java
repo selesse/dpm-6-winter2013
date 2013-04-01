@@ -51,17 +51,16 @@ public class OdometerCorrection implements Runnable {
    * @return true if x is closer, else y
    */
   public boolean isCloserToXAxis() {
-    double degree = odometer.getTheta();
+    double theta = Math.toRadians(odometer.getTheta());
     // determines the extact location in a tile
-    double x = (odometer.getX() - LIGHT_SENSOR_DISTANCE * Math.sin(degree)) % 30.48;
-    double y = (odometer.getY() - LIGHT_SENSOR_DISTANCE * Math.cos(degree)) % 30.48;
+    double x = (odometer.getX() - LIGHT_SENSOR_DISTANCE * Math.sin(theta)) % 30.48;
+    double y = (odometer.getY() - LIGHT_SENSOR_DISTANCE * Math.cos(theta)) % 30.48;
     if (x > 30.48 / 2) {
       x -= 30.48;
     }
     if (y > 30.48 / 2) {
       y -= 30.48;
     }
-    double theta = Math.toRadians(odometer.getTheta());
     double speed = Motor.A.getRotationSpeed();
     // 2 * Math.PI * 2.71 * speed / 360 = cm/s
     double xComp = Math.sin(theta) * 2 * Math.PI * 2.71 * speed / 360;
