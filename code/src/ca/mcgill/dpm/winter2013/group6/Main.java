@@ -16,7 +16,6 @@ import ca.mcgill.dpm.winter2013.group6.avoidance.ObstacleAvoider;
 import ca.mcgill.dpm.winter2013.group6.avoidance.TouchAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.avoidance.UltrasonicAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.bluetooth.Bluetooth;
-import ca.mcgill.dpm.winter2013.group6.bluetooth.PlayerRole;
 import ca.mcgill.dpm.winter2013.group6.bluetooth.Transmission;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
@@ -150,51 +149,45 @@ public class Main {
 
       Transmission transmission = bluetooth.getTransmission();
 
-      if (transmission.role == PlayerRole.ATTACKER) {
+      navigator.setCoordinates(new Coordinate[] { new Coordinate(transmission.getGoalX(),
+          transmission.getGoalY() - 31 * 5) });
+      BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, 1);
+      Thread ballLauncherThread = new Thread(ballLauncher);
 
-        navigator.setCoordinates(new Coordinate[] { new Coordinate(transmission.w1,
-            transmission.w2 - 31 * 5) });
-        BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, transmission.d1);
-        Thread ballLauncherThread = new Thread(ballLauncher);
-
-        ultrasonicLocalizerThread.start();
-        try {
-          ultrasonicLocalizerThread.join();
-        }
-        catch (InterruptedException e) {
-        }
-
-        navigator.travelTo(15, 15);
-
-        lightLocalizerThread.start();
-        try {
-          lightLocalizerThread.join();
-        }
-        catch (InterruptedException e) {
-
-        }
-
-        touchAvoidanceThread.start();
-        ultrasonicAvoidanceThread.start();
-
-        // start the navigation thread; once we're done navigating, throw the
-        // ball
-        navigatorThread.start();
-        try {
-          navigatorThread.join();
-        }
-        catch (InterruptedException e) {
-        }
-        ballLauncherThread.start();
-        try {
-          ballLauncherThread.join();
-        }
-        catch (InterruptedException e) {
-
-        }
+      ultrasonicLocalizerThread.start();
+      try {
+        ultrasonicLocalizerThread.join();
       }
-      else if (transmission.role == PlayerRole.DEFENDER) {
-        // TODO defense
+      catch (InterruptedException e) {
+      }
+
+      navigator.travelTo(15, 15);
+
+      lightLocalizerThread.start();
+      try {
+        lightLocalizerThread.join();
+      }
+      catch (InterruptedException e) {
+
+      }
+
+      touchAvoidanceThread.start();
+      ultrasonicAvoidanceThread.start();
+
+      // start the navigation thread; once we're done navigating, throw the
+      // ball
+      navigatorThread.start();
+      try {
+        navigatorThread.join();
+      }
+      catch (InterruptedException e) {
+      }
+      ballLauncherThread.start();
+      try {
+        ballLauncherThread.join();
+      }
+      catch (InterruptedException e) {
+
       }
 
     }
