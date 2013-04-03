@@ -75,6 +75,9 @@ Francois  | 03/20 11:30 AM |   5  |     2       | Modified the launcher to adapt
 Francois  | 03/23  8:30 PM |   5  |     1       | Modified the hardware document to reflect the modifications done during the week
 Francois  | 03/25  6:00 PM |   5  |     5       | Worked on a ball holder system to have more than one ball on the robot at the same time. Worked with the team to debug the multiple issues on the robot.
 Francois  | 03/26  3:00 PM |   5  |     2       | Worked on the ball holder again.
+Francois  | 04/02  3:00 PM |   6  |     4       | LDD file completed for lastest prototype.
+Francois  | 04/03 11:00 AM |   6  |     1       | Worked on a way to get the ball from the ball dispenser
+
 
 
 # Hassan
