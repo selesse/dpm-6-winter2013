@@ -6,7 +6,7 @@ package ca.mcgill.dpm.winter2013.group6.bluetooth;
  * @author Alex Selesse
  * 
  */
-public class Bluetooth implements Runnable {
+public class BluetoothReceiver implements Runnable {
   private Transmission transmission;
 
   @Override

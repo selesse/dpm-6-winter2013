@@ -12,10 +12,11 @@ import lejos.nxt.SensorPort;
 import lejos.nxt.Sound;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
+import lejos.nxt.comm.Bluetooth;
 import ca.mcgill.dpm.winter2013.group6.avoidance.ObstacleAvoider;
 import ca.mcgill.dpm.winter2013.group6.avoidance.TouchAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.avoidance.UltrasonicAvoidanceImpl;
-import ca.mcgill.dpm.winter2013.group6.bluetooth.Bluetooth;
+import ca.mcgill.dpm.winter2013.group6.bluetooth.BluetoothReceiver;
 import ca.mcgill.dpm.winter2013.group6.bluetooth.Transmission;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
@@ -48,7 +49,7 @@ public class Main {
   private static Odometer odometer;
   private static InfoDisplay infoDisplay;
   private static Navigator navigator;
-  private static Bluetooth bluetooth;
+  private static BluetoothReceiver bluetooth;
   private static ObstacleAvoider touchAvoidance;
   private static ObstacleAvoider ultrasonicAvoidance;
   private static Localizer lightLocalizer;
@@ -152,10 +153,10 @@ public class Main {
       bluetoothThread.join();
     }
     catch (InterruptedException e) {
-
     }
 
     Transmission transmission = bluetooth.getTransmission();
+    Bluetooth.setPower(false);
 
     navigator.setCoordinates(new Coordinate[] { new Coordinate((transmission.bx), transmission.by
         - (int) (30.5 * 5)) });
@@ -215,7 +216,7 @@ public class Main {
     infoDisplay = new InfoDisplay(odometer, ultrasonicSensor, leftTouchSensor, rightTouchSensor);
     navigator = new ObstacleNavigator(odometer, leftMotor, rightMotor, ultrasonicSensor,
         leftTouchSensor, rightTouchSensor);
-    bluetooth = new Bluetooth();
+    bluetooth = new BluetoothReceiver();
     touchAvoidance = new TouchAvoidanceImpl(odometer, navigator, leftTouchSensor, rightTouchSensor);
     ultrasonicAvoidance = new UltrasonicAvoidanceImpl(odometer, navigator, ultrasonicSensor);
     lightLocalizer = new LightLocalizer(odometer, navigator, lightSensor, 1);
