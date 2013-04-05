@@ -51,13 +51,13 @@ public class BluetoothConnection {
     try {
       LCD.clear();
       LCD.drawString(("Transmitted Values"), 0, 0);
-      LCD.drawString("Start: " + transmission.startingCorner.toString(), 0, 1);
-      LCD.drawString("Role: " + transmission.role.toString(), 0, 2);
-      LCD.drawString("bx: " + transmission.bx, 0, 3);
-      LCD.drawString("by: " + transmission.by, 0, 4);
-      LCD.drawString("w1: " + transmission.w1, 0, 5);
-      LCD.drawString("w2: " + transmission.w2, 0, 6);
-      LCD.drawString("d1: " + transmission.d1, 0, 7);
+      LCD.drawString("Start: " + transmission.getStartingCorner().toString(), 0, 1);
+      LCD.drawString("Role: " + transmission.getRole().toString(), 0, 2);
+      LCD.drawString("bx: " + transmission.getBallDispenserX(), 0, 3);
+      LCD.drawString("by: " + transmission.getBallDispenserY(), 0, 4);
+      LCD.drawString("w1: " + transmission.getDefenderZoneDimension1(), 0, 5);
+      LCD.drawString("w2: " + transmission.getDefenderZoneDimension2(), 0, 6);
+      LCD.drawString("d1: " + transmission.getForwardLineDistanceFromGoal(), 0, 7);
     }
     catch (NullPointerException e) {
       LCD.drawString("Bad Trans", 0, 8);

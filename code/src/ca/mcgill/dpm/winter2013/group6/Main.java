@@ -158,8 +158,8 @@ public class Main {
     Transmission transmission = bluetooth.getTransmission();
     Bluetooth.setPower(false);
 
-    navigator.setCoordinates(new Coordinate[] { new Coordinate((transmission.bx), transmission.by
-        - (int) (30.5 * 5)) });
+    navigator.setCoordinates(new Coordinate[] { new Coordinate((transmission.getBallDispenserX()),
+        transmission.getBallDispenserY() - (int) (30.5 * 5)) });
     BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, 1);
     Thread ballLauncherThread = new Thread(ballLauncher);
 
@@ -197,7 +197,7 @@ public class Main {
       // don't do anything - this thread is not expected to be interrupted
     }
     Sound.beep();
-    navigator.turnTo(transmission.bx, transmission.by);
+    navigator.turnTo(transmission.getBallDispenserX(), transmission.getBallDispenserY());
 
     // start the ball launching thread, wait for it to finish
     ballLauncherThread.start();

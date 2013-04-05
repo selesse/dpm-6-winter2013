@@ -25,19 +25,19 @@ public class ParseTransmission {
       }
 
       trans = new Transmission();
-      trans.role = PlayerRole.lookupRole(dis.readInt());
+      trans.setRole(PlayerRole.lookupRole(dis.readInt()));
       ignore(dis);
-      trans.startingCorner = StartCorner.lookupCorner(dis.readInt());
+      trans.setStartingCorner(StartCorner.lookupCorner(dis.readInt()));
       ignore(dis);
-      trans.bx = dis.readInt();
+      trans.setBallDispenserX(dis.readInt());
       ignore(dis);
-      trans.by = dis.readInt();
+      trans.setBallDispenserY(dis.readInt());
       ignore(dis);
-      trans.w1 = dis.readInt();
+      trans.setDefenderZoneDimension1(dis.readInt());
       ignore(dis);
-      trans.w2 = dis.readInt();
+      trans.setDefenderZoneDimension2(dis.readInt());
       ignore(dis);
-      trans.d1 = dis.readInt();
+      trans.setForwardLineDistanceFromGoal(dis.readInt());
 
       return trans;
     }
