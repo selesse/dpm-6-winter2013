@@ -77,7 +77,7 @@ Francois  | 03/25  6:00 PM |   5  |     5       | Worked on a ball holder system
 Francois  | 03/26  3:00 PM |   5  |     2       | Worked on the ball holder again.
 Francois  | 04/02  3:00 PM |   6  |     4       | LDD file completed for lastest prototype.
 Francois  | 04/03 11:00 AM |   6  |     1       | Worked on a way to get the ball from the ball dispenser
-
+Francois  | 04/04  4:00 PM |   6  |     5       | Team meeting and testing on the ball launcher.
 
 
 # Hassan
