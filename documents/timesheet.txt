@@ -31,6 +31,7 @@ Alex      | 03/27 4:21 PM  |   5  |      2      | Demo day: final bug fixup
 
 Alex      | 03/30 11:53 AM |   6  |      2      | Start working on obstacle avoidance optimizations: trying to keep robot in bounds
 Alex      | 03/30 2:20 PM  |   6  |      1      | Revert codebase to support non-demo bluetooth; externalize and modularize Main.java
+Alex      | 04/04 2:00 PM  |   6  |      1      | Team meeting: figure out defense strategy
 
 # Arthur
 # Name    | Time Completed | Week | Hours spent | Task done

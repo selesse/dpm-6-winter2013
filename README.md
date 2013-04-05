@@ -5,14 +5,10 @@ DPM - Group 6 Repository
 
 Every component that we want to implement is in its own separate package:
 
-* `attacker` : The attacking robot that will fetch the ball, navigate
-  somewhere, and throw the ball into the objective.
 * `avoidance` : The avoidance package is responsible for avoiding any
   obstacles.
 * `bluetooth` : The bluetooth package is responsible for the communication to
   the robot.
-* `defender` : The defender package is responsible for the defense part of the
-  competition.
 * `launcher` : The package responsible for doing the launching of the ball.
 * `localization` : The package responsible for doing the localization.
   Includes a LightLocalizer and an UltrasonicLocalizer.
@@ -25,16 +21,17 @@ Every component that we want to implement is in its own separate package:
   such example is the Robot class that contains information specific to our
   robot.
 
-### How to Write a Test / Test a Component
+### Components and Packages
 
-Every package has an interface:
+Due to the separation of the components, every discrete component (i.e.
+package) of our robot has *one* method associated with it. This means that if
+you're every looking for the code for a particular component, just go look at
+that particular method in whatever class you're interested in.
 
-* `attacker` : RobotAttacker
-* `avoidance` : ObstacleAvoider
-* `defender` : RobotDefender
-* `launcher` : BallLauncher
-* `localization` : Localizer
-* `navigator` : Navigator
+* `avoidance` : ObstacleAvoider : avoidObstacles()
+* `launcher` : BallLauncher : throwBall()
+* `localization` : Localizer : localize()
+* `navigator` : Navigator : travelTo(), travelStraight(), turnTo()
 * `odometer` : Odometer
 
 To test packages that don't have abstract classes:
@@ -61,22 +58,3 @@ If the package *does* have an abstract class:
 
 Ideally, you'll want to use an abstract class if you have any common logic
 between implementations. For an example, look at BallLauncherTest.
-
-### How to Test Your Tests
-
-`Main.java`:
-
-    public class Main {
-      public static void main(String[] args) {
-        // code asking to select left or right arrow
-
-        if (buttonChoice == Button.ID.LEFT) {
-          // initialize the attacker, taking advantage of polymorphism
-          RobotAttacker attacker = new RobotAttackerTest( /*constructor*/ );
-          Thread attackerThread = new Thread(attacker);
-
-          // start the thread
-          attackerThread.start();
-        }
-      }
-    }
