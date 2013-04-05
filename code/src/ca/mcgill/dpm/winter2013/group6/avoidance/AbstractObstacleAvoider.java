@@ -2,6 +2,7 @@ package ca.mcgill.dpm.winter2013.group6.avoidance;
 
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
+import ca.mcgill.dpm.winter2013.group6.util.PlayingField;
 
 /**
  * Abstract implementation of {@link ObstacleAvoider}, providing the base
@@ -13,29 +14,24 @@ import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 public abstract class AbstractObstacleAvoider implements ObstacleAvoider {
   protected Odometer odometer;
   protected Navigator navigator;
-  protected boolean isRunning;
-  protected boolean isAvoiding;
+  protected PlayingField playingField;
+  protected boolean isCurrentlyAvoiding;
 
-  public AbstractObstacleAvoider(Odometer odometer, Navigator navigator) {
+  public AbstractObstacleAvoider(Odometer odometer, Navigator navigator, PlayingField playingField) {
     this.odometer = odometer;
     this.navigator = navigator;
-    this.isRunning = true;
+    this.playingField = playingField;
   }
 
   @Override
   public void run() {
-    while (isRunning) {
+    while (true) {
       avoidObstacles();
     }
   }
 
   @Override
-  public void setRunning(boolean running) {
-    this.isRunning = running;
-  }
-
-  @Override
-  public boolean isAvoiding() {
-    return isAvoiding;
+  public boolean isCurrentlyAvoiding() {
+    return isCurrentlyAvoiding;
   }
 }

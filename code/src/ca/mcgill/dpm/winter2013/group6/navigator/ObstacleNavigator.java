@@ -44,7 +44,7 @@ public class ObstacleNavigator extends AbstractNavigator {
       ObstacleAvoider avoider = getObstacleAvoider();
       if (avoider != null) {
         stop();
-        while (avoider.isAvoiding()) {
+        while (avoider.isCurrentlyAvoiding()) {
           try {
             Thread.sleep(100);
           }
@@ -57,7 +57,6 @@ public class ObstacleNavigator extends AbstractNavigator {
       }
       else {
         if (Math.abs(getTurningAngle(x, y)) > 5) {
-          stop();
           turningAngle = getTurningAngle(x, y);
           turnTo(turningAngle);
         }
@@ -79,7 +78,7 @@ public class ObstacleNavigator extends AbstractNavigator {
       return null;
     }
     for (ObstacleAvoider avoider : obstacleAvoiders) {
-      if (avoider.isAvoiding()) {
+      if (avoider.isCurrentlyAvoiding()) {
         return avoider;
       }
     }

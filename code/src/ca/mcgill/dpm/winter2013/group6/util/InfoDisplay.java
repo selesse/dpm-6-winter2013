@@ -41,24 +41,25 @@ public class InfoDisplay implements Runnable {
   public void run() {
     LCD.clear();
     while (true) {
-      LCD.drawString("X: ", 0, 0);
-      LCD.drawString("Y: ", 0, 1);
-      LCD.drawString("H: ", 0, 2);
-      LCD.drawString(Double.toString(odometer.getX()), 3, 0);
-      LCD.drawString(Double.toString(odometer.getY()), 3, 1);
-      LCD.drawInt((int) odometer.getTheta(), 3, 2);
-      LCD.drawString("US: ", 0, 4);
-      LCD.drawString("TL: ", 0, 5);
-      LCD.drawString("TR: ", 0, 6);
-      LCD.drawInt(ultrasonicSensor.getDistance(), 4, 4);
-      LCD.drawString(leftTouchSensor.isPressed() ? "true" : "false", 4, 5);
-      LCD.drawString(rightTouchSensor.isPressed() ? "true" : "false", 4, 6);
+      LCD.drawString("X: " + format(odometer.getX()), 0, 0);
+      LCD.drawString("Y: " + format(odometer.getY()), 0, 1);
+      LCD.drawString("H: " + format(odometer.getTheta()), 0, 2);
+
+      LCD.drawString("US: " + format(ultrasonicSensor.getDistance()), 0, 4);
+      LCD.drawString("TL: " + (leftTouchSensor.isPressed() ? "true" : "false"), 0, 5);
+      LCD.drawString("TR: " + (rightTouchSensor.isPressed() ? "true" : "false"), 0, 6);
       try {
         Thread.sleep(25);
       }
       catch (InterruptedException e) {
       }
     }
+  }
+
+  private String format(double value) {
+    // we pad it with extra whitespace because otherwise trailing numbers stay
+    // on the screen
+    return Double.toString(value) + "        ";
   }
 
 }

@@ -18,19 +18,11 @@ public interface ObstacleAvoider extends Runnable {
   public void avoidObstacles();
 
   /**
-   * Turn the avoiding on or off.
-   * 
-   * @param running
-   *          True if you want to avoid obstacles, false otherwise.
-   */
-  void setRunning(boolean running);
-
-  /**
    * Verify whether whether we are currently avoiding.
    * 
    * @return True if we're performing obstacle avoidance maneuvers, otherwise
    *         false.
    */
-  public boolean isAvoiding();
+  public boolean isCurrentlyAvoiding();
 
 }

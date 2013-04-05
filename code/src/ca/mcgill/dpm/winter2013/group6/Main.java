@@ -28,11 +28,11 @@ import ca.mcgill.dpm.winter2013.group6.navigator.ObstacleNavigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
 import ca.mcgill.dpm.winter2013.group6.util.InfoDisplay;
+import ca.mcgill.dpm.winter2013.group6.util.PlayingField;
 import ca.mcgill.dpm.winter2013.group6.util.Robot;
 
 /**
- * Entrypoint to the application. Will start the robot to be either attacker or
- * defender.
+ * Entry point to the application.
  * 
  * @author Alex Selesse
  * 
@@ -52,6 +52,7 @@ public class Main {
   private static BluetoothReceiver bluetooth;
   private static ObstacleAvoider touchAvoidance;
   private static ObstacleAvoider ultrasonicAvoidance;
+  private static PlayingField playingField;
   private static Localizer lightLocalizer;
   private static Localizer ultrasonicLocalizer;
   private static Thread odometerThread;
@@ -65,17 +66,6 @@ public class Main {
 
   public static void main(String[] args) {
     int buttonChoice;
-    // initialize all the motors (left wheel, right wheel, ball thrower)
-    leftMotor = new NXTRegulatedMotor(MotorPort.A);
-    rightMotor = new NXTRegulatedMotor(MotorPort.B);
-    ballThrowingMotor = new NXTRegulatedMotor(MotorPort.C);
-
-    ultrasonicSensor = new UltrasonicSensor(SensorPort.S1);
-    lightSensor = new LightSensor(SensorPort.S2);
-    leftTouchSensor = new TouchSensor(SensorPort.S3);
-    rightTouchSensor = new TouchSensor(SensorPort.S4);
-
-    patBot = new Robot(2.71, 2.71, 15.5, leftMotor, rightMotor);
 
     // wait for user input
     do {
@@ -91,6 +81,7 @@ public class Main {
     while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT
         && buttonChoice != Button.ID_ESCAPE);
 
+    initializeMotorsAndSensors();
     initializeComponents();
     initializeComponentThreads();
     initializeObstacleAvoiders();
@@ -111,36 +102,12 @@ public class Main {
     odometerThread.start();
     infoDisplayThread.start();
 
-    try {
-      // start and finish ultrasonic localization
-      ultrasonicLocalizerThread.start();
-      ultrasonicLocalizerThread.join();
+    ultrasonicSensor.continuous();
+    touchAvoidanceThread.start();
+    ultrasonicAvoidanceThread.start();
 
-      // travel to (15, 15)
-      navigator.travelTo(15, 15);
-      ;
-      // start and finish light localization
-      lightLocalizerThread.start();
-      lightLocalizerThread.join();
-
-      navigator.setCoordinates(new Coordinate[] { new Coordinate((int) (3.0 * 30.5),
-          (int) (30.5 * 5.0)) });
-      touchAvoidanceThread.start();
-      ultrasonicAvoidanceThread.start();
-
-      navigatorThread.start();
-      navigatorThread.join();
-
-      // BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor,
-      // 30);
-      // Thread ballLauncherThread = new Thread(ballLauncher);
-
-      // navigator.turnTo(31, 200);
-      // ballLauncherThread.start();
-      // ballLauncherThread.join();
-    }
-    catch (InterruptedException e) {
-    }
+    navigator.setCoordinates(new Coordinate[] { new Coordinate(50, 50) });
+    navigatorThread.start();
   }
 
   private static void performRightButtonAction() {
@@ -211,14 +178,29 @@ public class Main {
     navigator.travelTo(0, 0);
   }
 
+  private static void initializeMotorsAndSensors() {
+    leftMotor = new NXTRegulatedMotor(MotorPort.A);
+    rightMotor = new NXTRegulatedMotor(MotorPort.B);
+    ballThrowingMotor = new NXTRegulatedMotor(MotorPort.C);
+
+    ultrasonicSensor = new UltrasonicSensor(SensorPort.S1);
+    lightSensor = new LightSensor(SensorPort.S2);
+    leftTouchSensor = new TouchSensor(SensorPort.S3);
+    rightTouchSensor = new TouchSensor(SensorPort.S4);
+  }
+
   private static void initializeComponents() {
+    patBot = new Robot(2.71, 2.71, 15.5, leftMotor, rightMotor);
+    playingField = new PlayingField(10, 10);
     odometer = new Odometer(patBot);
     infoDisplay = new InfoDisplay(odometer, ultrasonicSensor, leftTouchSensor, rightTouchSensor);
     navigator = new ObstacleNavigator(odometer, leftMotor, rightMotor, ultrasonicSensor,
         leftTouchSensor, rightTouchSensor);
     bluetooth = new BluetoothReceiver();
-    touchAvoidance = new TouchAvoidanceImpl(odometer, navigator, leftTouchSensor, rightTouchSensor);
-    ultrasonicAvoidance = new UltrasonicAvoidanceImpl(odometer, navigator, ultrasonicSensor);
+    touchAvoidance = new TouchAvoidanceImpl(odometer, navigator, playingField, leftTouchSensor,
+        rightTouchSensor);
+    ultrasonicAvoidance = new UltrasonicAvoidanceImpl(odometer, navigator, playingField,
+        ultrasonicSensor);
     lightLocalizer = new LightLocalizer(odometer, navigator, lightSensor, 1);
     ultrasonicLocalizer = new UltrasonicLocalizer(odometer, navigator, ultrasonicSensor, 1);
   }
