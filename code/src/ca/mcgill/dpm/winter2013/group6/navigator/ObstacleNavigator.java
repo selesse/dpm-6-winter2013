@@ -39,7 +39,6 @@ public class ObstacleNavigator extends AbstractNavigator {
     turnTo(turningAngle);
 
     // Keep running until we're within an acceptable threshold.
-    double lastUpdate = System.currentTimeMillis();
     while (((x - odometer.getX() > THRESHOLD || x - odometer.getX() < -THRESHOLD))
         || ((y - odometer.getY() > THRESHOLD || y - odometer.getY() < -THRESHOLD))) {
       ObstacleAvoider avoider = getObstacleAvoider();
@@ -61,7 +60,6 @@ public class ObstacleNavigator extends AbstractNavigator {
           stop();
           turningAngle = getTurningAngle(x, y);
           turnTo(turningAngle);
-          lastUpdate = System.currentTimeMillis();
         }
         leftMotor.setSpeed(robot.getForwardSpeed());
         rightMotor.setSpeed(robot.getForwardSpeed());

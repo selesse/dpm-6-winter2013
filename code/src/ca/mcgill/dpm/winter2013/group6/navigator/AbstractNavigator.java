@@ -21,7 +21,6 @@ public abstract class AbstractNavigator implements Navigator {
   protected Coordinate[] waypoints;
   private Coordinate currentCoordinateHeading;
   protected final double THRESHOLD = 2;
-  private final long PERIOD = 2000;
 
   public AbstractNavigator(Odometer odometer, NXTRegulatedMotor leftMotor,
       NXTRegulatedMotor rightMotor) {

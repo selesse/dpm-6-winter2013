@@ -11,7 +11,6 @@ public class OdometerCorrection implements Runnable {
   private int sensorAverage = 0;
   private static final double LIGHT_SENSOR_DISTANCE = 11.6;
   private boolean isRunning;
-  private static final int PERIOD = 25;
 
   public OdometerCorrection(Odometer odometer, LightSensor lightSensor) {
     this.odometer = odometer;
