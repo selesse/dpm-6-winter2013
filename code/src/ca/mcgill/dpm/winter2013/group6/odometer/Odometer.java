@@ -55,7 +55,7 @@ public class Odometer implements Runnable {
     }
   }
 
-  private void getDisplacementAndHeading(double[] data) {
+  public void getDisplacementAndHeading(double[] data) {
     int leftTacho, rightTacho;
     leftTacho = Motor.B.getTachoCount();
     rightTacho = Motor.A.getTachoCount();

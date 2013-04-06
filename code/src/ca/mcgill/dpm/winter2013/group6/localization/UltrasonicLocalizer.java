@@ -36,7 +36,7 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
     while (min < getFilteredData()) {
     }
     navigator.stop();
-    odometer.setPosition(new double[] { 0, 0, 0 }, new boolean[] { true, true, true });
+    odometer.setPosition(new double[] { 5, 5, 5 }, new boolean[] { true, true, true });
     try {
       Thread.sleep(500);
     }
@@ -67,12 +67,7 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
     navigator.stop();
     double angleB = odometer.getTheta();
     Sound.beep();
-    navigator.setMotorRotateSpeed(-robot.getRotateSpeed());
-    // rotate till it doesnt see a wall;
 
-    while (max > getFilteredData()) {
-    }
-    navigator.stop();
     // collect angleB
 
     // the cases here are switched since we want it to be 180 degrees from the
@@ -83,7 +78,7 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
     //
     // }
     // else {
-    angleMid = 45 - (angleA + angleB) / 2;
+    angleMid = 225 - (angleA + angleB) / 2;
     // }
     // useful for testing
     /*
