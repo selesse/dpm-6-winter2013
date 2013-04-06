@@ -14,7 +14,6 @@ import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
  * 
  */
 public class SmartLightLocalizer extends LightLocalizer {
-  private LightSensor lightSensor;
   private int sensorAverage = 0;
   private final int THRESHOLD = 55;
   private final double LIGHT_SENSOR_DISTANCE = 11.8;
@@ -43,11 +42,12 @@ public class SmartLightLocalizer extends LightLocalizer {
 
   @Override
   public void localize() {
-    if (3 >= count) {
+    if (3 <= count) {
+      Sound.beepSequence();
       return;
     }
     navigator.face(45);
-
+    lightSensor.getFloodlight();
     lightSensor.setFloodlight(true);
     int lineCounter = 0;
 
@@ -172,8 +172,6 @@ public class SmartLightLocalizer extends LightLocalizer {
 
   @Override
   public void run() {
-    boolean localizeSuccess = false;
-    for (int i = 0; i < 3 || !localizeSuccess; i++) {
-    }
+    localize();
   }
 }
