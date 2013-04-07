@@ -35,6 +35,8 @@ public class ObstacleNavigator extends AbstractNavigator {
 
   @Override
   public void travelTo(double x, double y) {
+    leftMotor.forward();
+    rightMotor.forward();
     double turningAngle = getTurningAngle(x, y);
     turnTo(turningAngle);
 

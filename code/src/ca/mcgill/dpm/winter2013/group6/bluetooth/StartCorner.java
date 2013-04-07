@@ -7,15 +7,15 @@ package ca.mcgill.dpm.winter2013.group6.bluetooth;
 
 /**
  * <pre>
- * BOTTOM LEFT    X1 (0,0) "BL"
- * TOP LEFT       X2 (0,10) "TL"
- * TOP RIGHT      X3 (10,10) "TR"
- * BOTTOM RIGHT   X4 (10,0) "BR"
+ * BOTTOM LEFT    X1 ( 0,  0) "BL"
+ * BOTTOM RIGHT   X2 (10,  0) "BR"
+ * TOP RIGHT      X3 (10, 10) "TR"
+ * TOP LEFT       X4 ( 0, 10) "TL"
  * </pre>
  */
 public enum StartCorner {
-  BOTTOM_LEFT(1, 0, 0, "BL"), TOP_LEFT(2, 0, 10, "TL"), TOP_RIGHT(3, 10, 10, "TR"), BOTTOM_RIGHT(4,
-      10, 0, "BR"), NULL(0, 0, 0, "NULL");
+  BOTTOM_LEFT(1, 0, 0, "BL"), BOTTOM_RIGHT(2, 0, 10, "BR"), TOP_RIGHT(3, 10, 10, "TR"), TOP_LEFT(4,
+      10, 0, "TL"), NULL(0, 0, 0, "NULL");
 
   private int id, x, y;
   private String name;
@@ -27,7 +27,6 @@ public enum StartCorner {
     this.name = name;
   }
 
-  @Override
   public String toString() {
     return this.name;
   }
@@ -49,11 +48,9 @@ public enum StartCorner {
   }
 
   public static StartCorner lookupCorner(int cornerId) {
-    for (StartCorner corner : StartCorner.values()) {
-      if (corner.id == cornerId) {
+    for (StartCorner corner : StartCorner.values())
+      if (corner.id == cornerId)
         return corner;
-      }
-    }
     return NULL;
   }
 }

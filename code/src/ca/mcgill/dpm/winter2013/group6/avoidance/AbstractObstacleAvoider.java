@@ -34,4 +34,40 @@ public abstract class AbstractObstacleAvoider implements ObstacleAvoider {
   public boolean isCurrentlyAvoiding() {
     return isCurrentlyAvoiding;
   }
+
+  public double getBoundaryBasedTurningAngle(double turningAngle) {
+    if (isNearLeftBoundary()) {
+      if (robotIsMovingUp()) {
+        turningAngle = Math.abs(turningAngle);
+      }
+      else {
+        turningAngle = -Math.abs(turningAngle);
+      }
+    }
+    else if (isNearRightBoundary()) {
+      if (robotIsMovingUp()) {
+        turningAngle = -Math.abs(turningAngle);
+      }
+      else {
+        turningAngle = Math.abs(turningAngle);
+      }
+    }
+
+    return turningAngle;
+  }
+
+  private boolean robotIsMovingUp() {
+    return odometer.getY() - navigator.getCurrentHeading().getY() < 0;
+  }
+
+  public boolean isNearLeftBoundary() {
+    return odometer.getX() <= 20 && navigator.getCurrentHeading().getX() <= 20;
+  }
+
+  public boolean isNearRightBoundary() {
+    double rightBoundary = playingField.getHorizontalLength() - 20;
+
+    return odometer.getX() >= rightBoundary
+        && navigator.getCurrentHeading().getX() >= rightBoundary;
+  }
 }

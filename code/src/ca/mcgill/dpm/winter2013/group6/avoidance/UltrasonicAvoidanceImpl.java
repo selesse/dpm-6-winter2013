@@ -45,7 +45,7 @@ public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
 
     // if we don't have a current heading, don't do anything
     if (navigator.getCurrentHeading() == null) {
-      weShouldTurnLeft = true;
+      return;
     }
     else {
       weShouldTurnLeft = odometer.getX() > navigator.getCurrentHeading().getX();
@@ -55,6 +55,14 @@ public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
     if (weShouldTurnLeft) {
       turningAngle = -70;
     }
+
+    if (isNearLeftBoundary()) {
+      turningAngle = Math.abs(turningAngle);
+    }
+    else if (isNearRightBoundary()) {
+      turningAngle = -Math.abs(turningAngle);
+    }
+
     navigator.travelStraight(-10);
     navigator.turnTo(turningAngle);
     navigator.travelStraight(38);

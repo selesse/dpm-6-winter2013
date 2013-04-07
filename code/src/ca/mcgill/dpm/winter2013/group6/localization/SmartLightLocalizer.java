@@ -14,11 +14,8 @@ import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
  * 
  */
 public class SmartLightLocalizer extends LightLocalizer {
-  private int sensorAverage = 0;
-  private final int THRESHOLD = 55;
   private final double LIGHT_SENSOR_DISTANCE = 11.8;
   private Coordinate coordinates;
-  private int max = 3;
   private int count = 0;
 
   /**
@@ -124,9 +121,7 @@ public class SmartLightLocalizer extends LightLocalizer {
           navigator.travelStraight(10);
         }
         else {
-          double angleMid = Odometer.fixDegAngle(180 - (raw[1] - raw[0]));
           navigator.travelStraight(10);
-
         }
         count++;
         localize();

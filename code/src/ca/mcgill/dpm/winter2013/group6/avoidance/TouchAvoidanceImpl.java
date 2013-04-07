@@ -43,6 +43,8 @@ public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
       turningAngle = -turningAngle;
     }
 
+    turningAngle = getBoundaryBasedTurningAngle(turningAngle);
+
     navigator.travelStraight(-10);
     navigator.turnTo(turningAngle);
     navigator.travelStraight(18);
@@ -51,4 +53,5 @@ public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
   private boolean obstacleDetected() {
     return leftTouchSensor.isPressed() || rightTouchSensor.isPressed();
   }
+
 }
