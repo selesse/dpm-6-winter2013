@@ -56,12 +56,7 @@ public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
       turningAngle = -70;
     }
 
-    if (isNearLeftBoundary()) {
-      turningAngle = Math.abs(turningAngle);
-    }
-    else if (isNearRightBoundary()) {
-      turningAngle = -Math.abs(turningAngle);
-    }
+    turningAngle = getBoundaryBasedTurningAngle(turningAngle);
 
     navigator.travelStraight(-10);
     navigator.turnTo(turningAngle);
