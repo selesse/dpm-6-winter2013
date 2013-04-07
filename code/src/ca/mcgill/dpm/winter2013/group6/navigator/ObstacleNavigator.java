@@ -56,7 +56,7 @@ public class ObstacleNavigator extends AbstractNavigator {
         turnTo(turningAngle);
       }
       else {
-        if (Math.abs(getTurningAngle(x, y)) > 5) {
+        if (Math.abs(getTurningAngle(x, y)) > 4) {
           turningAngle = getTurningAngle(x, y);
           turnTo(turningAngle);
         }

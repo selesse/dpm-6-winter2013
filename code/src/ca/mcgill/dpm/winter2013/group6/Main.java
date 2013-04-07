@@ -160,9 +160,9 @@ public class Main {
 
     Sound.beep();
 
-    int ballDispenserX = 0;
+    int ballDispenserX = -1;
     // transmission.getBallDispenserX();
-    int ballDispenserY = 10;
+    int ballDispenserY = 5;
     // transmission.getBallDispenserY();
 
     double desiredReceivePositionX;
@@ -196,15 +196,15 @@ public class Main {
     smartLightLocalizer = new SmartLightLocalizer(odometer, navigator, lightSensor, new Coordinate(
         (int) desiredReceivePositionX, (int) desiredReceivePositionY));
     Thread smartLightLocalizerThread = new Thread(smartLightLocalizer);
-    // smartLightLocalizerThread.start();
-    // try {
-    // smartLightLocalizerThread.join();
-    // }
-    // catch (InterruptedException e1) {
-    // // TODO Auto-generated catch block
-    // e1.printStackTrace();
-    // }
-
+    smartLightLocalizerThread.start();
+    try {
+      smartLightLocalizerThread.join();
+    }
+    catch (InterruptedException e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+    navigator.face(0);
     navigator.face(((ObstacleNavigator) navigator).getTurningAngle(ballDispenserPositionX,
         ballDispenserPositionY) + 180);
 
@@ -247,7 +247,7 @@ public class Main {
   }
 
   private static void initializeComponents() {
-    patBot = new Robot(2.71, 2.71, 15.5, leftMotor, rightMotor);
+    patBot = new Robot(2.69, 2.69, 15.7, leftMotor, rightMotor);
     playingField = new PlayingField(10, 10);
     odometer = new Odometer(patBot);
     infoDisplay = new InfoDisplay(odometer, ultrasonicSensor, leftTouchSensor, rightTouchSensor);

@@ -135,6 +135,7 @@ public class SmartLightLocalizer extends LightLocalizer {
       else if (lineCounter == 3) {
         return;
       }
+
       return;
     }
     // formula modified from the tutorial slides
@@ -150,6 +151,12 @@ public class SmartLightLocalizer extends LightLocalizer {
         newY + coordinates.getY(),
         newTheta }, new boolean[] { true, true, true });
     count = 0;
+    Sound.beep();
+    navigator.face(0);
+    navigator.travelStraight(coordinates.getY() - odometer.getY());
+
+    Sound.beep();
+
     return;
   }
 
