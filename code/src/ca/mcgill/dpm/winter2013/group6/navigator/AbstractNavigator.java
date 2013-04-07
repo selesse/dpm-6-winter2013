@@ -70,7 +70,7 @@ public abstract class AbstractNavigator implements Navigator {
    * @return The angle, in degrees, that you need to turn to if you want to go
    *         to (x, y).
    */
-  protected double getTurningAngle(double desiredX, double desiredY) {
+  public double getTurningAngle(double desiredX, double desiredY) {
     double x = desiredX - odometer.getX();
     double y = desiredY - odometer.getY();
     double odometerTheta = odometer.getTheta();

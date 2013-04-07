@@ -47,6 +47,7 @@ public class SmartLightLocalizer extends LightLocalizer {
       return;
     }
     navigator.face(45);
+    odometer.setPosition(new double[] { 0, 0, 0 }, new boolean[] { true, true, true });
     lightSensor.getFloodlight();
     lightSensor.setFloodlight(true);
     int lineCounter = 0;
@@ -144,24 +145,6 @@ public class SmartLightLocalizer extends LightLocalizer {
     double newTheta = 180 + thetaX - raw[3];
     newTheta += odometer.getTheta();
 
-    if (corner == 1) {
-      // nothing needs to be done
-    }
-    else if (corner == 2) {
-      newTheta -= 90;
-      newY = -newX;
-      newX += 10 * 30.48 - newY;
-    }
-    else if (corner == 3) {
-      newTheta -= 180;
-      newX += 10 * 30.48 - newX;
-      newY += 10 * 30.48 - newY;
-    }
-    else {
-      newTheta += 90;
-      newY += 10 * 30.48 - newX;
-      newX = newY;
-    }
     odometer.setPosition(new double[] {
         newX + coordinates.getX(),
         newY + coordinates.getY(),
