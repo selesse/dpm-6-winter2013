@@ -105,7 +105,9 @@ Hassan    | 03/22 8:40 PM  |   4  |     3       | Implemented the ultrasonicAvoi
 Hassan    | 03/26 3:00 PM  |   5  |     5       | Improved obstacle-avoidance & did some testing
 Hassan    | 03/27 2:00 PM  |   5  |     3       | last touches and made sure everything works in for the beta demo
 
-Hassan    | 03/31 12:02 PM |   6  |     2.5       | Created the defense strategy document v1
+Hassan    | 03/31 12:02 PM |   6  |     2.5     | Created the defense strategy document v1
+Hassan    | 04/7  10:00 AM |   6  |     2       | tried to find an algorithm to improve obstacle avoidance next to the wall
+Hassan    | 04/9  3:23 AM  |   6  |     13.5    | Final Testings + defense strategy + defense strategy document updated
 
 # Hong Yi
 # Name    | Time Completed | Week | Hours spent | Task done
