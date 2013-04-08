@@ -87,7 +87,7 @@ public class Main {
       LCD.drawString("       | Mode   ", 0, 2);
       LCD.drawString("       |        ", 0, 3);
 
-      buttonChoice = Button.waitForAnyPress();
+      buttonChoice = Button.waitForPress();
     }
     while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT
         && buttonChoice != Button.ID_ESCAPE);
@@ -104,13 +104,14 @@ public class Main {
       performCompetitionAction();
     }
 
-    while (Button.waitForAnyPress() != Button.ID_ESCAPE) {
+    while (Button.waitForPress() != Button.ID_ESCAPE) {
       ;
     }
   }
 
   public static void performLeftButtonAction() {
-    testUltrasonicDefense();
+    calibrate();
+    // testUltrasonicDefense();
   }
 
   public static void testUltrasonicDefense() {
@@ -276,5 +277,13 @@ public class Main {
     obstacleAvoiders.add(touchAvoidance);
     obstacleAvoiders.add(ultrasonicAvoidance);
     ((ObstacleNavigator) navigator).setAvoiderList(obstacleAvoiders);
+  }
+
+  private static void calibrate() {
+    navigator.travelStraight(30.5 * 2);
+    navigator.face(180);
+    navigator.travelStraight(30.5 * 2);
+    navigator.face(0);
+
   }
 }
