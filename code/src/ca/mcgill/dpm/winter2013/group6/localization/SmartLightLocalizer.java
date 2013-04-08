@@ -62,14 +62,14 @@ public class SmartLightLocalizer extends LightLocalizer {
 
     // Filter the light sensor
     try {
-      Thread.sleep(1500);
+      Thread.sleep(300);
     }
     catch (InterruptedException e) {
     }
     // Rotate and clock the 4 grid lines
     calibrateSensorAverage();
 
-    navigator.setMotorRotateSpeed(-robot.getRotateSpeed());
+    navigator.setMotorRotateSpeed(-robot.getRotateSpeed() - 150);
 
     // Detect the four lines
     double[] heading = new double[2];
