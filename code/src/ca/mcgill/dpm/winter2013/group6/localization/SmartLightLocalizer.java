@@ -37,6 +37,15 @@ public class SmartLightLocalizer extends LightLocalizer {
     this.coordinates = coordinates;
   }
 
+  public SmartLightLocalizer(Odometer odometer, Navigator navigator, LightSensor lightSensor) {
+    super(odometer, navigator, lightSensor, 1);
+    this.coordinates = null;
+  }
+
+  public void setCoordinates(Coordinate coordinates) {
+    this.coordinates = coordinates;
+  }
+
   @Override
   public void localize() {
     if (3 <= count) {
@@ -53,14 +62,14 @@ public class SmartLightLocalizer extends LightLocalizer {
 
     // Filter the light sensor
     try {
-      Thread.sleep(1500);
+      Thread.sleep(300);
     }
     catch (InterruptedException e) {
     }
     // Rotate and clock the 4 grid lines
     calibrateSensorAverage();
 
-    navigator.setMotorRotateSpeed(-robot.getRotateSpeed());
+    navigator.setMotorRotateSpeed(-robot.getRotateSpeed() - 150);
 
     // Detect the four lines
     double[] heading = new double[2];
@@ -76,7 +85,8 @@ public class SmartLightLocalizer extends LightLocalizer {
         raw[lineCounter] = odometer.getTheta();
         odometer.getDisplacementAndHeading(heading);
         currAngle = heading[1];
-        if (currAngle > startingAngle + 360) {
+        // its negative since we are rotating the wrong direction
+        if (currAngle - 360 < startingAngle) {
           Sound.buzz();
           error = true;
           break;
@@ -96,10 +106,14 @@ public class SmartLightLocalizer extends LightLocalizer {
     // write code to handle situations where it wouldn't work
     // which means it has rotated for 360 degrees but havent scanned all 4 lines
     // yet
+
     if (error) {
 
       // seriously i cant fix it at this stage...
       if (lineCounter == 0) {
+        navigator.face(45);
+        navigator.travelStraight(15);
+        count++;
         return;
       }
       // not very likely but here is an attempt to fix it
@@ -109,6 +123,7 @@ public class SmartLightLocalizer extends LightLocalizer {
         navigator.turnTo(raw[0]);
         navigator.travelStraight(LIGHT_SENSOR_DISTANCE);
         count++;
+        // calling it again here to try to localize
         localize();
       }
       // two causes in this case
@@ -132,6 +147,17 @@ public class SmartLightLocalizer extends LightLocalizer {
       }
 
       return;
+    }
+    // happens if it is displaced too far right from the y axis
+    if (raw[0] > 60) {
+      double swap = raw[1];
+      double swap2 = raw[2];
+      raw[1] = raw[0];
+      raw[2] = swap;
+      swap = raw[3];
+      raw[3] = swap2;
+      raw[0] = swap;
+
     }
     // formula modified from the tutorial slides
     double thetaX = (raw[3] - raw[1]) / 2;
