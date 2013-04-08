@@ -35,6 +35,7 @@ Alex      | 04/04 2:00 PM  |   6  |      1      | Team meeting: figure out defen
 Alex      | 04/05 5:30 PM  |   6  |     4.5     | Work on obstacle avoidance, fixing other aspects of code along the way. Obstacle avoidance should no longer call navigator.stop which should allow multiple systems to avoid simultaneously. Fix up Transmission to actually make sense (rather than use arbitrary, unclear variable names). Make the robot stop twitching when advancing by minimizing calls to navigator.stop().
 Alex      | 04/07 2:30 PM  |   6  |      2      | Boundary control for obstacle avoiders. Change StartCorner, remove unused variables.
 Alex      | 04/07 4:00 PM  |   6  |      1      | Better boundary control: take into consideration whether robot is going up or down (which consequently impacts how it should turn away from the wall).
+Alex      | 04/08 11:30 AM |   6  |      3      | Work on ultrasonic defense implementation.
 
 # Arthur
 # Name    | Time Completed | Week | Hours spent | Task done

@@ -57,7 +57,7 @@ public abstract class AbstractObstacleAvoider implements ObstacleAvoider {
   }
 
   private boolean robotIsMovingUp() {
-    return odometer.getY() - navigator.getCurrentHeading().getY() < 0;
+    return (odometer.getY() - navigator.getCurrentHeading().getY()) < 0;
   }
 
   public boolean isNearLeftBoundary() {
