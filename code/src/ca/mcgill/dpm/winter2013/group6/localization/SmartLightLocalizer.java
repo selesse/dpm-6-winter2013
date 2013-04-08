@@ -75,7 +75,7 @@ public class SmartLightLocalizer extends LightLocalizer {
     double[] heading = new double[2];
     odometer.getDisplacementAndHeading(heading);
     double startingAngle = heading[1];
-    double currAngle;
+    double currAngle = startingAngle;
     boolean error = false;
 
     while (lineCounter < 4) {
@@ -84,8 +84,8 @@ public class SmartLightLocalizer extends LightLocalizer {
         Sound.beep();
         raw[lineCounter] = odometer.getTheta();
         odometer.getDisplacementAndHeading(heading);
-        currAngle = heading[1];
-        // its negative since we are rotating the wrong direction
+        currAngle += heading[1];
+        // its negative since we are rotating the negative direction
         if (currAngle - 360 < startingAngle) {
           Sound.buzz();
           error = true;
