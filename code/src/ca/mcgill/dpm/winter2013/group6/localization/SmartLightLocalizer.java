@@ -37,6 +37,15 @@ public class SmartLightLocalizer extends LightLocalizer {
     this.coordinates = coordinates;
   }
 
+  public SmartLightLocalizer(Odometer odometer, Navigator navigator, LightSensor lightSensor) {
+    super(odometer, navigator, lightSensor, 1);
+    this.coordinates = null;
+  }
+
+  public void setCoordinates(Coordinate coordinates) {
+    this.coordinates = coordinates;
+  }
+
   @Override
   public void localize() {
     if (3 <= count) {
