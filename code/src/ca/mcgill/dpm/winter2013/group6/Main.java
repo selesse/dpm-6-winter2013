@@ -165,7 +165,6 @@ public class Main {
     try {
       ballLauncher = new BallLauncherImpl(ballThrowingMotor, 1);
       ballLauncherThread = new Thread(ballLauncher);
-
       lightLocalizer = new LightLocalizer(odometer, navigator, lightSensor, transmission
           .getStartingCorner().getId());
       lightLocalizerThread = new Thread(lightLocalizer);
@@ -175,7 +174,6 @@ public class Main {
 
       // start and finish ultrasonic localization
       ultrasonicLocalizerThread.start();
-
       ultrasonicLocalizerThread.join();
 
       navigator.travelTo(15, 15);
@@ -191,6 +189,7 @@ public class Main {
 
       Coordinate ballDispenserCoordinate = Coordinate.getCoordinateFromBallDispenserLocation(
           transmission.getBallDispenserX(), transmission.getBallDispenserY());
+      Coordinate launchingCoordinate = Coordinate.pickBallLauncherLocation(transmission);
 
       navigator.setCoordinates(new Coordinate[] { ballDispenserCoordinate });
 
@@ -216,20 +215,21 @@ public class Main {
       ballThrowingMotor.rotate(-5);
       ballThrowingMotor.flt(true);
 
-      navigator
-          .setCoordinates(new Coordinate[] { Coordinate.pickBallLauncherLocation(transmission) });
+      navigator.setCoordinates(new Coordinate[] { launchingCoordinate });
       navigatorThread = new Thread(navigator);
       navigatorThread.start();
       navigatorThread.join();
 
       Thread.sleep(1000);
 
+      Coordinate goalCoordinate = Coordinate.getCoordinateFromBlock(5, 10);
+      navigator.turnTo(goalCoordinate.getX(), goalCoordinate.getY());
+
+      Thread.sleep(250);
+
       // start the ball launching thread, wait for it to finish
       ballLauncherThread.start();
       ballLauncherThread.join();
-
-      // go back to origin
-      navigator.travelTo(0, 0);
     }
     catch (InterruptedException e) {
     }
