@@ -12,10 +12,16 @@ import lejos.nxt.SensorPort;
 import lejos.nxt.Sound;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
+import lejos.nxt.comm.Bluetooth;
+import lejos.util.Delay;
 import ca.mcgill.dpm.winter2013.group6.avoidance.ObstacleAvoider;
 import ca.mcgill.dpm.winter2013.group6.avoidance.TouchAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.avoidance.UltrasonicAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.bluetooth.BluetoothReceiver;
+import ca.mcgill.dpm.winter2013.group6.bluetooth.Transmission;
+import ca.mcgill.dpm.winter2013.group6.defender.RobotUltrasonicDefender;
+import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
+import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
 import ca.mcgill.dpm.winter2013.group6.localization.LightLocalizer;
 import ca.mcgill.dpm.winter2013.group6.localization.Localizer;
 import ca.mcgill.dpm.winter2013.group6.localization.SmartLightLocalizer;
@@ -53,6 +59,7 @@ public class Main {
   private static Localizer lightLocalizer;
   private static Localizer ultrasonicLocalizer;
   private static Localizer smartLightLocalizer;
+  private static RobotUltrasonicDefender defender;
   private static Thread odometerThread;
   private static Thread infoDisplayThread;
   private static Thread navigatorThread;
@@ -61,7 +68,10 @@ public class Main {
   private static Thread ultrasonicAvoidanceThread;
   private static Thread lightLocalizerThread;
   private static Thread ultrasonicLocalizerThread;
+  private static Thread ballLauncherThread;
   private static Thread smartLocalizerThread;
+  private static Thread robotDefenderThread;
+  private static BallLauncher ballLauncher;
 
   public static void main(String[] args) {
     int buttonChoice;
@@ -97,7 +107,22 @@ public class Main {
     }
   }
 
-  private static void performLeftButtonAction() {
+  public static void performLeftButtonAction() {
+    testUltrasonicDefense();
+  }
+
+  public static void testUltrasonicDefense() {
+    navigator.face(-90);
+    Sound.beepSequence();
+    Delay.msDelay(500);
+    navigator.face(0);
+    Sound.beepSequence();
+    Delay.msDelay(500);
+    navigator.face(90);
+    Sound.beepSequence();
+  }
+
+  public static void testObstacleAvoidanceBoundaries() {
     odometerThread.start();
     infoDisplayThread.start();
 
@@ -105,31 +130,30 @@ public class Main {
     touchAvoidanceThread.start();
     ultrasonicAvoidanceThread.start();
 
-    navigator.setCoordinates(new Coordinate[] { new Coordinate(50, 50) });
+    navigator.setCoordinates(new Coordinate[] { new Coordinate(-10, 100), new Coordinate(30, 30) });
     navigatorThread.start();
   }
 
-  private static void performRightButtonAction() {
+  public static void performRightButtonAction() {
     odometerThread.start();
     infoDisplayThread.start();
 
-    // bluetoothThread.start();
+    bluetoothThread.start();
 
     // wait until the bluetooth thread finishes before continuing
-    // try {
-    // bluetoothThread.join();
-    // }
-    // catch (InterruptedException e) {
-    // }
+    try {
+      bluetoothThread.join();
+    }
+    catch (InterruptedException e) {
+    }
 
-    // Transmission transmission = bluetooth.getTransmission();
-    // Bluetooth.setPower(false);
+    Transmission transmission = bluetooth.getTransmission();
+    Bluetooth.setPower(false);
 
-    // navigator.setCoordinates(new Coordinate[] { new
-    // Coordinate((transmission.getBallDispenserX()),
-    // transmission.getBallDispenserY() - (int) (30.5 * 5)) });
-    // BallLauncher ballLauncher = new BallLauncherImpl(ballThrowingMotor, 1);
-    // Thread ballLauncherThread = new Thread(ballLauncher);
+    navigator.setCoordinates(new Coordinate[] { new Coordinate((transmission.getBallDispenserX()),
+        transmission.getBallDispenserY() - (int) (30.5 * 5)) });
+    ballLauncher = new BallLauncherImpl(ballThrowingMotor, 1);
+    ballLauncherThread = new Thread(ballLauncher);
 
     // start and finish ultrasonic localization
     ultrasonicLocalizerThread.start();
@@ -156,75 +180,26 @@ public class Main {
     touchAvoidanceThread.start();
     ultrasonicAvoidanceThread.start();
 
-    // start the navigation thread
+    Coordinate ballDispenserCoordinate = Coordinate.getCoordinateFromBallDispenserLocation(
+        transmission.getBallDispenserX(), transmission.getBallDispenserY());
 
-    Sound.beep();
-
-    int ballDispenserX = -1;
-    // transmission.getBallDispenserX();
-    int ballDispenserY = 5;
-    // transmission.getBallDispenserY();
-
-    double desiredReceivePositionX;
-    double desiredReceivePositionY;
-
-    double ballDispenserPositionX = (ballDispenserX * 30.5);
-    double ballDispenserPositionY = (ballDispenserY * 30.5);
-
-    if (ballDispenserX < 0) {
-
-      desiredReceivePositionX = (ballDispenserPositionX + 2 * (30.5));
-      desiredReceivePositionY = ballDispenserPositionY;
-    }
-    else if (ballDispenserY < 0) {
-
-      desiredReceivePositionX = ballDispenserPositionX;
-      desiredReceivePositionY = (ballDispenserPositionY + 2 * (30.5));
-    }
-    else if (ballDispenserX > ballDispenserY) {
-
-      desiredReceivePositionX = (ballDispenserPositionX - 2 * (30.5));
-      desiredReceivePositionY = ballDispenserPositionY;
-    }
-    else {
-
-      desiredReceivePositionX = ballDispenserPositionX;
-      desiredReceivePositionY = (ballDispenserPositionY - 2 * (30.5));
-    }
-
-    navigator.travelTo(desiredReceivePositionX, desiredReceivePositionY);
-    smartLightLocalizer = new SmartLightLocalizer(odometer, navigator, lightSensor, new Coordinate(
-        (int) desiredReceivePositionX, (int) desiredReceivePositionY));
+    navigator.travelTo(ballDispenserCoordinate);
+    smartLightLocalizer = new SmartLightLocalizer(odometer, navigator, lightSensor,
+        ballDispenserCoordinate);
     Thread smartLightLocalizerThread = new Thread(smartLightLocalizer);
     smartLightLocalizerThread.start();
     try {
       smartLightLocalizerThread.join();
     }
-    catch (InterruptedException e1) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
+    catch (InterruptedException e) {
     }
-    navigator.face(0);
-    navigator.face(((ObstacleNavigator) navigator).getTurningAngle(ballDispenserPositionX,
-        ballDispenserPositionY) + 180);
-
-    ballThrowingMotor.rotate(5);
-    ballThrowingMotor.flt(true);
-
-    navigator.travelStraight(-1.2 * 30.5 + 1.5);
 
     try {
       Thread.sleep(3000);
     }
     catch (InterruptedException e) {
-      // TODO Auto-generated catch block
       Sound.beep();
-      e.printStackTrace();
     }
-
-    navigator.travelStraight(1.2 * 30.5 - 1.5);
-    ballThrowingMotor.rotate(-5);
-    ballThrowingMotor.flt(true);
 
     // start the ball launching thread, wait for it to finish
     /*

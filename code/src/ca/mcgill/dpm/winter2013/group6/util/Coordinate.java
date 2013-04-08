@@ -50,4 +50,32 @@ public class Coordinate {
   public static Coordinate getCoordinateFromBlock(int x, int y) {
     return new Coordinate((int) (30.5 * x), (int) (30.5 * y));
   }
+
+  public static Coordinate getCoordinateFromBallDispenserLocation(int ballDispenserX,
+      int ballDispenserY) {
+    double desiredReceivePositionX;
+    double desiredReceivePositionY;
+
+    double ballDispenserPositionX = (ballDispenserX * 30.5);
+    double ballDispenserPositionY = (ballDispenserY * 30.5);
+
+    if (ballDispenserX < 0) {
+      desiredReceivePositionX = (ballDispenserPositionX + 2 * (30.5));
+      desiredReceivePositionY = ballDispenserPositionY;
+    }
+    else if (ballDispenserY < 0) {
+      desiredReceivePositionX = ballDispenserPositionX;
+      desiredReceivePositionY = (ballDispenserPositionY + 2 * (30.5));
+    }
+    else if (ballDispenserX > ballDispenserY) {
+      desiredReceivePositionX = (ballDispenserPositionX - 2 * (30.5));
+      desiredReceivePositionY = ballDispenserPositionY;
+    }
+    else {
+      desiredReceivePositionX = ballDispenserPositionX;
+      desiredReceivePositionY = (ballDispenserPositionY - 2 * (30.5));
+    }
+
+    return new Coordinate((int) desiredReceivePositionX, (int) desiredReceivePositionY);
+  }
 }
