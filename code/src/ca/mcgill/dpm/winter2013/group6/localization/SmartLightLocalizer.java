@@ -89,7 +89,7 @@ public class SmartLightLocalizer extends LightLocalizer {
         odometer.getDisplacementAndHeading(heading);
         currAngle += heading[1];
         // its negative since we are rotating the negative direction
-        if (currAngle + 360 < startingAngle) {
+        if (currAngle + 400 < startingAngle) {
           Sound.buzz();
           error = true;
           break;
