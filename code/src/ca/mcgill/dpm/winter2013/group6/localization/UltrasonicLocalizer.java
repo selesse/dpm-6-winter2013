@@ -78,15 +78,19 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
     //
     // }
     // else {
-    angleMid = 225 - (angleA + angleB) / 2;
+    angleMid = 225 - (angleA + angleB) / 2 - odometer.getTheta() + 45;
     // }
     // useful for testing
     /*
      * odometer.setPosition(new double[] { angleA, angleB, angleMid }, new
      * boolean[] { true, true, true });
      */
-
-    navigator.turnTo(angleMid - odometer.getTheta() + 45);
+    // just making sure it doesnt happen, and since angleA is always 5 degrees,
+    // angleMid should be at around 225
+    if (angleMid < angleB) {
+      angleMid -= 180;
+    }
+    navigator.turnTo(angleMid);
 
     odometer.setPosition(new double[] { 0, 0, 45 }, new boolean[] { true, true, true });
     // walk to somewhere so it can perform the lightLocalization
