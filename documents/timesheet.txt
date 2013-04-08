@@ -151,9 +151,14 @@ Kaichen   | 03/27  4:00 PM |   5  |     3.0     | Beta Demo testing. Beta Demo p
 
 Kaichen   | 03/30  8:00 PM |   6  |     2.0     | Testing robot's odometry. documenting mechanical changes. administrative tasks (distribution of tasks).
 Kaichen   | 03/31 10:00 AM |   6  |     2.0     | Gantt chart update. PowerPoint.
+Kaichen   | 03/08  8:00 PM |   6  |     1.0     | Coding and testing of the ball retrieval mechanism
+Kaichen   | 04/08  1:00 AM |   6  |     5.0     | Finalize content and formatting of major documents. Checked for consistency across all documents
+Kaichen   | 04/08  3:00 PM |   6  |     5.0     | Finalize poster design and final presentation material.
+
 
 
 # Reading Week entries: REMEMBER IT'S WEEK 7
 # Name    | Time Completed | Week | Hours spent | Task done
 Alex      | 03/11 11:24 AM |   7  |      2      | Group meeting, git tutorial, software architecture discussion
 Francois  | 03/04  2:00 PM |   7  |      3      | Group meeting, mechanical design discussion
+Kaichen   | 03/31 10:00 AM |   7  |     2.0     | Group meeting
