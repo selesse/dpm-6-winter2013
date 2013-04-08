@@ -14,7 +14,7 @@ import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
 public interface Navigator extends Runnable {
 
   /**
-   * Moves to the robot to (x, y) coordinates.
+   * Moves the robot to (x, y) coordinates.
    * 
    * @param x
    *          The x-coordinate we're going to.
@@ -22,6 +22,14 @@ public interface Navigator extends Runnable {
    *          The y-coordinate we're going to.
    */
   void travelTo(double x, double y);
+
+  /**
+   * Moves the robot to the particular {@link Coordinate} given.
+   * 
+   * @param point
+   *          The point we're going to.
+   */
+  void travelTo(Coordinate point);
 
   /**
    * Makes the robot walk {@code distance} centimeters.
@@ -104,5 +112,7 @@ public interface Navigator extends Runnable {
    * @return
    */
   Coordinate getCurrentHeading();
+
+  void turnTo(double theta, int robotAcceleration, int robotRotateSpeed);
 
 }

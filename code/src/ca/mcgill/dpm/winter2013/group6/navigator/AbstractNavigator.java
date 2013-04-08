@@ -44,6 +44,11 @@ public abstract class AbstractNavigator implements Navigator {
   }
 
   @Override
+  public void travelTo(Coordinate point) {
+    travelTo(point.getX(), point.getY());
+  }
+
+  @Override
   public void travelStraight(double distance) {
     leftMotor.setSpeed(robot.getForwardSpeed());
     rightMotor.setSpeed(robot.getForwardSpeed());
@@ -106,6 +111,18 @@ public abstract class AbstractNavigator implements Navigator {
     theta = getOptimalAngle(theta);
     leftMotor.setSpeed(robot.getRotateSpeed());
     rightMotor.setSpeed(robot.getRotateSpeed());
+    leftMotor.rotate(convertAngle(robot, theta), true);
+    rightMotor.rotate(-convertAngle(robot, theta), false);
+  }
+
+  @Override
+  public void turnTo(double theta, int robotAcceleration, int robotRotateSpeed) {
+    theta = getOptimalAngle(theta);
+    leftMotor.setAcceleration(robotAcceleration);
+    rightMotor.setAcceleration(robotAcceleration);
+    leftMotor.setSpeed(robotRotateSpeed);
+    rightMotor.setSpeed(robotRotateSpeed);
+
     leftMotor.rotate(convertAngle(robot, theta), true);
     rightMotor.rotate(-convertAngle(robot, theta), false);
   }

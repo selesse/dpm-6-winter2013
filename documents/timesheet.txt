@@ -35,6 +35,7 @@ Alex      | 04/04 2:00 PM  |   6  |      1      | Team meeting: figure out defen
 Alex      | 04/05 5:30 PM  |   6  |     4.5     | Work on obstacle avoidance, fixing other aspects of code along the way. Obstacle avoidance should no longer call navigator.stop which should allow multiple systems to avoid simultaneously. Fix up Transmission to actually make sense (rather than use arbitrary, unclear variable names). Make the robot stop twitching when advancing by minimizing calls to navigator.stop().
 Alex      | 04/07 2:30 PM  |   6  |      2      | Boundary control for obstacle avoiders. Change StartCorner, remove unused variables.
 Alex      | 04/07 4:00 PM  |   6  |      1      | Better boundary control: take into consideration whether robot is going up or down (which consequently impacts how it should turn away from the wall).
+Alex      | 04/08 11:30 AM |   6  |      3      | Work on ultrasonic defense implementation.
 
 # Arthur
 # Name    | Time Completed | Week | Hours spent | Task done
@@ -63,6 +64,8 @@ Arthur    | 03/27 05:12 PM |   5  |      2      | Last minute bug smashing + dem
 Arthur    | 03/30 08:00 PM |   6  |      2      | Ran tests for odometryCorrection
 
 Arthur    | 03/31 03:21 AM |   6  |      1      | Attempted to fix odometryCorrection
+Arthur    | 04/08 09:35 AM |   6  |      5      | Integration and system test, went over one document
+
 # Francois
 # Name    | Time Completed | Week | Hours spent | Task done
 Francois  | 02/18 5:11 PM  |   1  |     3.5     | Worked on mechanical design and completed mechanical document
@@ -82,6 +85,9 @@ Francois  | 03/26  3:00 PM |   5  |     2       | Worked on the ball holder agai
 Francois  | 04/02  3:00 PM |   6  |     4       | LDD file completed for lastest prototype.
 Francois  | 04/03 11:00 AM |   6  |     1       | Worked on a way to get the ball from the ball dispenser
 Francois  | 04/04  4:00 PM |   6  |     5       | Team meeting and testing on the ball launcher.
+Francois  | 07/04 10:00 PM |   6  |     3		| Hardware document update
+Francois  | 08/04 12:30 PM |   6  |     3.5     | Team meeting and document update.
+Francois  | 09/04  5:00 PM |   6  |     4       | Final adjustments to the robot.
 
 
 # Hassan
@@ -100,7 +106,9 @@ Hassan    | 03/22 8:40 PM  |   4  |     3       | Implemented the ultrasonicAvoi
 Hassan    | 03/26 3:00 PM  |   5  |     5       | Improved obstacle-avoidance & did some testing
 Hassan    | 03/27 2:00 PM  |   5  |     3       | last touches and made sure everything works in for the beta demo
 
-Hassan    | 03/31 12:02 PM |   6  |     2.5       | Created the defense strategy document v1
+Hassan    | 03/31 12:02 PM |   6  |     2.5     | Created the defense strategy document v1
+Hassan    | 04/7  10:00 AM |   6  |     2       | tried to find an algorithm to improve obstacle avoidance next to the wall
+Hassan    | 04/9  3:23 AM  |   6  |     13.5    | Final Testings + defense strategy + defense strategy document updated
 
 # Hong Yi
 # Name    | Time Completed | Week | Hours spent | Task done

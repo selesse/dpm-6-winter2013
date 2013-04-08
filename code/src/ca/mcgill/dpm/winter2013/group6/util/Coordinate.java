@@ -46,4 +46,8 @@ public class Coordinate {
   public String toString() {
     return "(" + getX() + ", " + getY() + ")";
   }
+
+  public static Coordinate getCoordinateFromBlock(int x, int y) {
+    return new Coordinate((int) (30.5 * x), (int) (30.5 * y));
+  }
 }
