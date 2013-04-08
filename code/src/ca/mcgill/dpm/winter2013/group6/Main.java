@@ -18,8 +18,10 @@ import ca.mcgill.dpm.winter2013.group6.avoidance.ObstacleAvoider;
 import ca.mcgill.dpm.winter2013.group6.avoidance.TouchAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.avoidance.UltrasonicAvoidanceImpl;
 import ca.mcgill.dpm.winter2013.group6.bluetooth.BluetoothReceiver;
+import ca.mcgill.dpm.winter2013.group6.bluetooth.PlayerRole;
 import ca.mcgill.dpm.winter2013.group6.bluetooth.Transmission;
 import ca.mcgill.dpm.winter2013.group6.defender.RobotUltrasonicDefender;
+import ca.mcgill.dpm.winter2013.group6.defender.RobotUltrasonicDefenderImpl;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncher;
 import ca.mcgill.dpm.winter2013.group6.launcher.BallLauncherImpl;
 import ca.mcgill.dpm.winter2013.group6.localization.LightLocalizer;
@@ -69,8 +71,8 @@ public class Main {
   private static Thread lightLocalizerThread;
   private static Thread ultrasonicLocalizerThread;
   private static Thread ballLauncherThread;
-  private static Thread smartLocalizerThread;
-  private static Thread robotDefenderThread;
+  private static Thread smartLightLocalizerThread;
+  private static Thread defenderThread;
   private static BallLauncher ballLauncher;
 
   public static void main(String[] args) {
@@ -80,12 +82,12 @@ public class Main {
     do {
       LCD.clear();
 
-      LCD.drawString("< Test | Demo  >", 0, 0);
-      LCD.drawString("  Mode | Mode   ", 0, 1);
-      LCD.drawString("       |        ", 0, 2);
+      LCD.drawString("< Test | Compe  ", 0, 0);
+      LCD.drawString("  Mode | tition ", 0, 1);
+      LCD.drawString("       | Mode   ", 0, 2);
       LCD.drawString("       |        ", 0, 3);
 
-      buttonChoice = Button.waitForPress();
+      buttonChoice = Button.waitForAnyPress();
     }
     while (buttonChoice != Button.ID_LEFT && buttonChoice != Button.ID_RIGHT
         && buttonChoice != Button.ID_ESCAPE);
@@ -99,10 +101,10 @@ public class Main {
       performLeftButtonAction();
     }
     else if (buttonChoice == Button.ID_RIGHT) {
-      performRightButtonAction();
+      performCompetitionAction();
     }
 
-    while (Button.waitForPress() != Button.ID_ESCAPE) {
+    while (Button.waitForAnyPress() != Button.ID_ESCAPE) {
       ;
     }
   }
@@ -134,80 +136,103 @@ public class Main {
     navigatorThread.start();
   }
 
-  public static void performRightButtonAction() {
-    odometerThread.start();
-    infoDisplayThread.start();
-
-    bluetoothThread.start();
-
-    // wait until the bluetooth thread finishes before continuing
+  public static void performCompetitionAction() {
     try {
+      odometerThread.start();
+      infoDisplayThread.start();
+      bluetoothThread.start();
       bluetoothThread.join();
+
+      Transmission transmission = bluetooth.getTransmission();
+
+      // power off bluetooth, we've got what we need
+      Bluetooth.setPower(false);
+
+      if (transmission.getRole() == PlayerRole.ATTACKER) {
+        attack(transmission);
+      }
+      else {
+        defender = new RobotUltrasonicDefenderImpl(navigator, ultrasonicSensor, transmission);
+        defenderThread.start();
+      }
     }
     catch (InterruptedException e) {
+      // this thread won't be interrupted
     }
+  }
 
-    Transmission transmission = bluetooth.getTransmission();
-    Bluetooth.setPower(false);
-
-    navigator.setCoordinates(new Coordinate[] { new Coordinate((transmission.getBallDispenserX()),
-        transmission.getBallDispenserY() - (int) (30.5 * 5)) });
-    ballLauncher = new BallLauncherImpl(ballThrowingMotor, 1);
-    ballLauncherThread = new Thread(ballLauncher);
-
-    // start and finish ultrasonic localization
-    ultrasonicLocalizerThread.start();
+  private static void attack(Transmission transmission) {
     try {
+      ballLauncher = new BallLauncherImpl(ballThrowingMotor, 1);
+      ballLauncherThread = new Thread(ballLauncher);
+
+      lightLocalizer = new LightLocalizer(odometer, navigator, lightSensor, transmission
+          .getStartingCorner().getId());
+      lightLocalizerThread = new Thread(lightLocalizer);
+      ultrasonicLocalizer = new UltrasonicLocalizer(odometer, navigator, ultrasonicSensor,
+          transmission.getStartingCorner().getId());
+      ultrasonicLocalizerThread = new Thread(ultrasonicLocalizer);
+
+      // start and finish ultrasonic localization
+      ultrasonicLocalizerThread.start();
+
       ultrasonicLocalizerThread.join();
-    }
-    catch (InterruptedException e) {
-      // don't do anything - this thread is not expected to be interrupted
-    }
 
-    navigator.travelTo(15, 15);
+      navigator.travelTo(15, 15);
 
-    // start and finish light localization
-    lightLocalizerThread.start();
-    try {
+      // start and finish light localization
+      lightLocalizerThread.start();
       lightLocalizerThread.join();
-    }
-    catch (InterruptedException e) {
-      // don't do anything - this thread is not expected to be interrupted
-    }
 
-    ultrasonicSensor.continuous();
-    // start the touch avoidance and the ultrasonic avoidance threads
-    touchAvoidanceThread.start();
-    ultrasonicAvoidanceThread.start();
+      ultrasonicSensor.continuous();
+      // start the touch avoidance and the ultrasonic avoidance threads
+      touchAvoidanceThread.start();
+      ultrasonicAvoidanceThread.start();
 
-    Coordinate ballDispenserCoordinate = Coordinate.getCoordinateFromBallDispenserLocation(
-        transmission.getBallDispenserX(), transmission.getBallDispenserY());
+      Coordinate ballDispenserCoordinate = Coordinate.getCoordinateFromBallDispenserLocation(
+          transmission.getBallDispenserX(), transmission.getBallDispenserY());
 
-    navigator.travelTo(ballDispenserCoordinate);
-    smartLightLocalizer = new SmartLightLocalizer(odometer, navigator, lightSensor,
-        ballDispenserCoordinate);
-    Thread smartLightLocalizerThread = new Thread(smartLightLocalizer);
-    smartLightLocalizerThread.start();
-    try {
+      navigator.setCoordinates(new Coordinate[] { ballDispenserCoordinate });
+
+      navigatorThread.start();
+      navigatorThread.join();
+
+      smartLightLocalizer = new SmartLightLocalizer(odometer, navigator, lightSensor,
+          ballDispenserCoordinate);
+      smartLightLocalizerThread = new Thread(smartLightLocalizer);
+      smartLightLocalizerThread.start();
       smartLightLocalizerThread.join();
-    }
-    catch (InterruptedException e) {
-    }
 
-    try {
+      navigator.turnTo(ballDispenserCoordinate.getX(), ballDispenserCoordinate.getY());
+      navigator.turnTo(180);
+
+      ballThrowingMotor.rotate(5);
+      ballThrowingMotor.flt(true);
+
+      navigator.travelStraight(-1.2 * 30.5 + 1.5);
       Thread.sleep(3000);
+      navigator.travelStraight(1.2 * 30.5 + 1.5);
+
+      ballThrowingMotor.rotate(-5);
+      ballThrowingMotor.flt(true);
+
+      navigator
+          .setCoordinates(new Coordinate[] { Coordinate.pickBallLauncherLocation(transmission) });
+      navigatorThread = new Thread(navigator);
+      navigatorThread.start();
+      navigatorThread.join();
+
+      Thread.sleep(1000);
+
+      // start the ball launching thread, wait for it to finish
+      ballLauncherThread.start();
+      ballLauncherThread.join();
+
+      // go back to origin
+      navigator.travelTo(0, 0);
     }
     catch (InterruptedException e) {
-      Sound.beep();
     }
-
-    // start the ball launching thread, wait for it to finish
-    /*
-     * ballLauncherThread.start(); try { ballLauncherThread.join(); } catch
-     * (InterruptedException e) {
-     * 
-     * } // go back to origin navigator.travelTo(0, 0);
-     */
   }
 
   private static void initializeMotorsAndSensors() {
@@ -233,8 +258,6 @@ public class Main {
         rightTouchSensor);
     ultrasonicAvoidance = new UltrasonicAvoidanceImpl(odometer, navigator, playingField,
         ultrasonicSensor);
-    lightLocalizer = new LightLocalizer(odometer, navigator, lightSensor, 1);
-    ultrasonicLocalizer = new UltrasonicLocalizer(odometer, navigator, ultrasonicSensor, 1);
   }
 
   private static void initializeComponentThreads() {
@@ -244,9 +267,8 @@ public class Main {
     bluetoothThread = new Thread(bluetooth);
     touchAvoidanceThread = new Thread(touchAvoidance);
     ultrasonicAvoidanceThread = new Thread(ultrasonicAvoidance);
-    lightLocalizerThread = new Thread(lightLocalizer);
-    ultrasonicLocalizerThread = new Thread(ultrasonicLocalizer);
-    smartLocalizerThread = new Thread(smartLightLocalizer);
+    smartLightLocalizerThread = new Thread(smartLightLocalizer);
+    defenderThread = new Thread(defender);
   }
 
   private static void initializeObstacleAvoiders() {

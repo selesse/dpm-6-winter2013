@@ -14,8 +14,8 @@ package ca.mcgill.dpm.winter2013.group6.bluetooth;
  * </pre>
  */
 public enum StartCorner {
-  BOTTOM_LEFT(1, 0, 0, "BL"), BOTTOM_RIGHT(2, 0, 10, "BR"), TOP_RIGHT(3, 10, 10, "TR"), TOP_LEFT(4,
-      10, 0, "TL"), NULL(0, 0, 0, "NULL");
+  BOTTOM_LEFT(1, 0, 0, "BL"), BOTTOM_RIGHT(2, 10, 0, "BR"), TOP_RIGHT(3, 10, 10, "TR"), TOP_LEFT(4,
+      0, 10, "TL"), NULL(0, 0, 0, "NULL");
 
   private int id, x, y;
   private String name;

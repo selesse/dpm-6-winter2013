@@ -28,6 +28,8 @@ public class UltrasonicAvoidanceImpl extends AbstractObstacleAvoider {
       this.isCurrentlyAvoiding = true;
       moveAwayFromTheObstacle();
       this.isCurrentlyAvoiding = false;
+      navigator.getLeftMotor().forward();
+      navigator.getRightMotor().forward();
     }
   }
 
