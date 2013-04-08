@@ -82,6 +82,9 @@ Francois  | 03/26  3:00 PM |   5  |     2       | Worked on the ball holder agai
 Francois  | 04/02  3:00 PM |   6  |     4       | LDD file completed for lastest prototype.
 Francois  | 04/03 11:00 AM |   6  |     1       | Worked on a way to get the ball from the ball dispenser
 Francois  | 04/04  4:00 PM |   6  |     5       | Team meeting and testing on the ball launcher.
+Francois  | 07/04 10:00 PM |   6  |     3		| Hardware document update
+Francois  | 08/04 12:30 PM |   6  |     3.5     | Team meeting and document update.
+Francois  | 09/04  5:00 PM |   6  |     4       | Final adjustments to the robot.
 
 
 # Hassan
