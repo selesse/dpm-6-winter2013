@@ -1,5 +1,7 @@
 package ca.mcgill.dpm.winter2013.group6.util;
 
+import ca.mcgill.dpm.winter2013.group6.bluetooth.Transmission;
+
 /**
  * Coordinate helper class for 2 dimensional coordinates, essentially a
  * representation of (x, y).
@@ -77,5 +79,13 @@ public class Coordinate {
     }
 
     return new Coordinate((int) desiredReceivePositionX, (int) desiredReceivePositionY);
+  }
+
+  public static Coordinate pickBallLauncherLocation(Transmission transmission) {
+    Coordinate goalCoordinate = getCoordinateFromBlock(5, 10);
+    int range = 5;
+    int randomFactor = (int) (-range + Math.random() * (2 * range));
+
+    return new Coordinate((int) (goalCoordinate.getX() + randomFactor), (int) goalCoordinate.getY());
   }
 }

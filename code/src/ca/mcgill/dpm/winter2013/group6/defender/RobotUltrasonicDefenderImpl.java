@@ -9,6 +9,7 @@ import lejos.nxt.UltrasonicSensor;
 import lejos.util.Delay;
 import ca.mcgill.dpm.winter2013.group6.bluetooth.Transmission;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
+import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
 
 /**
  * An implementation of a {@link RobotUltrasonicDefender}.
@@ -33,8 +34,9 @@ public class RobotUltrasonicDefenderImpl implements RobotUltrasonicDefender {
 
   @Override
   public void run() {
-    // navigator.travelTo(Coordinate.getCoordinateFromBlock(5, 10 -
-    // transmission.getDefenderZoneDimension2()));
+    navigator.travelTo(Coordinate.getCoordinateFromBlock(5,
+        10 - transmission.getDefenderZoneDimension2()));
+
     int[] firstCalibration = calibrate();
     Delay.msDelay(1000);
     int[] secondCalibration = calibrate();

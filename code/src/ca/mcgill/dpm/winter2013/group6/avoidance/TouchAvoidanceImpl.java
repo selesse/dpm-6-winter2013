@@ -30,6 +30,8 @@ public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
       this.isCurrentlyAvoiding = true;
       moveBackAndTurnAway();
       this.isCurrentlyAvoiding = false;
+      navigator.getLeftMotor().forward();
+      navigator.getRightMotor().forward();
     }
   }
 

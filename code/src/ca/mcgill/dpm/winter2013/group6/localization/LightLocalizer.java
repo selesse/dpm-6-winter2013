@@ -57,7 +57,6 @@ public class LightLocalizer extends AbstractLocalizer {
     navigator.setMotorRotateSpeed(-robot.getRotateSpeed() - 150);
     // Detect the four lines
     while (lineCounter < 4) {
-
       if (blackLineDetected()) {
         Sound.beep();
         raw[lineCounter] = odometer.getTheta();
@@ -98,10 +97,8 @@ public class LightLocalizer extends AbstractLocalizer {
       newTheta += 90;
       newX = newY;
       newY += 10 * 30.48 - newX;
-
     }
     odometer.setPosition(new double[] { newX, newY, newTheta }, new boolean[] { true, true, true });
-    // lightSensor.setFloodlight(false);
   }
 
   /**
