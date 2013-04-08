@@ -113,6 +113,15 @@ public interface Navigator extends Runnable {
    */
   Coordinate getCurrentHeading();
 
+  /**
+   * Turns the robot to <code>theta</code>, setting the robot acceleration to
+   * <code>robotAcceleration</code> and setting the rotation speed to
+   * <code>robotRotateSpeed</code>.
+   * 
+   * @param theta
+   * @param robotAcceleration
+   * @param robotRotateSpeed
+   */
   void turnTo(double theta, int robotAcceleration, int robotRotateSpeed);
 
 }

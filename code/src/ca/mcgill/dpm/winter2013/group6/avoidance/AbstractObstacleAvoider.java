@@ -6,7 +6,8 @@ import ca.mcgill.dpm.winter2013.group6.util.PlayingField;
 
 /**
  * Abstract implementation of {@link ObstacleAvoider}, providing the base
- * functionality an obstacle avoider should.
+ * functionality an obstacle avoider should. This class contains a bit of the
+ * logic associated with a playing field. Specifically, it can handle boundary
  * 
  * @author Alex Selesse
  * 
@@ -35,6 +36,7 @@ public abstract class AbstractObstacleAvoider implements ObstacleAvoider {
     return isCurrentlyAvoiding;
   }
 
+  @Override
   public double getBoundaryBasedTurningAngle(double turningAngle) {
     if (isNearLeftBoundary()) {
       if (robotIsMovingUp()) {

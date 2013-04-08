@@ -38,7 +38,7 @@ public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
     // default direction: turn left
     double turningAngle = -45;
 
-    // if we touch the left touch sensor we should move away to the right
+    // if we touch the left touch sensor we should move to the right
     if (leftTouchSensorHasBeenPressed) {
       turningAngle = -turningAngle;
     }

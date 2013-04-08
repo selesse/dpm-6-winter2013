@@ -25,4 +25,15 @@ public interface ObstacleAvoider extends Runnable {
    */
   public boolean isCurrentlyAvoiding();
 
+  /**
+   * Multiplies <code>turningAngle</code> by 1 or -1, depending on the robot's
+   * current position on the grid. This is so that when we're avoiding and close
+   * to a boundary, we don't try turning into the wall.
+   * 
+   * @param turningAngle
+   *          The angle that we are initially planning on turning to.
+   * @return The turningAngle, multiplied (or not) by a factor of -1.
+   */
+  double getBoundaryBasedTurningAngle(double turningAngle);
+
 }

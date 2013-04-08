@@ -10,6 +10,12 @@ import lejos.util.Delay;
 import ca.mcgill.dpm.winter2013.group6.bluetooth.Transmission;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 
+/**
+ * An implementation of a {@link RobotUltrasonicDefender}.
+ * 
+ * @author Alex Selesse
+ * 
+ */
 public class RobotUltrasonicDefenderImpl implements RobotUltrasonicDefender {
   private Navigator navigator;
   private UltrasonicSensor ultrasonicSensor;
@@ -33,11 +39,15 @@ public class RobotUltrasonicDefenderImpl implements RobotUltrasonicDefender {
     Delay.msDelay(1000);
     int[] secondCalibration = calibrate();
 
-    List<Integer> difference = getBadPoints(firstCalibration, secondCalibration);
+    List<Integer> differences = getBadPoints(firstCalibration, secondCalibration);
 
-    if (difference.size() > 0) {
+    if (differences.size() > 2) {
+      differences = getLongestSequence(differences);
+    }
+
+    if (differences.size() > 0) {
       navigator.turnTo(-90, 200, 100);
-      navigator.turnTo(chooseWhereToTurnBasedOnDifferences(difference));
+      navigator.turnTo(chooseWhereToTurnBasedOnDifferences(differences));
     }
   }
 
@@ -56,6 +66,7 @@ public class RobotUltrasonicDefenderImpl implements RobotUltrasonicDefender {
 
     navigator.turnTo(-90, 200, 100);
 
+    // start a thread to write the file because we don't want to stall
     new Thread(new Runnable() {
       @Override
       public void run() {
@@ -69,7 +80,7 @@ public class RobotUltrasonicDefenderImpl implements RobotUltrasonicDefender {
           fos.close();
         }
         catch (Exception e) {
-          // This is just debug stuff, so don't worry about it...
+          // This is just debug stuff, so we don't mind exceptions
         }
       }
     }).start();
@@ -93,4 +104,41 @@ public class RobotUltrasonicDefenderImpl implements RobotUltrasonicDefender {
 
     return differences;
   }
+
+  private List<Integer> getLongestSequence(List<Integer> differences) {
+    List<List<Integer>> sequences = getAllSequences(differences);
+
+    int maxLength = 0;
+    int biggestSequenceIndex = 0;
+    int i = 0;
+    for (List<Integer> sequence : sequences) {
+      if (sequence.size() > maxLength) {
+        biggestSequenceIndex = i;
+        maxLength = sequence.size();
+      }
+      i++;
+    }
+
+    return sequences.get(biggestSequenceIndex);
+  }
+
+  private List<List<Integer>> getAllSequences(List<Integer> differences) {
+    List<List<Integer>> sequences = new ArrayList<List<Integer>>();
+
+    List<Integer> sequence = new ArrayList<Integer>();
+    for (int i = 0; i < differences.size(); i++) {
+      if (i + 2 > differences.size()) {
+        sequence.add(differences.get(i));
+        sequences.add(sequence);
+        break;
+      }
+      sequence.add(differences.get(i));
+      if (differences.get(i + 1) - differences.get(i) != 1) {
+        sequences.add(sequence);
+        sequence = new ArrayList<Integer>();
+      }
+    }
+    return sequences;
+  }
+
 }
