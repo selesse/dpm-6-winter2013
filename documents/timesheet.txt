@@ -64,7 +64,7 @@ Arthur    | 03/27 05:12 PM |   5  |      2      | Last minute bug smashing + dem
 Arthur    | 03/30 08:00 PM |   6  |      2      | Ran tests for odometryCorrection
 
 Arthur    | 03/31 03:21 AM |   6  |      1      | Attempted to fix odometryCorrection
-Arthur    | 04/08 09:35 AM |   6  |      5      | Integration and system test, went over one document
+Arthur    | 04/08 09:35 AM |   6  |      3      | Integration and system test, went over one document
 
 # Francois
 # Name    | Time Completed | Week | Hours spent | Task done
