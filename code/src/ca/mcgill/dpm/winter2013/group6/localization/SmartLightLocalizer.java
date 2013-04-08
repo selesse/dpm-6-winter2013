@@ -19,7 +19,7 @@ public class SmartLightLocalizer extends LightLocalizer {
   private int count = 0;
 
   /**
-   * The constructor the light localizer class.
+   * The constructor the smart light localizer class.
    * 
    * @param odometer
    *          The {@link Odometer} we'll be reading from.
@@ -27,9 +27,9 @@ public class SmartLightLocalizer extends LightLocalizer {
    *          The navigator class that will be used by the localizer.
    * @param lightSensor
    *          The {@link LightSensor} object.
-   * @param corner
-   *          The corner number the localizer will be localizing. Corners are
-   *          numbered from 1 to 4.
+   * @param coordinates
+   *          The coordinates that the localizer will think it is localizing in
+   *          reference to (must be an intersetction)
    */
   public SmartLightLocalizer(Odometer odometer, Navigator navigator, LightSensor lightSensor,
       Coordinate coordinates) {
@@ -39,22 +39,25 @@ public class SmartLightLocalizer extends LightLocalizer {
 
   public SmartLightLocalizer(Odometer odometer, Navigator navigator, LightSensor lightSensor) {
     super(odometer, navigator, lightSensor, 1);
-    this.coordinates = null;
+    this.coordinates = new Coordinate(0, 0);
   }
 
   public void setCoordinates(Coordinate coordinates) {
-    this.coordinates = coordinates;
+    if (coordinates != null) {
+
+      this.coordinates = coordinates;
+    }
   }
 
   @Override
   public void localize() {
     if (3 <= count) {
       Sound.beepSequence();
+      count = 0;
       return;
     }
     navigator.face(45);
     odometer.setPosition(new double[] { 0, 0, 0 }, new boolean[] { true, true, true });
-    lightSensor.getFloodlight();
     lightSensor.setFloodlight(true);
     int lineCounter = 0;
 
@@ -75,7 +78,7 @@ public class SmartLightLocalizer extends LightLocalizer {
     double[] heading = new double[2];
     odometer.getDisplacementAndHeading(heading);
     double startingAngle = heading[1];
-    double currAngle;
+    double currAngle = startingAngle;
     boolean error = false;
 
     while (lineCounter < 4) {
@@ -84,9 +87,9 @@ public class SmartLightLocalizer extends LightLocalizer {
         Sound.beep();
         raw[lineCounter] = odometer.getTheta();
         odometer.getDisplacementAndHeading(heading);
-        currAngle = heading[1];
-        // its negative since we are rotating the wrong direction
-        if (currAngle - 360 < startingAngle) {
+        currAngle += heading[1];
+        // its negative since we are rotating the negative direction
+        if (currAngle + 360 < startingAngle) {
           Sound.buzz();
           error = true;
           break;
@@ -109,11 +112,12 @@ public class SmartLightLocalizer extends LightLocalizer {
 
     if (error) {
 
-      // seriously i cant fix it at this stage...
+      // seriously i cant fix it at this stage...gg
       if (lineCounter == 0) {
         navigator.face(45);
         navigator.travelStraight(15);
         count++;
+        localize();
         return;
       }
       // not very likely but here is an attempt to fix it
@@ -136,16 +140,15 @@ public class SmartLightLocalizer extends LightLocalizer {
           navigator.travelStraight(10);
         }
         else {
+          navigator.face(raw[1] - raw[0] + 180 + 45);
           navigator.travelStraight(10);
         }
         count++;
         localize();
-
       }
       else if (lineCounter == 3) {
         return;
       }
-
       return;
     }
     // happens if it is displaced too far right from the y axis
@@ -172,11 +175,14 @@ public class SmartLightLocalizer extends LightLocalizer {
         newY + coordinates.getY(),
         newTheta }, new boolean[] { true, true, true });
     count = 0;
-    Sound.beep();
-    navigator.face(0);
-    navigator.travelStraight(coordinates.getY() - odometer.getY());
 
-    Sound.beep();
+    // travel to the coordinate
+    navigator.face(0);
+    navigator.travelStraight(-newY);
+    navigator.face(90);
+    navigator.travelStraight(-newX);
+
+    Sound.twoBeeps();
 
     return;
   }
