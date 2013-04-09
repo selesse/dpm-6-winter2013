@@ -129,7 +129,7 @@ Hong Yi   | 03/27 1:00 PM  |   5  |     2       | Bug fix at last min plus demo 
 Hong Yi   | 04/04 4:00 PM  |   6  |     0.5     | Group Meeting
 Hong Yi   | 04/08 10:00 AM |   6  |     0.5     | Group Meeting
 Hong Yi   | 04/08 3:00 PM  |   6  |     6.5     | Integration Testing+ Final test doc
-Hong Yi   | 04/09 3:00  PM |   6  |     6       | Integration Testing + finalize test doc
+Hong Yi   | 04/09 3:00  PM |   6  |     6.75    | Integration Testing + finalize test doc
 
 
 
