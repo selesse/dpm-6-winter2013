@@ -158,6 +158,8 @@ public class Main {
       ballLauncherThread = new Thread(ballLauncher);
       ballLauncherThread.start();
 
+      Sound.beep();
+
       Delay.msDelay(500);
     }
     catch (Exception e) {
