@@ -110,8 +110,58 @@ public class Main {
   }
 
   public static void performLeftButtonAction() {
-    calibrate();
-    // testUltrasonicDefense();
+    competitionTest();
+  }
+
+  private static void competitionTest() {
+    try {
+      odometerThread.start();
+      infoDisplayThread.start();
+
+      int ballDispenserX = -1;
+      int ballDispenserY = 4;
+      Transmission transmission = new Transmission();
+      transmission.setForwardLineDistanceFromGoal(5);
+
+      Coordinate ballDispenserCoordinate = Coordinate.getCoordinateFromBlock(ballDispenserX,
+          ballDispenserY);
+      Coordinate throwingLocation = Coordinate.pickBallLauncherLocation(transmission);
+      Coordinate goalLocation = Coordinate.getCoordinateFromBlock(5, 10);
+
+      navigator.setCoordinates(new Coordinate[] { Coordinate
+          .getCoordinateFromBallDispenserLocation(ballDispenserX, ballDispenserY) });
+      navigatorThread.start();
+      navigatorThread.join();
+
+      smartLightLocalizer = new SmartLightLocalizer(odometer, navigator, lightSensor,
+          Coordinate.getCoordinateFromBallDispenserLocation(ballDispenserX, ballDispenserY));
+      smartLightLocalizerThread = new Thread(smartLightLocalizer);
+      smartLightLocalizerThread.start();
+      smartLightLocalizerThread.join();
+
+      navigator.turnTo(ballDispenserCoordinate.getX(), ballDispenserCoordinate.getY());
+      navigator.turnTo(180);
+
+      navigator.travelStraight(-0.8 * 30.5);
+      Delay.msDelay(2000);
+      navigator.travelStraight(0.8 * 30.5);
+
+      navigator.setCoordinates(new Coordinate[] { throwingLocation });
+      navigatorThread = new Thread(navigator);
+      navigatorThread.start();
+      navigatorThread.join();
+
+      navigator.turnTo(goalLocation);
+      Delay.msDelay(100);
+
+      ballLauncher = new BallLauncherImpl(ballThrowingMotor, 5);
+      ballLauncherThread = new Thread(ballLauncher);
+      ballLauncherThread.start();
+
+      Delay.msDelay(500);
+    }
+    catch (Exception e) {
+    }
   }
 
   public static void testUltrasonicDefense() {
@@ -190,7 +240,7 @@ public class Main {
 
       Coordinate ballDispenserCoordinate = Coordinate.getCoordinateFromBallDispenserLocation(
           transmission.getBallDispenserX(), transmission.getBallDispenserY());
-      Coordinate launchingCoordinate = Coordinate.pickBallLauncherLocation(transmission);
+      Coordinate launchingCoordinate = Coordinate.pickBallLauncherLocation(null);
 
       navigator.setCoordinates(new Coordinate[] { ballDispenserCoordinate });
 
@@ -248,7 +298,7 @@ public class Main {
   }
 
   private static void initializeComponents() {
-    patBot = new Robot(2.69, 2.69, 15.7, leftMotor, rightMotor);
+    patBot = new Robot(2.70, 2.70, 15.6, leftMotor, rightMotor);
     playingField = new PlayingField(10, 10);
     odometer = new Odometer(patBot);
     infoDisplay = new InfoDisplay(odometer, ultrasonicSensor, leftTouchSensor, rightTouchSensor);

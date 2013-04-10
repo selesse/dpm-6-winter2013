@@ -14,21 +14,6 @@ public class BallLauncherImpl extends AbstractBallLauncher {
   }
 
   @Override
-  public void run() {
-    // explicitly stop the motor, just in case
-    for (int i = 0; i < 5; i++) {
-      super.run();
-      try {
-        Thread.sleep(5000);
-      }
-      catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-    }
-  }
-
-  @Override
   public void throwBall(double distanceFromTarget) {
     // rotate it 180 degrees, at a high speed and high acceleration
     int rotateAngle = 122;

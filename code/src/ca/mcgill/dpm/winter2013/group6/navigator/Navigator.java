@@ -124,4 +124,6 @@ public interface Navigator extends Runnable {
    */
   void turnTo(double theta, int robotAcceleration, int robotRotateSpeed);
 
+  void turnTo(Coordinate goalCoordinate);
+
 }

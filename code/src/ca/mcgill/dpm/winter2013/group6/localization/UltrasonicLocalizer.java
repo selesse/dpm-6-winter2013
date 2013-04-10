@@ -85,9 +85,9 @@ public class UltrasonicLocalizer extends AbstractLocalizer {
      * odometer.setPosition(new double[] { angleA, angleB, angleMid }, new
      * boolean[] { true, true, true });
      */
-    // just making sure it doesnt happen, and since angleA is always 5 degrees,
+    // just making sure it doesn't happen, and since angleA is always 5 degrees,
     // angleMid should be at around 225
-    if (angleMid < angleB) {
+    if (angleA > angleB) {
       angleMid -= 180;
     }
     navigator.turnTo(angleMid);

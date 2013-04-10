@@ -116,6 +116,11 @@ public abstract class AbstractNavigator implements Navigator {
   }
 
   @Override
+  public void turnTo(Coordinate coordinate) {
+    turnTo(coordinate.getX(), coordinate.getY());
+  }
+
+  @Override
   public void turnTo(double theta, int robotAcceleration, int robotRotateSpeed) {
     theta = getOptimalAngle(theta);
     leftMotor.setAcceleration(robotAcceleration);

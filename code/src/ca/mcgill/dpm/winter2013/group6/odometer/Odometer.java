@@ -111,7 +111,7 @@ public class Odometer implements Runnable {
     return result;
   }
 
-  public void setPosition(double[] position, boolean[] update) {
+  public synchronized void setPosition(double[] position, boolean[] update) {
     // ensure that the values don't change while the odometer is running
     synchronized (lock) {
       if (update[0]) {

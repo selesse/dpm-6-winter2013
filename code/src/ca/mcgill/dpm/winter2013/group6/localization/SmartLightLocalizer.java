@@ -88,11 +88,11 @@ public class SmartLightLocalizer extends LightLocalizer {
         odometer.getDisplacementAndHeading(heading);
         currAngle += heading[1];
         // its negative since we are rotating the negative direction
-        if (currAngle + 400 < startingAngle) {
-          Sound.buzz();
-          error = true;
-          break;
-        }
+        // if (currAngle + 400 < startingAngle) {
+        // Sound.buzz();
+        // error = true;
+        // break;
+        // }
         lineCounter++;
         try {
           // sleeping to avoid counting the same line twice
@@ -144,16 +144,16 @@ public class SmartLightLocalizer extends LightLocalizer {
       return;
     }
     // happens if it is displaced too far right from the y axis
-    if (rawDetectedLineValues[0] > 60) {
-      double swap = rawDetectedLineValues[1];
-      double swap2 = rawDetectedLineValues[2];
-      rawDetectedLineValues[1] = rawDetectedLineValues[0];
-      rawDetectedLineValues[2] = swap;
-      swap = rawDetectedLineValues[3];
-      rawDetectedLineValues[3] = swap2;
-      rawDetectedLineValues[0] = swap;
-
-    }
+    // if (rawDetectedLineValues[0] > 60) {
+    // double swap = rawDetectedLineValues[1];
+    // double swap2 = rawDetectedLineValues[2];
+    // rawDetectedLineValues[1] = rawDetectedLineValues[0];
+    // rawDetectedLineValues[2] = swap;
+    // swap = rawDetectedLineValues[3];
+    // rawDetectedLineValues[3] = swap2;
+    // rawDetectedLineValues[0] = swap;
+    //
+    // }
     // formula modified from the tutorial slides
     double thetaX = (rawDetectedLineValues[3] - rawDetectedLineValues[1]) / 2;
     double thetaY = (rawDetectedLineValues[2] - rawDetectedLineValues[0]) / 2;
