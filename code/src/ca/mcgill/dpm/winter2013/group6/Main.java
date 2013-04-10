@@ -405,10 +405,12 @@ public class Main {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-
-    navigator.travelStraight(30.5 * 2);
-    navigator.face(180);
-    navigator.travelStraight(30.5 * 2);
+    navigator.face(0);
+    navigator.travelStraight(30.5);
+    navigator.face(90);
+    navigator.travelStraight(30.5);
+    navigator.face(315);
+    navigator.travelStraight(43.13);
     navigator.face(0);
   }
 }

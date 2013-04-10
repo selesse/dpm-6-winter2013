@@ -1,6 +1,8 @@
 package ca.mcgill.dpm.winter2013.group6.avoidance;
 
+import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
+import lejos.nxt.UltrasonicSensor;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 import ca.mcgill.dpm.winter2013.group6.util.PlayingField;
@@ -46,6 +48,9 @@ public class TouchAvoidanceImpl extends AbstractObstacleAvoider {
     }
 
     turningAngle = getBoundaryBasedTurningAngle(turningAngle);
+    // i suspect this fixes the bug when its not backing sometimes
+    UltrasonicSensor us = new UltrasonicSensor(SensorPort.S1);
+    us.continuous();
 
     navigator.travelStraight(-10);
     navigator.turnTo(turningAngle);
