@@ -43,6 +43,8 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
  * 
  */
 public class Main {
+  private static final double WHEEL_RADIUS = 2.70;
+  private static final double WHEEL_WIDTH = 15.50;
   private static NXTRegulatedMotor leftMotor;
   private static NXTRegulatedMotor rightMotor;
   private static NXTRegulatedMotor ballThrowingMotor;
@@ -295,7 +297,7 @@ public class Main {
   }
 
   private static void initializeComponents() {
-    patBot = new Robot(2.70, 2.70, 15.6, leftMotor, rightMotor);
+    patBot = new Robot(WHEEL_RADIUS, WHEEL_RADIUS, WHEEL_WIDTH, leftMotor, rightMotor);
     playingField = new PlayingField(10, 10);
     odometer = new Odometer(patBot);
     infoDisplay = new InfoDisplay(odometer, ultrasonicSensor, leftTouchSensor, rightTouchSensor);
