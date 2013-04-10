@@ -1,6 +1,7 @@
 package ca.mcgill.dpm.winter2013.group6.localization;
 
 import lejos.nxt.LightSensor;
+import lejos.nxt.Motor;
 import lejos.nxt.Sound;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
@@ -38,6 +39,7 @@ public class LightLocalizer extends AbstractLocalizer {
 
   @Override
   public void localize() {
+    navigator.face(45);
     odometer.setPosition(new double[] { 0, 0, 0 }, new boolean[] { true, true, true });
     lightSensor.setFloodlight(true);
 
@@ -53,7 +55,8 @@ public class LightLocalizer extends AbstractLocalizer {
     }
     // Rotate and clock the 4 grid lines
     calibrateSensorAverage();
-
+    Motor.A.setAcceleration(100);
+    Motor.B.setAcceleration(100);
     navigator.setMotorRotateSpeed(-robot.getRotateSpeed() - 150);
     // Detect the four lines
     while (lineCounter < 4) {

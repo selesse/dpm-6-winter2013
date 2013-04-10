@@ -44,7 +44,7 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
  */
 public class Main {
   private static final double WHEEL_RADIUS = 2.70;
-  private static final double WHEEL_WIDTH = 15.50;
+  private static final double WHEEL_WIDTH = 15.67;
   private static NXTRegulatedMotor leftMotor;
   private static NXTRegulatedMotor rightMotor;
   private static NXTRegulatedMotor ballThrowingMotor;
@@ -112,7 +112,9 @@ public class Main {
   }
 
   public static void performLeftButtonAction() {
-    competitionTest();
+
+    calibrate();
+    // competitionTest();
   }
 
   private static void competitionTest() {
@@ -255,9 +257,21 @@ public class Main {
       smartLightLocalizerThread = new Thread(smartLightLocalizer);
       smartLightLocalizerThread.start();
       smartLightLocalizerThread.join();
+      if (transmission.getBallDispenserX() == -1) {
+        navigator.face(90);
+      }
+      else if (transmission.getBallDispenserX() == 11) {
+        navigator.face(270);
+      }
+      else if (transmission.getBallDispenserY() == -1) {
 
-      navigator.turnTo(ballDispenserCoordinate.getX(), ballDispenserCoordinate.getY());
-      navigator.turnTo(180);
+      }
+      else {
+        navigator.face(180);
+      }
+      // navigator.turnTo(transmission.getBallDispenserX(),
+      // transmission.getBallDispenserY());
+      // navigator.turnTo(180);
 
       navigator.travelStraight(-0.8 * 30.5);
       Delay.msDelay(2000);
@@ -329,6 +343,20 @@ public class Main {
   }
 
   public static void calibrate() {
+    odometerThread.start();
+    infoDisplayThread.start();
+    smartLightLocalizer = new SmartLightLocalizer(odometer, navigator, lightSensor, new Coordinate(
+        0, 0));
+    smartLightLocalizerThread = new Thread(smartLightLocalizer);
+    smartLightLocalizerThread.start();
+    try {
+      smartLightLocalizerThread.join();
+    }
+    catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
     navigator.travelStraight(30.5 * 2);
     navigator.face(180);
     navigator.travelStraight(30.5 * 2);

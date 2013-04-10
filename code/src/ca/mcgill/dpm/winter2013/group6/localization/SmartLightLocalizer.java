@@ -71,7 +71,7 @@ public class SmartLightLocalizer extends LightLocalizer {
     // Rotate and clock the 4 grid lines
     calibrateSensorAverage();
 
-    navigator.setMotorRotateSpeed(-robot.getRotateSpeed() - 150);
+    navigator.setMotorRotateSpeed(-robot.getRotateSpeed() - 100);
 
     // Detect the four lines
     double[] heading = new double[2];
@@ -79,7 +79,7 @@ public class SmartLightLocalizer extends LightLocalizer {
     double startingAngle = heading[1];
     double currAngle = startingAngle;
     boolean error = false;
-
+    long startTime = System.currentTimeMillis();
     while (lineCounter < 4) {
 
       if (blackLineDetected()) {
@@ -87,12 +87,6 @@ public class SmartLightLocalizer extends LightLocalizer {
         rawDetectedLineValues[lineCounter] = odometer.getTheta();
         odometer.getDisplacementAndHeading(heading);
         currAngle += heading[1];
-        // its negative since we are rotating the negative direction
-        // if (currAngle + 400 < startingAngle) {
-        // Sound.buzz();
-        // error = true;
-        // break;
-        // }
         lineCounter++;
         try {
           // sleeping to avoid counting the same line twice
@@ -101,6 +95,9 @@ public class SmartLightLocalizer extends LightLocalizer {
         catch (InterruptedException e) {
         }
       }
+      // if (System.currentTimeMillis() - startTime > 6 * 1000) {
+      // break;
+      // }
     }
     // Stop the robot
     navigator.stop();
@@ -160,6 +157,25 @@ public class SmartLightLocalizer extends LightLocalizer {
     double newX = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaY));
     double newY = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaX));
     double newTheta = 180 + thetaX - rawDetectedLineValues[3];
+
+    // if (newTheta > 30) {
+    // Sound.beep();
+    // thetaX = (rawDetectedLineValues[3] - rawDetectedLineValues[1]) / 2;
+    // thetaY = (rawDetectedLineValues[2] - rawDetectedLineValues[0]) / 2;
+    // newX = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaY));
+    // newY = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaX));
+    // newTheta = 180 + thetaX - rawDetectedLineValues[3];
+    //
+    // }
+    // else if (newTheta < -30) {
+    // Sound.buzz();
+    // thetaX = (rawDetectedLineValues[3] - rawDetectedLineValues[1]) / 2;
+    // thetaY = (rawDetectedLineValues[2] - rawDetectedLineValues[0]) / 2;
+    // newX = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaY));
+    // newY = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaX));
+    // newTheta = 180 + thetaX - rawDetectedLineValues[3];
+    //
+    // }
     newTheta += odometer.getTheta();
 
     odometer.setPosition(new double[] {
@@ -169,10 +185,10 @@ public class SmartLightLocalizer extends LightLocalizer {
     count = 0;
 
     // travel to the coordinate
-    navigator.face(0);
-    navigator.travelStraight(-newY);
     navigator.face(90);
     navigator.travelStraight(-newX);
+    navigator.face(0);
+    navigator.travelStraight(-newY);
 
     Sound.twoBeeps();
 
