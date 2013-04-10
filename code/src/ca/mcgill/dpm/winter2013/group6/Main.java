@@ -158,8 +158,6 @@ public class Main {
       ballLauncherThread = new Thread(ballLauncher);
       ballLauncherThread.start();
 
-      Sound.beep();
-
       Delay.msDelay(500);
     }
     catch (Exception e) {
@@ -242,7 +240,8 @@ public class Main {
 
       Coordinate ballDispenserCoordinate = Coordinate.getCoordinateFromBallDispenserLocation(
           transmission.getBallDispenserX(), transmission.getBallDispenserY());
-      Coordinate launchingCoordinate = Coordinate.pickBallLauncherLocation(null);
+      Coordinate goalCoordinate = Coordinate.getCoordinateFromBlock(5, 10);
+      Coordinate throwingLocation = Coordinate.pickBallLauncherLocation(transmission);
 
       navigator.setCoordinates(new Coordinate[] { ballDispenserCoordinate });
 
@@ -258,27 +257,23 @@ public class Main {
       navigator.turnTo(ballDispenserCoordinate.getX(), ballDispenserCoordinate.getY());
       navigator.turnTo(180);
 
-      ballThrowingMotor.rotate(5);
-      ballThrowingMotor.flt(true);
+      navigator.travelStraight(-0.8 * 30.5);
+      Delay.msDelay(2000);
+      navigator.travelStraight(0.8 * 30.5);
 
-      navigator.travelStraight(-1.2 * 30.5 + 1.5);
-      Thread.sleep(3000);
-      navigator.travelStraight(1.2 * 30.5 + 1.5);
-
-      ballThrowingMotor.rotate(-5);
-      ballThrowingMotor.flt(true);
-
-      navigator.setCoordinates(new Coordinate[] { launchingCoordinate });
+      navigator.setCoordinates(new Coordinate[] { throwingLocation });
       navigatorThread = new Thread(navigator);
       navigatorThread.start();
       navigatorThread.join();
 
-      Thread.sleep(1000);
+      smartLightLocalizer = new SmartLightLocalizer(odometer, navigator, lightSensor,
+          throwingLocation);
+      smartLightLocalizerThread = new Thread(smartLightLocalizer);
+      smartLightLocalizerThread.start();
+      smartLightLocalizerThread.join();
 
-      Coordinate goalCoordinate = Coordinate.getCoordinateFromBlock(5, 10);
-      navigator.turnTo(goalCoordinate.getX(), goalCoordinate.getY());
-
-      Thread.sleep(250);
+      navigator.turnTo(goalCoordinate);
+      Delay.msDelay(100);
 
       // start the ball launching thread, wait for it to finish
       ballLauncherThread.start();
@@ -331,11 +326,10 @@ public class Main {
     ((ObstacleNavigator) navigator).setAvoiderList(obstacleAvoiders);
   }
 
-  private static void calibrate() {
+  public static void calibrate() {
     navigator.travelStraight(30.5 * 2);
     navigator.face(180);
     navigator.travelStraight(30.5 * 2);
     navigator.face(0);
-
   }
 }

@@ -83,7 +83,7 @@ public class Coordinate {
 
   public static Coordinate pickBallLauncherLocation(Transmission transmission) {
     Coordinate goalCoordinate = getCoordinateFromBlock(5, 10);
-    int range = 20;
+    int range = 30;
 
     int randomXCoordinate = (int) (goalCoordinate.getX() + getRandomValue(range));
     int randomYCoordinate = (int) (goalCoordinate.getY() - 30.5 * 5 + getRandomValue(range));
@@ -96,8 +96,10 @@ public class Coordinate {
   }
 
   private static int getRandomValue(int range) {
-    return 0;
-    // return (int) (-range + Math.random() * (2 * range));
+    if (Math.random() < 0.5) {
+      return (int) (-range - (10 * Math.random()));
+    }
+    return (int) (range + (10 * Math.random()));
   }
 
   private static int clamp(double x, double minValue, double maxValue) {
