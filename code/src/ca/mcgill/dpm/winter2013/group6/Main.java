@@ -44,7 +44,7 @@ import ca.mcgill.dpm.winter2013.group6.util.Robot;
  */
 public class Main {
   private static final double WHEEL_RADIUS = 2.70;
-  private static final double WHEEL_WIDTH = 15.67;
+  private static final double WHEEL_WIDTH = 15.48;
   private static NXTRegulatedMotor leftMotor;
   private static NXTRegulatedMotor rightMotor;
   private static NXTRegulatedMotor ballThrowingMotor;
@@ -207,7 +207,11 @@ public class Main {
         attack(transmission);
       }
       else {
-        defender = new RobotUltrasonicDefenderImpl(navigator, ultrasonicSensor, transmission);
+        startupLocalize(transmission);
+        defender = new RobotUltrasonicDefenderImpl(odometer, navigator, navigatorThread,
+            ultrasonicSensor, lightSensor, transmission);
+        defenderThread = new Thread(defender);
+
         defenderThread.start();
       }
     }
@@ -241,61 +245,68 @@ public class Main {
       // start the touch avoidance and the ultrasonic avoidance threads
       touchAvoidanceThread.start();
       ultrasonicAvoidanceThread.start();
+      while (true) {
+        Coordinate ballDispenserCoordinate = Coordinate.getCoordinateFromBallDispenserLocation(
+            transmission.getBallDispenserX(), transmission.getBallDispenserY());
+        Coordinate goalCoordinate = Coordinate.getCoordinateFromBlock(5, 10);
+        Coordinate throwingLocation = Coordinate.pickBallLauncherLocation(transmission);
 
-      Coordinate ballDispenserCoordinate = Coordinate.getCoordinateFromBallDispenserLocation(
-          transmission.getBallDispenserX(), transmission.getBallDispenserY());
-      Coordinate goalCoordinate = Coordinate.getCoordinateFromBlock(5, 10);
-      Coordinate throwingLocation = Coordinate.pickBallLauncherLocation(transmission);
+        navigator.setCoordinates(new Coordinate[] { ballDispenserCoordinate });
+        navigatorThread = new Thread(navigator);
+        navigatorThread.start();
+        navigatorThread.join();
 
-      navigator.setCoordinates(new Coordinate[] { ballDispenserCoordinate });
+        smartLightLocalizer = new SmartLightLocalizer(odometer, navigator, lightSensor,
+            ballDispenserCoordinate);
+        smartLightLocalizerThread = new Thread(smartLightLocalizer);
+        smartLightLocalizerThread.start();
+        smartLightLocalizerThread.join();
 
-      navigatorThread.start();
-      navigatorThread.join();
+        if (transmission.getBallDispenserX() == -1) {
+          navigator.face(90);
+        }
+        else if (transmission.getBallDispenserX() == 11) {
+          navigator.face(270);
+        }
+        else if (transmission.getBallDispenserY() == -1) {
 
-      smartLightLocalizer = new SmartLightLocalizer(odometer, navigator, lightSensor,
-          ballDispenserCoordinate);
-      smartLightLocalizerThread = new Thread(smartLightLocalizer);
-      smartLightLocalizerThread.start();
-      smartLightLocalizerThread.join();
-      if (transmission.getBallDispenserX() == -1) {
-        navigator.face(90);
+        }
+        else {
+          navigator.face(180);
+        }
+        // navigator.turnTo(transmission.getBallDispenserX(),
+        // transmission.getBallDispenserY());
+        // navigator.turnTo(180);
+
+        navigator.travelStraight(-0.81 * 30.5);
+        Delay.msDelay(2000);
+        navigator.travelStraight(0.81 * 30.5);
+
+        navigator.setCoordinates(new Coordinate[] { throwingLocation });
+        navigatorThread = new Thread(navigator);
+        navigatorThread.start();
+        navigatorThread.join();
+
+        smartLightLocalizer = new SmartLightLocalizer(odometer, navigator, lightSensor,
+            throwingLocation);
+        smartLightLocalizerThread = new Thread(smartLightLocalizer);
+        smartLightLocalizerThread.start();
+        smartLightLocalizerThread.join();
+
+        navigator.turnTo(goalCoordinate);
+        Delay.msDelay(100);
+
+        // start the ball launching thread, wait for it to finish
+        ballLauncherThread = new Thread(ballLauncher);
+
+        ballLauncherThread.start();
+        ballLauncherThread.join();
+        ultrasonicSensor.continuous();
       }
-      else if (transmission.getBallDispenserX() == 11) {
-        navigator.face(270);
-      }
-      else if (transmission.getBallDispenserY() == -1) {
-
-      }
-      else {
-        navigator.face(180);
-      }
-      // navigator.turnTo(transmission.getBallDispenserX(),
-      // transmission.getBallDispenserY());
-      // navigator.turnTo(180);
-
-      navigator.travelStraight(-0.8 * 30.5);
-      Delay.msDelay(2000);
-      navigator.travelStraight(0.8 * 30.5);
-
-      navigator.setCoordinates(new Coordinate[] { throwingLocation });
-      navigatorThread = new Thread(navigator);
-      navigatorThread.start();
-      navigatorThread.join();
-
-      smartLightLocalizer = new SmartLightLocalizer(odometer, navigator, lightSensor,
-          throwingLocation);
-      smartLightLocalizerThread = new Thread(smartLightLocalizer);
-      smartLightLocalizerThread.start();
-      smartLightLocalizerThread.join();
-
-      navigator.turnTo(goalCoordinate);
-      Delay.msDelay(100);
-
-      // start the ball launching thread, wait for it to finish
-      ballLauncherThread.start();
-      ballLauncherThread.join();
     }
     catch (InterruptedException e) {
+      Sound.buzz();
+      Sound.buzz();
     }
   }
 
@@ -333,6 +344,44 @@ public class Main {
     ultrasonicAvoidanceThread = new Thread(ultrasonicAvoidance);
     smartLightLocalizerThread = new Thread(smartLightLocalizer);
     defenderThread = new Thread(defender);
+  }
+
+  private static void startupLocalize(Transmission transmission) {
+    ballLauncher = new BallLauncherImpl(ballThrowingMotor, 1);
+    ballLauncherThread = new Thread(ballLauncher);
+    lightLocalizer = new LightLocalizer(odometer, navigator, lightSensor, transmission
+        .getStartingCorner().getId());
+    lightLocalizerThread = new Thread(lightLocalizer);
+    ultrasonicLocalizer = new UltrasonicLocalizer(odometer, navigator, ultrasonicSensor,
+        transmission.getStartingCorner().getId());
+    ultrasonicLocalizerThread = new Thread(ultrasonicLocalizer);
+
+    // start and finish ultrasonic localization
+    ultrasonicLocalizerThread.start();
+    try {
+      ultrasonicLocalizerThread.join();
+    }
+    catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    navigator.travelTo(15, 15);
+
+    // start and finish light localization
+    lightLocalizerThread.start();
+    try {
+      lightLocalizerThread.join();
+    }
+    catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    ultrasonicSensor.continuous();
+    // start the touch avoidance and the ultrasonic avoidance threads
+    // touchAvoidanceThread.start();
+    // ultrasonicAvoidanceThread.start();
   }
 
   private static void initializeObstacleAvoiders() {

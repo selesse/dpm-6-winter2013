@@ -57,7 +57,7 @@ public class LightLocalizer extends AbstractLocalizer {
     calibrateSensorAverage();
     Motor.A.setAcceleration(100);
     Motor.B.setAcceleration(100);
-    navigator.setMotorRotateSpeed(-robot.getRotateSpeed() - 150);
+    navigator.setMotorRotateSpeed(-robot.getRotateSpeed() - 100);
     // Detect the four lines
     while (lineCounter < 4) {
       if (blackLineDetected()) {

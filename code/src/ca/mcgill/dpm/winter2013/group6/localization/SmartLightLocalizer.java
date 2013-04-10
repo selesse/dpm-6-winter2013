@@ -1,6 +1,7 @@
 package ca.mcgill.dpm.winter2013.group6.localization;
 
 import lejos.nxt.LightSensor;
+import lejos.nxt.Motor;
 import lejos.nxt.Sound;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
 import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
@@ -50,6 +51,8 @@ public class SmartLightLocalizer extends LightLocalizer {
 
   @Override
   public void localize() {
+    Motor.A.setAcceleration(50);
+    Motor.B.setAcceleration(50);
     if (3 <= count) {
       Sound.beepSequence();
       count = 0;
@@ -95,9 +98,9 @@ public class SmartLightLocalizer extends LightLocalizer {
         catch (InterruptedException e) {
         }
       }
-      // if (System.currentTimeMillis() - startTime > 6 * 1000) {
-      // break;
-      // }
+      if (System.currentTimeMillis() - startTime > 10 * 1000) {
+        break;
+      }
     }
     // Stop the robot
     navigator.stop();
@@ -158,24 +161,24 @@ public class SmartLightLocalizer extends LightLocalizer {
     double newY = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaX));
     double newTheta = 180 + thetaX - rawDetectedLineValues[3];
 
-    // if (newTheta > 30) {
-    // Sound.beep();
-    // thetaX = (rawDetectedLineValues[3] - rawDetectedLineValues[1]) / 2;
-    // thetaY = (rawDetectedLineValues[2] - rawDetectedLineValues[0]) / 2;
-    // newX = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaY));
-    // newY = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaX));
-    // newTheta = 180 + thetaX - rawDetectedLineValues[3];
-    //
-    // }
-    // else if (newTheta < -30) {
-    // Sound.buzz();
-    // thetaX = (rawDetectedLineValues[3] - rawDetectedLineValues[1]) / 2;
-    // thetaY = (rawDetectedLineValues[2] - rawDetectedLineValues[0]) / 2;
-    // newX = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaY));
-    // newY = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaX));
-    // newTheta = 180 + thetaX - rawDetectedLineValues[3];
-    //
-    // }
+    if (newTheta > 60) {
+      Sound.beep();
+      thetaX = (rawDetectedLineValues[2] - rawDetectedLineValues[0]) / 2;
+      thetaY = (rawDetectedLineValues[1] - rawDetectedLineValues[3]) / 2;
+      newX = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaY));
+      newY = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaX));
+      newTheta = 180 + thetaX - rawDetectedLineValues[2];
+
+    }
+    else if (newTheta < -60) {
+      Sound.buzz();
+      thetaX = (rawDetectedLineValues[0] - rawDetectedLineValues[2]) / 2;
+      thetaY = (rawDetectedLineValues[3] - rawDetectedLineValues[1]) / 2;
+      newX = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaY));
+      newY = -LIGHT_SENSOR_DISTANCE * Math.cos(Math.toRadians(thetaX));
+      newTheta = 180 + thetaX - rawDetectedLineValues[0];
+
+    }
     newTheta += odometer.getTheta();
 
     odometer.setPosition(new double[] {

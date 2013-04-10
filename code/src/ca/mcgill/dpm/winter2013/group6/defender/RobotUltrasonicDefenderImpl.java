@@ -1,14 +1,17 @@
 package ca.mcgill.dpm.winter2013.group6.defender;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import lejos.nxt.LightSensor;
+import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
 import lejos.util.Delay;
 import ca.mcgill.dpm.winter2013.group6.bluetooth.Transmission;
+import ca.mcgill.dpm.winter2013.group6.localization.Localizer;
+import ca.mcgill.dpm.winter2013.group6.localization.SmartLightLocalizer;
 import ca.mcgill.dpm.winter2013.group6.navigator.Navigator;
+import ca.mcgill.dpm.winter2013.group6.odometer.Odometer;
 import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
 
 /**
@@ -20,37 +23,76 @@ import ca.mcgill.dpm.winter2013.group6.util.Coordinate;
 public class RobotUltrasonicDefenderImpl implements RobotUltrasonicDefender {
   private Navigator navigator;
   private UltrasonicSensor ultrasonicSensor;
+  private LightSensor lightSensor;
   private Transmission transmission;
   private final int timesToMeasure = 20;
   private final int measureThreshold = 10;
   private int calibrationTime = 1;
+  private Odometer odometer;
+  private Thread navigatorThread;
 
-  public RobotUltrasonicDefenderImpl(Navigator navigator, UltrasonicSensor ultrasonicSensor,
+  public RobotUltrasonicDefenderImpl(Odometer odometer, Navigator navigator,
+      Thread navigatorThread, UltrasonicSensor ultrasonicSensor, LightSensor lightSensor,
       Transmission transmission) {
     this.navigator = navigator;
     this.ultrasonicSensor = ultrasonicSensor;
     this.transmission = transmission;
+    this.odometer = odometer;
+    this.lightSensor = lightSensor;
+    this.navigatorThread = navigatorThread;
   }
 
   @Override
   public void run() {
-    navigator.travelTo(Coordinate.getCoordinateFromBlock(5,
-        10 - transmission.getDefenderZoneDimension2()));
-
+    ultrasonicSensor.continuous();
+    Sound.beep();
+    navigator.setCoordinates(new Coordinate[] { Coordinate.getCoordinateFromBlock(5,
+        10 - transmission.getDefenderZoneDimension2()) });
+    navigatorThread.start();
+    try {
+      navigatorThread.join();
+    }
+    catch (InterruptedException e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+    // since the line technically will be the defend zone already so we adjust
+    // it to be -1
+    Localizer smartLightLocalizer = new SmartLightLocalizer(odometer, navigator, lightSensor,
+        Coordinate.getCoordinateFromBlock(5, 10 - transmission.getDefenderZoneDimension2() - 1));
+    Thread smartLightLocalizerThread = new Thread(smartLightLocalizer);
+    smartLightLocalizerThread.start();
+    try {
+      smartLightLocalizerThread.join();
+    }
+    catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    // half a block of walking here
+    navigator.face(180);
+    navigator.travelStraight(15);
+    navigator.face(180);
     int[] firstCalibration = calibrate();
-    Delay.msDelay(1000);
-    int[] secondCalibration = calibrate();
+    while (true) {
+      Delay.msDelay(1000);
+      int[] secondCalibration = calibrate();
 
-    List<Integer> differences = getBadPoints(firstCalibration, secondCalibration);
+      List<Integer> differences = getBadPoints(firstCalibration, secondCalibration);
 
-    if (differences.size() > 2) {
-      differences = getLongestSequence(differences);
+      if (differences.size() > 2) {
+        differences = getLongestSequence(differences);
+      }
+
+      if (differences.size() > 0) {
+        navigator.turnTo(-90, 200, 100);
+        navigator.turnTo(chooseWhereToTurnBasedOnDifferences(differences));
+      }
+      Delay.msDelay(29 * 1000);
+      navigator.face(180);
+
     }
 
-    if (differences.size() > 0) {
-      navigator.turnTo(-90, 200, 100);
-      navigator.turnTo(chooseWhereToTurnBasedOnDifferences(differences));
-    }
   }
 
   @Override
@@ -69,23 +111,23 @@ public class RobotUltrasonicDefenderImpl implements RobotUltrasonicDefender {
     navigator.turnTo(-90, 200, 100);
 
     // start a thread to write the file because we don't want to stall
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          File file = new File("measurements " + calibrationTime++ + ".txt");
-          FileOutputStream fos = new FileOutputStream(file);
-          for (int i = 0; i < measurements.length; i++) {
-            fos.write(("" + measurements[i] + "\n").getBytes());
-          }
-          fos.flush();
-          fos.close();
-        }
-        catch (Exception e) {
-          // This is just debug stuff, so we don't mind exceptions
-        }
-      }
-    }).start();
+    // new Thread(new Runnable() {
+    // @Override
+    // public void run() {
+    // try {
+    // File file = new File("measurements " + calibrationTime++ + ".txt");
+    // FileOutputStream fos = new FileOutputStream(file);
+    // for (int i = 0; i < measurements.length; i++) {
+    // fos.write(("" + measurements[i] + "\n").getBytes());
+    // }
+    // fos.flush();
+    // fos.close();
+    // }
+    // catch (Exception e) {
+    // // This is just debug stuff, so we don't mind exceptions
+    // }
+    // }
+    // }).start();
 
     return measurements;
   }

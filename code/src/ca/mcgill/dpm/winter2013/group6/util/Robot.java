@@ -15,7 +15,7 @@ public class Robot {
   private double leftWheelRadius, rightWheelRadius, width;
   NXTRegulatedMotor rightMotor, leftMotor;
   private final int ROTATE_SPEED = 150;
-  private final int FORWARD_SPEED = 250;
+  private final int FORWARD_SPEED = 175;
 
   /**
    * Base constructor of robot specifying its wheel and width values.
